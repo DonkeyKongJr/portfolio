@@ -1,7 +1,5 @@
 import React from 'react';
 import classes from './AboutMe.module.css';
-import BigText from '../UI/BigText/BigText';
-import Button from '../UI/Button/Button';
 
 class AboutMe extends React.Component {
   aboutMeRef = null;
