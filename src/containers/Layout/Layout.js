@@ -7,7 +7,6 @@ const layout = () => {
   return (
     <Aux>
       <Toolbar></Toolbar>
-      <div className={classes.Layout}>Layout</div>;
     </Aux>
   );
 };
