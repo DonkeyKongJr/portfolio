@@ -5,3 +5,5 @@
 <p align="center">
   The first iteration of <a href="https://schadler.dev" target="_blank">schadler.dev</a> built with <a href="https://www.reactjs.org/" target="_blank">ReactJS</a> and hosted with <a href="https://firebase.google.com/" target="_blank">Firebase</a>
 </p>
+
+![image](https://github.com/DonkeyKongJr/portfolio/blob/master/readme-content/frontpage.png)
