@@ -6,6 +6,13 @@
   align-items: center;
   height: 100%;
   flex-flow: column;
+  font-family: 'Chivo', sans-serif;
+  font-size: 0.9rem;
+  display: inline-flex;
+}
+
+.Number {
+  color: #7fffd4;
 }
 
 @media (min-width: 500px) {
