@@ -26,7 +26,7 @@ class Introduction extends React.Component {
           everything in between.
         </div>
         <Button clicked={() => this.mailtoHandler()} size={1.5}>
-          Get in touch
+          Get In Touch
         </Button>
       </div>
     );
