@@ -10,3 +10,22 @@
   height: 100%;
   padding: 150px 0;
 }
+
+h2::before {
+  counter-increment: h2-counter;
+  content: '0' counter(h2-counter) '. ';
+  color: #7fffd4;
+  margin-top: 2px;
+  font-size: 1.1rem;
+  margin-right: 10px;
+}
+
+h2::after {
+  content: '';
+  display: inline-block;
+  height: 2px;
+  width: 100%;
+  background-color: rgb(48, 60, 85);
+  position: relative;
+  top: -5px;
+}

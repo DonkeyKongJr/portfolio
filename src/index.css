@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  counter-reset: nav-item-counter;
+  counter-reset: nav-item-counter h2-counter;
 }
 
 code {

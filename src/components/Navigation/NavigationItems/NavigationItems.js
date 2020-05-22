@@ -4,10 +4,10 @@ import NavigationItem from './NavigationItem/NavigationItem';
 
 const navigationItems = (props) => (
   <ul className={classes.NavigationItems}>
-    <NavigationItem link='/'>About</NavigationItem>
-    <NavigationItem link='/'>Experience</NavigationItem>
-    <NavigationItem link='/'>Work</NavigationItem>
-    <NavigationItem link='/'>Contact</NavigationItem>
+    <NavigationItem clicked={() => props.clicked(0)}>About</NavigationItem>
+    <NavigationItem clicked={() => props.clicked(1)}>Experience</NavigationItem>
+    <NavigationItem clicked={() => props.clicked(2)}>Work</NavigationItem>
+    <NavigationItem clicked={() => props.clicked(3)}>Contact</NavigationItem>
   </ul>
 );
 

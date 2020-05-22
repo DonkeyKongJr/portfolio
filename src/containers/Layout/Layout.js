@@ -2,17 +2,46 @@ import React from 'react';
 import classes from './Layout.module.css';
 import Aux from '../../hoc/Aux';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
-import Introduction from '../../components/UI/Introduction/Introduction';
+import Introduction from '../../components/Introduction/Introduction';
+import AboutMe from '../../components/AboutMe/AboutMe';
 
-const layout = () => {
-  return (
-    <Aux>
-      <Toolbar></Toolbar>
-      <main className={classes.Content}>
-        <Introduction />
-      </main>
-    </Aux>
-  );
-};
+class Layout extends React.Component {
+  constructor(props) {
+    super(props);
+    this.aboutMeChild = React.createRef();
+  }
 
-export default layout;
+  scrollToHandler = (index) => {
+    switch (index) {
+      case 0:
+        console.log('About me');
+        this.aboutMeChild.current.scrollToMyRef();
+        return;
+      case 1:
+        console.log('Experience');
+        return;
+      case 2:
+        console.log('Work');
+        return;
+      case 3:
+        console.log('Contact');
+        return;
+      default:
+        return;
+    }
+  };
+
+  render() {
+    return (
+      <Aux>
+        <Toolbar clicked={this.scrollToHandler} />
+        <main className={classes.Content}>
+          <Introduction />
+          <AboutMe ref={this.aboutMeChild} />
+        </main>
+      </Aux>
+    );
+  }
+}
+
+export default Layout;

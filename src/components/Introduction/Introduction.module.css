@@ -1,0 +1,16 @@
+.Introduction {
+  padding: 0 100px;
+  margin-bottom: 300px;
+}
+
+.Heading {
+  margin-bottom: 15px;
+}
+
+.Description {
+  margin-top: 30px;
+  max-width: 500px;
+  line-height: 1.5;
+  margin-bottom: 30px;
+  color: rgb(204, 214, 246);
+}

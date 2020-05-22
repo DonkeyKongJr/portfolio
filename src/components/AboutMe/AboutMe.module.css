@@ -1,9 +1,10 @@
-.Introduction {
+.AboutMe {
   padding: 0 100px;
+  color: rgb(204, 214, 246);
 }
 
 .Heading {
-  margin-bottom: 15px;
+  color: rgb(204, 214, 246);
 }
 
 .Description {

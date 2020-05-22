@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './Introduction.module.css';
-import BigText from '../BigText/BigText';
-import Button from '../Button/Button';
+import BigText from '../UI/BigText/BigText';
+import Button from '../UI/Button/Button';
 
 class Introduction extends React.Component {
   mailtoHandler = () => {
