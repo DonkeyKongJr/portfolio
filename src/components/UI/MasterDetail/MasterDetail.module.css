@@ -1,0 +1,17 @@
+.SelectList {
+  display: inline-block;
+  margin-block-start: 0;
+  vertical-align: top;
+}
+
+.SelectList li {
+  list-style-type: none;
+  cursor: pointer;
+
+  padding: 14px;
+}
+
+.SelectList li:hover,
+.SelectList li.Active {
+  background-color: rgba(127, 255, 212, 0.09);
+}

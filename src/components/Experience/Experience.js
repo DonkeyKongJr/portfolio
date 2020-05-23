@@ -1,5 +1,7 @@
 import React from 'react';
 import classes from './Experience.module.css';
+import Aux from '../../hoc/Aux';
+import MasterDetail from '../UI/MasterDetail/MasterDetail';
 
 class Experience extends React.Component {
   experienceRef = null;
@@ -19,10 +21,12 @@ class Experience extends React.Component {
 
   render() {
     return (
-      <div className={classes.Experience} ref={this.experienceRef}>
-        <h2 className={classes.Heading}>Places I have worked</h2>
-        <p className={classes.Description}>Places I have worked</p>
-      </div>
+      <Aux>
+        <div className={classes.Experience} ref={this.experienceRef}>
+          <h2 className={classes.Heading}>Places I have worked</h2>
+          <MasterDetail />
+        </div>
+      </Aux>
     );
   }
 }
