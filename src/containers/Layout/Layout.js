@@ -37,6 +37,10 @@ class Layout extends React.Component {
     this.setState({ openMenu: true });
   };
 
+  closeMenuHandler = () => {
+    this.setState({ openMenu: false });
+  };
+
   render() {
     return (
       <Aux>
@@ -44,7 +48,7 @@ class Layout extends React.Component {
           clicked={this.scrollToHandler}
           openMenu={this.openMenuHandler}
         />
-        <SideDrawer open={this.state.openMenu} />
+        <SideDrawer open={this.state.openMenu} closed={this.closeMenuHandler} />
         <main className={classes.Content}>
           <Introduction />
           <AboutMe ref={this.aboutMeChild} />
