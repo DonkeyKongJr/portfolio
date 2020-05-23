@@ -14,6 +14,7 @@ class Layout extends React.Component {
   }
 
   scrollToHandler = (index) => {
+    this.setState({ openMenu: false });
     switch (index) {
       case 0:
         console.log('About me');
@@ -48,7 +49,11 @@ class Layout extends React.Component {
           clicked={this.scrollToHandler}
           openMenu={this.openMenuHandler}
         />
-        <SideDrawer open={this.state.openMenu} closed={this.closeMenuHandler} />
+        <SideDrawer
+          open={this.state.openMenu}
+          closed={this.closeMenuHandler}
+          scrolledTo={this.scrollToHandler}
+        />
         <main className={classes.Content}>
           <Introduction />
           <AboutMe ref={this.aboutMeChild} />
