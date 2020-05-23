@@ -5,17 +5,14 @@
   display: flex;
   align-items: center;
   height: 100%;
-  flex-flow: column;
+  flex-flow: row;
   font-size: 0.9rem;
   display: inline-flex;
 }
 
-.Number {
-  color: #7fffd4;
-}
-
-@media (min-width: 500px) {
+@media (max-width: 702px) {
   .NavigationItems {
-    flex-flow: row;
+    flex-flow: column;
+    display: block;
   }
 }

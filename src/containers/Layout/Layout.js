@@ -4,11 +4,13 @@ import Aux from '../../hoc/Aux';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import Introduction from '../../components/Introduction/Introduction';
 import AboutMe from '../../components/AboutMe/AboutMe';
+import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 
 class Layout extends React.Component {
   constructor(props) {
     super(props);
     this.aboutMeChild = React.createRef();
+    this.state = { openMenu: false };
   }
 
   scrollToHandler = (index) => {
@@ -31,10 +33,18 @@ class Layout extends React.Component {
     }
   };
 
+  openMenuHandler = () => {
+    this.setState({ openMenu: true });
+  };
+
   render() {
     return (
       <Aux>
-        <Toolbar clicked={this.scrollToHandler} />
+        <Toolbar
+          clicked={this.scrollToHandler}
+          openMenu={this.openMenuHandler}
+        />
+        <SideDrawer open={this.state.openMenu} />
         <main className={classes.Content}>
           <Introduction />
           <AboutMe ref={this.aboutMeChild} />
