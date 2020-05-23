@@ -1,3 +1,7 @@
+.List {
+  display: inline;
+}
+
 .SelectList {
   display: inline-block;
   margin-block-start: 0;
@@ -15,4 +19,33 @@
 .SelectList li.Active {
   background-color: rgba(127, 255, 212, 0.09);
   color: #7fffd4;
+  border-left: 1px solid;
+}
+
+@media (max-width: 1168px) {
+  .List {
+    display: inherit;
+    position: relative;
+    width: 100%;
+    overflow-x: auto;
+  }
+  .SelectList {
+    width: 600px;
+    height: 100%;
+    margin-block-start: 20px;
+    margin-bottom: 40px;
+  }
+  .SelectList li {
+    display: inline;
+    font-size: 0.9rem;
+    padding: 14px 4px;
+  }
+  .SelectList li:hover,
+  .SelectList li.Active {
+    border-bottom: 1px solid;
+    border-left: unset;
+  }
+  ul {
+    padding-inline-start: 0;
+  }
 }

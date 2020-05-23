@@ -8,7 +8,12 @@ const Detail = (props) => {
     <div className={classes.Detail}>
       <div className={classes.Heading}>
         {job.jobTitle} @{' '}
-        <a href={job.link} target='_blank' className={classes.CompanyName}>
+        <a
+          href={job.link}
+          target='_blank'
+          rel='noopener noreferrer'
+          className={classes.CompanyName}
+        >
           {job.company}
         </a>
       </div>

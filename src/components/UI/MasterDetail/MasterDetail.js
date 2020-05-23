@@ -25,8 +25,9 @@ class MasterDetail extends Component {
 
     return (
       <div>
-        <ul className={classes.SelectList}>{companyList}</ul>
-
+        <div className={classes.List}>
+          <ul className={classes.SelectList}>{companyList}</ul>
+        </div>
         <Detail job={jobs[this.state.selectedJob]} />
       </div>
     );
