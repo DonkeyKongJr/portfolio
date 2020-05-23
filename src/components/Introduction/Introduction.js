@@ -25,7 +25,7 @@ class Introduction extends React.Component {
           in building exceptional software products, applications, services and
           everything in between.
         </div>
-        <Button clicked={() => this.mailtoHandler()} size={1.5}>
+        <Button clicked={() => this.mailtoHandler()} size={1.2}>
           Get In Touch
         </Button>
       </div>
