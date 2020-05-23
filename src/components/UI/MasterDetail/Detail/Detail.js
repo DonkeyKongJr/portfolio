@@ -6,13 +6,19 @@ const Detail = (props) => {
 
   return (
     <div className={classes.Detail}>
-      <div>
-        {job.jobTitle} @ {job.company}
+      <div className={classes.Heading}>
+        {job.jobTitle} @{' '}
+        <a href={job.link} target='_blank' className={classes.CompanyName}>
+          {job.company}
+        </a>
       </div>
-      <div>
+      <div className={classes.Time}>
         {job.from} - {job.till}
       </div>
-      <div>{job.description}</div>
+      <div
+        dangerouslySetInnerHTML={{ __html: job.description }}
+        className={classes.Description}
+      ></div>
     </div>
   );
 };
