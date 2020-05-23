@@ -1,0 +1,47 @@
+[
+  {
+    "id": 0,
+    "jobTitle": "Senior Software Developer",
+    "company": "pmOne GmbH",
+    "link": "www.pmone.com",
+    "from": "2017",
+    "till": "present",
+    "description": "I have done awesome stuff."
+  },
+  {
+    "id": 1,
+    "jobTitle": "Head of Software Development",
+    "company": "Provaria GmbH",
+    "link": "www.provaria.com",
+    "from": "2016",
+    "till": "2017",
+    "description": "I have done amazing stuff."
+  },
+  {
+    "id": 2,
+    "jobTitle": "Software Engineer",
+    "company": "Provaria GmbH",
+    "link": "www.provaria.com",
+    "from": "2012",
+    "till": "2016",
+    "description": "I have done amazing stuff."
+  },
+  {
+    "id": 3,
+    "jobTitle": "Software Engineer",
+    "company": "Lenze AG",
+    "link": "www.lenze.com",
+    "from": "2011",
+    "till": "2012",
+    "description": "I have done amazing stuff."
+  },
+  {
+    "id": 4,
+    "jobTitle": "Software Engineer",
+    "company": "Autotronic GmbH",
+    "link": null,
+    "from": "2009",
+    "till": "2011",
+    "description": "I have done amazing stuff."
+  }
+]
