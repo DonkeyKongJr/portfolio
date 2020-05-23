@@ -5,11 +5,13 @@ import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import Introduction from '../../components/Introduction/Introduction';
 import AboutMe from '../../components/AboutMe/AboutMe';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
+import Experience from '../../components/Experience/Experience';
 
 class Layout extends React.Component {
   constructor(props) {
     super(props);
     this.aboutMeChild = React.createRef();
+    this.experienceChild = React.createRef();
     this.state = { openMenu: false };
   }
 
@@ -22,6 +24,7 @@ class Layout extends React.Component {
         return;
       case 1:
         console.log('Experience');
+        this.experienceChild.current.scrollToMyRef();
         return;
       case 2:
         console.log('Work');
@@ -57,6 +60,7 @@ class Layout extends React.Component {
         <main className={classes.Content}>
           <Introduction />
           <AboutMe ref={this.aboutMeChild} />
+          <Experience ref={this.experienceChild} />
         </main>
       </Aux>
     );
