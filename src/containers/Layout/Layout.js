@@ -6,6 +6,7 @@ import Introduction from '../../components/Introduction/Introduction';
 import AboutMe from '../../components/AboutMe/AboutMe';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 import Experience from '../../components/Experience/Experience';
+import Contact from '../../components/Contact/Contact';
 
 class Layout extends React.Component {
   constructor(props) {
@@ -61,6 +62,7 @@ class Layout extends React.Component {
           <Introduction />
           <AboutMe ref={this.aboutMeChild} />
           <Experience ref={this.experienceChild} />
+          <Contact />
         </main>
       </Aux>
     );

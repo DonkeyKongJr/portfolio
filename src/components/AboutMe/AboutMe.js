@@ -45,7 +45,7 @@ class AboutMe extends React.Component {
           IT organization, where I can bring immediate and strategic value and
           develop current skillset further and beyond the actual status quo. I
           love working with cutting-edge technology and playing with the latest
-          gadgets.{' '}
+          gadgets.
         </p>
       </div>
     );
