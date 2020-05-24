@@ -13,3 +13,9 @@
   line-height: 1.5;
   margin-bottom: 30px;
 }
+
+@media (max-width: 702px) {
+  .Experience {
+    padding: 0 50px;
+  }
+}
