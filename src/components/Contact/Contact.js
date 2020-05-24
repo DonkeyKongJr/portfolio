@@ -4,11 +4,11 @@ import BigText from '../UI/BigText/BigText';
 import Button from './../UI/Button/Button';
 
 class Contact extends React.Component {
-  aboutMeRef = null;
+  contactRef = null;
 
   constructor(props) {
     super(props);
-    this.aboutMeRef = React.createRef();
+    this.contactRef = React.createRef();
   }
 
   mailtoHandler = () => {
@@ -23,7 +23,7 @@ class Contact extends React.Component {
 
   scrollToMyRef = () => {
     window.scroll({
-      top: this.aboutMeRef.current.offsetTop,
+      top: this.contactRef.current.offsetTop,
       left: 0,
       behavior: 'smooth',
     });
@@ -31,7 +31,7 @@ class Contact extends React.Component {
 
   render() {
     return (
-      <div className={classes.AboutMe} ref={this.aboutMeRef}>
+      <div className={classes.Contact} ref={this.contactRef}>
         <h2 className={classes.Heading}>Next Steps?</h2>
         <BigText>Get In Touch</BigText>
         <p className={classes.Description}>

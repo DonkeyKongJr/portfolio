@@ -13,6 +13,7 @@ class Layout extends React.Component {
     super(props);
     this.aboutMeChild = React.createRef();
     this.experienceChild = React.createRef();
+    this.contactChild = React.createRef();
     this.state = { openMenu: false };
   }
 
@@ -32,6 +33,7 @@ class Layout extends React.Component {
         return;
       case 3:
         console.log('Contact');
+        this.contactChild.current.scrollToMyRef();
         return;
       default:
         return;
@@ -62,7 +64,7 @@ class Layout extends React.Component {
           <Introduction />
           <AboutMe ref={this.aboutMeChild} />
           <Experience ref={this.experienceChild} />
-          <Contact />
+          <Contact ref={this.contactChild} />
         </main>
       </Aux>
     );
