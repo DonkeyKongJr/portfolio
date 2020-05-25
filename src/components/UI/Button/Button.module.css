@@ -10,8 +10,10 @@
   font-size: 0.9rem;
   border: 1px solid #7fffd4;
   border-radius: 4px;
+  transition: 0.5s;
 }
 
 .Button:hover {
   background-color: rgba(127, 255, 212, 0.09);
+  transition: 0.5s;
 }
