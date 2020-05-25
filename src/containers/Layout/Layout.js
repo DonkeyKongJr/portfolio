@@ -10,6 +10,7 @@ import Contact from '../../components/Contact/Contact';
 import Work from '../../components/Work/Work';
 import Footer from './../../components/Footer/Footer';
 import ScrollToTop from '../../components/Navigation/ScrollToTop/ScrollToTop';
+import SocialLinks from '../../components/SocialLinks/SocialLinks';
 
 class Layout extends React.Component {
   constructor(props) {
@@ -111,6 +112,7 @@ class Layout extends React.Component {
           display={this.state.displayScrollToTop}
           clicked={this.scrollToTopHandler}
         />
+        <SocialLinks />
       </Aux>
     );
   }
