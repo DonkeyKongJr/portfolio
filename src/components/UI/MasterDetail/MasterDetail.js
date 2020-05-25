@@ -17,7 +17,11 @@ class MasterDetail extends Component {
     const companyList = jobs.map((job) => {
       const listClass = job.id === this.state.selectedJob ? classes.Active : '';
       return (
-        <li className={listClass} onClick={() => this.selectJobHandler(job.id)}>
+        <li
+          className={listClass}
+          key={job.id}
+          onClick={() => this.selectJobHandler(job.id)}
+        >
           {job.company}
         </li>
       );

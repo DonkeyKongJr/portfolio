@@ -1,0 +1,19 @@
+.ScrollToTop {
+  position: fixed;
+  bottom: 100px;
+  right: 50px;
+  color: #7fffd4;
+  border: 1px solid #7fffd4;
+  padding: 15px 20px;
+  border-radius: 4px;
+  opacity: 0.8;
+}
+
+.ScrollToTop:hover {
+  transition: 0.5s;
+  background-color: rgba(127, 255, 212, 0.09);
+}
+
+.Hidden {
+  display: none;
+}

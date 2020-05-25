@@ -9,6 +9,7 @@ import Experience from '../../components/Experience/Experience';
 import Contact from '../../components/Contact/Contact';
 import Work from '../../components/Work/Work';
 import Footer from './../../components/Footer/Footer';
+import ScrollToTop from '../../components/Navigation/ScrollToTop/ScrollToTop';
 
 class Layout extends React.Component {
   constructor(props) {
@@ -17,7 +18,15 @@ class Layout extends React.Component {
     this.experienceChild = React.createRef();
     this.contactChild = React.createRef();
     this.workChild = React.createRef();
-    this.state = { openMenu: false };
+    this.state = { openMenu: false, displayScrollToTop: false };
+  }
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.scrollHandler);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.scrollHandler);
   }
 
   scrollToHandler = (index) => {
@@ -48,6 +57,23 @@ class Layout extends React.Component {
     this.setState({ openMenu: false });
   };
 
+  scrollHandler = () => {
+    if (window.scrollY === 0) {
+      this.setState({ displayScrollToTop: false });
+      return;
+    }
+
+    this.setState({ displayScrollToTop: true });
+  };
+
+  scrollToTopHandler = () => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  };
+
   render() {
     return (
       <Aux>
@@ -68,6 +94,10 @@ class Layout extends React.Component {
           <Contact ref={this.contactChild} />
         </main>
         <Footer />
+        <ScrollToTop
+          display={this.state.displayScrollToTop}
+          clicked={this.scrollToTopHandler}
+        />
       </Aux>
     );
   }
