@@ -13,14 +13,24 @@ const toolbar = (props) => {
     );
   };
 
+  const cssClasses = [classes.Toolbar];
+
+  if (props.stacked) {
+    cssClasses.push(classes.Stacked);
+  }
+
+  if (props.hidden) {
+    cssClasses.push(classes.Hidden);
+  }
+
   return (
-    <header className={classes.Toolbar}>
+    <header className={cssClasses.join(' ')}>
       <div className={classes.Logo}>
         <Logo />
       </div>
       <DrawerToggle clicked={props.openMenu} />
       <nav className={classes.DesktopOnly}>
-        <NavigationItems clicked={props.clicked} />
+        <NavigationItems stacked={props.stacked} clicked={props.clicked} />
         <Button clicked={resumeHandler}>RESUME</Button>
       </nav>
     </header>

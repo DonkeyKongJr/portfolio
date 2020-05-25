@@ -18,7 +18,12 @@ class Layout extends React.Component {
     this.experienceChild = React.createRef();
     this.contactChild = React.createRef();
     this.workChild = React.createRef();
-    this.state = { openMenu: false, displayScrollToTop: false };
+    this.state = {
+      openMenu: false,
+      displayScrollToTop: false,
+      toolbarStacked: false,
+      toolbarHidden: false,
+    };
   }
 
   componentDidMount() {
@@ -58,12 +63,18 @@ class Layout extends React.Component {
   };
 
   scrollHandler = () => {
-    if (window.scrollY === 0) {
-      this.setState({ displayScrollToTop: false });
-      return;
+    console.log(window.scrollY);
+    if (window.scrollY > 5) {
+      this.setState({ toolbarStacked: true });
+    } else {
+      this.setState({ toolbarStacked: false });
     }
 
-    this.setState({ displayScrollToTop: true });
+    if (window.scrollY >= 225) {
+      this.setState({ toolbarHidden: true, displayScrollToTop: true });
+    } else {
+      this.setState({ toolbarHidden: false, displayScrollToTop: false });
+    }
   };
 
   scrollToTopHandler = () => {
@@ -78,6 +89,8 @@ class Layout extends React.Component {
     return (
       <Aux>
         <Toolbar
+          stacked={this.state.toolbarStacked}
+          hidden={this.state.toolbarHidden}
           clicked={this.scrollToHandler}
           openMenu={this.openMenuHandler}
         />
