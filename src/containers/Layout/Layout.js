@@ -107,12 +107,13 @@ class Layout extends React.Component {
           <Work ref={this.workChild} />
           <Contact ref={this.contactChild} />
         </main>
-        <Footer />
+
         <ScrollToTop
           display={this.state.displayScrollToTop}
           clicked={this.scrollToTopHandler}
         />
         <SocialLinks />
+        <Footer />
       </Aux>
     );
   }

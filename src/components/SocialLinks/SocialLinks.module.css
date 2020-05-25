@@ -30,6 +30,32 @@
 
 @media (max-width: 702px) {
   .SocialLinks {
+    position: relative;
+    bottom: initial;
+    left: initial;
+    background-color: #183c44;
+    margin: 0;
+    opacity: 1;
+  }
+
+  .SocialLinks > ul {
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+    padding: 0px;
+    margin: 0px;
+    list-style: none;
+  }
+
+  .SocialLinks > ul > li {
+    list-style-type: none;
+    font-size: 1.2rem;
+    padding-right: 0px;
+    display: inline;
+  }
+  .SocialLinks ul::after {
     display: none;
   }
 }

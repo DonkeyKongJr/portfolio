@@ -1,12 +1,13 @@
 .ScrollToTop {
   position: fixed;
-  bottom: 100px;
+  bottom: 120px;
   right: 50px;
   color: #7fffd4;
   border: 1px solid #7fffd4;
   padding: 15px 20px;
   border-radius: 4px;
   opacity: 0.8;
+  z-index: 500;
 }
 
 .ScrollToTop:hover {
