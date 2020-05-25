@@ -8,6 +8,7 @@ import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 import Experience from '../../components/Experience/Experience';
 import Contact from '../../components/Contact/Contact';
 import Work from '../../components/Work/Work';
+import Footer from './../../components/Footer/Footer';
 
 class Layout extends React.Component {
   constructor(props) {
@@ -66,6 +67,7 @@ class Layout extends React.Component {
           <Work ref={this.workChild} />
           <Contact ref={this.contactChild} />
         </main>
+        <Footer />
       </Aux>
     );
   }

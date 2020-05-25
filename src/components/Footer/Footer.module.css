@@ -1,0 +1,17 @@
+.Footer {
+  text-align: center;
+  background-color: #183c44;
+  color: rgb(204, 214, 246);
+  padding-bottom: 30px;
+  font-size: 0.8rem;
+  line-height: 1.2rem;
+}
+
+.Footer a {
+  color: rgb(204, 214, 246);
+  text-decoration: none;
+  transition: 0.5s;
+}
+.Footer a:hover {
+  color: #7fffd4;
+}
