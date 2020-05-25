@@ -16,7 +16,7 @@
 
 .SocialLinks > ul > li > a {
   text-decoration: none;
-  color: inherit;
+  color: rgb(204, 214, 246);
 }
 
 .SocialLinks ul::after {
@@ -26,4 +26,10 @@
   height: 140px;
   background-color: rgb(168, 178, 209);
   margin: 0px auto;
+}
+
+@media (max-width: 702px) {
+  .SocialLinks {
+    display: none;
+  }
 }
