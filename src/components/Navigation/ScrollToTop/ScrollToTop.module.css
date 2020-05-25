@@ -17,3 +17,10 @@
 .Hidden {
   display: none;
 }
+
+@media (max-width: 702px) {
+  .ScrollToTop {
+    padding: 10px 15px;
+    right: 15px;
+  }
+}
