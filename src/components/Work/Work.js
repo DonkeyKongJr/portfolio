@@ -40,11 +40,7 @@ class Work extends React.Component {
       <div className={classes.Work} ref={this.workRef}>
         <h2 className={classes.Heading}>Some Projects I have Worked On</h2>
         {cards}
-        <Button
-          center={true}
-          clicked={this.showMoreHandler}
-          className={classes.ShowMore}
-        >
+        <Button clicked={this.showMoreHandler} className={classes.ShowMore}>
           {buttonText}
         </Button>
       </div>

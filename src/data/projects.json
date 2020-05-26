@@ -1,6 +1,7 @@
 [
   {
     "name": "Portfolio",
+    "type": "Personal Project",
     "description": "A react project to present my experience and work as a portfolio in a clear and nice presentation. All designs and styles are custom-made without any library, but highly inspired by Brittany Chang.",
     "technologies": ["ReactJS", "HTML", "CSS", "Firebase"],
     "gitHub": "https://github.com/DonkeyKongJr/portfolio",
@@ -9,22 +10,25 @@
   },
   {
     "name": "pmOne Share",
-    "description": "pmOne Share is a web app that creates tile-based dashboards, reporting- and corporate portals. pmOne Share makes it possible to build departmental and corporate solutions independently and in a manner appropriate to the needs. pmOne believes in closed-source solutions.",
-    "technologies": ["Aurelia", "HTML", "CSS", ".net Core", "Azure"],
+    "type": "Product Development",
+    "description": "pmOne Share is a web app that creates tile-based dashboards, reporting- and corporate portals. pmOne Share makes it possible to build departmental and corporate solutions independently and in a manner appropriate to the needs. pmOne believes in close-source solutions.",
+    "technologies": ["Aurelia", "HTML", "CSS", ".net core", "Azure"],
     "gitHub": null,
     "url": "https://www.pmone.com/share",
     "backgroundImage": "portfolio.png"
   },
   {
     "name": "Patrick Visuals",
+    "type": "Personal Project",
     "description": "Patrick Visuals is my company for photo and videography. In July 2019 I started this business besides my full-time job. Most of the jobs are related to weddings and product photography.",
-    "technologies": ["Wordpress", "HTML", "CSS"],
+    "technologies": ["Wordpress", "HTML", "CSS", "Google Analytics"],
     "gitHub": null,
     "url": "https://www.patrickvisuals.at",
     "backgroundImage": "portfolio.png"
   },
   {
     "name": "Burger Builder",
+    "type": "Personal Project",
     "description": "A react project to build some basic burgers and store them in a firebase realtime database. This project is part of a ReactJS online course.",
     "technologies": ["ReactJS", "HTML", "Styled Components", "Firebase"],
     "gitHub": "https://github.com/DonkeyKongJr/burger-builder",
@@ -33,6 +37,7 @@
   },
   {
     "name": "pmOne XPCT",
+    "type": "Product Development",
     "description": "pmOne XPCT is a web app that enables customers to forecast and simulate differnt drivers on their financial state. The product was discontinued in 2018.",
     "technologies": [
       "Angular",
@@ -44,6 +49,37 @@
     ],
     "gitHub": null,
     "url": "https://www.pmone.com/pmone-loesungen/finanzen/forecasting-und-simulation/",
+    "backgroundImage": "portfolio.png"
+  },
+  {
+    "name": "Podify",
+    "type": "Personal Project",
+    "description": "A Angular and NodeJS project where users can simply convert written text into an embeddable audio file. The Text-To-Speech API and Storage Bucket is provided by Google.",
+    "technologies": [
+      "Angular",
+      "HTML",
+      "CSS",
+      "NodeJS",
+      "Google TTS",
+      "Firebase"
+    ],
+    "gitHub": "https://github.com/DonkeyKongJr/podify",
+    "url": "https://github.com/DonkeyKongJr/podify",
+    "backgroundImage": "portfolio.png"
+  },
+  {
+    "name": "Personal Blog",
+    "type": "Personal Project",
+    "description": "My personal blog runs on Wordpress. The most articles are heavily tech related and generates a couple of thousands visits per month.",
+    "technologies": [
+      "Wordpress",
+      "HTML",
+      "CSS",
+      "Google Analytics",
+      "Google AdSense"
+    ],
+    "gitHub": null,
+    "url": "https://www.patrickschadler.com/",
     "backgroundImage": "portfolio.png"
   }
 ]

@@ -27,7 +27,7 @@ const card = (props) => {
       className={classes.Card}
       style={{ backgroundImage: `url(${backgroundLink})` }}
     >
-      <div className={classes.Feature}>Featured Project</div>
+      <div className={classes.Feature}>{props.project.type}</div>
       <div className={classes.ProjectName}>{props.project.name}</div>
       <div className={classes.Description}>
         <div>{props.project.description}</div>
