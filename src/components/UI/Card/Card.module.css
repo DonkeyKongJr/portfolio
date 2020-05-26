@@ -68,6 +68,11 @@
 @media (max-width: 980px) {
   .Card {
     height: 500px;
+    padding-left: 10px;
+  }
+  .Card > .ProjectName {
+    font-size: 1.8rem;
+    padding-left: 10px;
   }
   .Card > .Description {
     right: 20px;

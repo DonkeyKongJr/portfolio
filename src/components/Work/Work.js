@@ -23,7 +23,7 @@ class Work extends React.Component {
     const cards = projects.map((p) => <Card project={p} />);
 
     return (
-      <div className={classes.Contact} ref={this.workRef}>
+      <div className={classes.Work} ref={this.workRef}>
         <h2 className={classes.Heading}>Some Projects I have Worked On</h2>
         {cards}
       </div>
