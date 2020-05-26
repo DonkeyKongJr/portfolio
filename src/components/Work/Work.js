@@ -2,6 +2,7 @@ import React from 'react';
 import classes from './Work.module.css';
 import Card from '../UI/Card/Card';
 import projects from './../../data/projects.json';
+import Button from './../UI/Button/Button';
 
 class Work extends React.Component {
   workRef = null;
@@ -9,6 +10,7 @@ class Work extends React.Component {
   constructor(props) {
     super(props);
     this.workRef = React.createRef();
+    this.state = { showMore: false };
   }
 
   scrollToMyRef = () => {
@@ -19,13 +21,32 @@ class Work extends React.Component {
     });
   };
 
+  showMoreHandler = () => {
+    this.setState((prevState) => {
+      return { showMore: !prevState.showMore };
+    });
+  };
+
   render() {
-    const cards = projects.map((p) => <Card project={p} />);
+    let cards = projects.map((p) => <Card project={p} />);
+
+    if (!this.state.showMore) {
+      cards = cards.slice(0, 3);
+    }
+
+    const buttonText = this.state.showMore ? 'Show Less' : 'Show More';
 
     return (
       <div className={classes.Work} ref={this.workRef}>
         <h2 className={classes.Heading}>Some Projects I have Worked On</h2>
         {cards}
+        <Button
+          center={true}
+          clicked={this.showMoreHandler}
+          className={classes.ShowMore}
+        >
+          {buttonText}
+        </Button>
       </div>
     );
   }

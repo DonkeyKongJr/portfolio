@@ -16,6 +16,14 @@
     "backgroundImage": "portfolio.png"
   },
   {
+    "name": "Patrick Visuals",
+    "description": "Patrick Visuals is my company for photo and videography. In July 2019 I started this business besides my full-time job. Most of the jobs are related to weddings and product photography.",
+    "technologies": ["Wordpress", "HTML", "CSS"],
+    "gitHub": null,
+    "url": "https://www.patrickvisuals.at",
+    "backgroundImage": "portfolio.png"
+  },
+  {
     "name": "Burger Builder",
     "description": "A react project to build some basic burgers and store them in a firebase realtime database. This project is part of a ReactJS online course.",
     "technologies": ["ReactJS", "HTML", "Styled Components", "Firebase"],

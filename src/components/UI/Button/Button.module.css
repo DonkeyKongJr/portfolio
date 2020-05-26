@@ -17,3 +17,9 @@
   background-color: rgba(127, 255, 212, 0.09);
   transition: 0.5s;
 }
+
+.Center {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
