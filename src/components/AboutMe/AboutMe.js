@@ -28,6 +28,23 @@ class AboutMe extends React.Component {
   };
 
   render() {
+    const technologies = [
+      'JavaScript',
+      'Angular & React',
+      'Microsoft Azure',
+      'C# & .NET (Core)',
+      'Google Cloud',
+      'Static Code Analysis',
+      'Design Patterns',
+      'Software Principles',
+      'Agile',
+      'SCRUM & Kanban',
+    ];
+
+    const technologiesList = technologies.map((el) => (
+      <li className={classes.GridListItem}>{el}</li>
+    ));
+
     return (
       <div className={classes.AboutMe} ref={this.aboutMeRef}>
         <h2 className={classes.Heading}>About Me</h2>
@@ -35,8 +52,8 @@ class AboutMe extends React.Component {
           Hello, I am Patrick. A senior software engineer from Austria.
         </p>
         <p className={classes.Description}>
-          As a highly-motivated and results orientated software engineer I have
-          a proven track record of providing extraordinarily levels of software
+          As a highly-motivated and results-oriented software engineer I have a
+          proven track record of providing extraordinarily levels of software
           quality, service and consulting to a broad range of customers from
           small, medium and large sizes.
         </p>
@@ -47,6 +64,10 @@ class AboutMe extends React.Component {
           love working with cutting-edge technology and playing with the latest
           gadgets.
         </p>
+        <p>
+          Some selected technologies and methodologies I worked with recently:
+        </p>
+        <ul className={classes.GridList}>{technologiesList}</ul>
       </div>
     );
   }
