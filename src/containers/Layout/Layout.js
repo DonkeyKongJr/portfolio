@@ -64,7 +64,6 @@ class Layout extends React.Component {
   };
 
   scrollHandler = () => {
-    console.log(window.scrollY);
     if (window.scrollY > 35) {
       this.setState({ toolbarStacked: true });
     } else {
