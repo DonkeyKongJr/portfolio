@@ -1,5 +1,7 @@
 import React from 'react';
 import classes from './Work.module.css';
+import Card from '../UI/Card/Card';
+import projects from './../../data/projects.json';
 
 class Work extends React.Component {
   workRef = null;
@@ -18,12 +20,12 @@ class Work extends React.Component {
   };
 
   render() {
+    const cards = projects.map((p) => <Card project={p} />);
+
     return (
       <div className={classes.Contact} ref={this.workRef}>
         <h2 className={classes.Heading}>Some Projects I have Worked On</h2>
-        <p className={classes.Description}>
-          Stay stuned for a full list of awesome projects.
-        </p>
+        {cards}
       </div>
     );
   }

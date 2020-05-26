@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Portfolio",
+    "description": "A react project to present my experience and work as a portfolio in a clear and nice presentation.",
+    "technologies": ["ReactJS", "HTML", "CSS"],
+    "gitHub": "https://github.com/DonkeyKongJr/portfolio",
+    "url": "https://schadler.dev/",
+    "backgroundImage": "portfolio.png"
+  },
+  {
+    "name": "pmOne Share",
+    "description": "pmOne Share is a web app that creates tile-based dashboards, reporting- and corporate portals. pmOne Share makes it possible to build departmental and corporate solutions independently and in a manner appropriate to the needs, thus providing a single point of access - a single point of information - for the presentation of relevant information.",
+    "technologies": ["Aurelia", "HTML", "CSS", ".net Core", "Microsoft Azure"],
+    "gitHub": null,
+    "url": "https://www.pmone.com/share",
+    "backgroundImage": "portfolio.png"
+  }
+]
