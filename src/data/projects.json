@@ -10,7 +10,7 @@
   {
     "name": "pmOne Share",
     "description": "pmOne Share is a web app that creates tile-based dashboards, reporting- and corporate portals. pmOne Share makes it possible to build departmental and corporate solutions independently and in a manner appropriate to the needs. pmOne believes in closed-source solutions.",
-    "technologies": ["Aurelia", "HTML", "CSS", ".net Core", "Microsoft Azure"],
+    "technologies": ["Aurelia", "HTML", "CSS", ".net Core", "Azure"],
     "gitHub": null,
     "url": "https://www.pmone.com/share",
     "backgroundImage": "portfolio.png"
