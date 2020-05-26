@@ -1,18 +1,41 @@
 [
   {
     "name": "Portfolio",
-    "description": "A react project to present my experience and work as a portfolio in a clear and nice presentation.",
-    "technologies": ["ReactJS", "HTML", "CSS"],
+    "description": "A react project to present my experience and work as a portfolio in a clear and nice presentation. All designs and styles are custom-made without any library, but highly inspired by Brittany Chang.",
+    "technologies": ["ReactJS", "HTML", "CSS", "Firebase"],
     "gitHub": "https://github.com/DonkeyKongJr/portfolio",
     "url": "https://schadler.dev/",
     "backgroundImage": "portfolio.png"
   },
   {
     "name": "pmOne Share",
-    "description": "pmOne Share is a web app that creates tile-based dashboards, reporting- and corporate portals. pmOne Share makes it possible to build departmental and corporate solutions independently and in a manner appropriate to the needs, thus providing a single point of access - a single point of information - for the presentation of relevant information.",
+    "description": "pmOne Share is a web app that creates tile-based dashboards, reporting- and corporate portals. pmOne Share makes it possible to build departmental and corporate solutions independently and in a manner appropriate to the needs. pmOne believes in closed-source solutions.",
     "technologies": ["Aurelia", "HTML", "CSS", ".net Core", "Microsoft Azure"],
     "gitHub": null,
     "url": "https://www.pmone.com/share",
+    "backgroundImage": "portfolio.png"
+  },
+  {
+    "name": "Burger Builder",
+    "description": "A react project to build some basic burgers and store them in a firebase realtime database. This project is part of a ReactJS online course.",
+    "technologies": ["ReactJS", "HTML", "Styled Components", "Firebase"],
+    "gitHub": "https://github.com/DonkeyKongJr/burger-builder",
+    "url": "https://burgerbuilder-63fa8.firebaseapp.com/",
+    "backgroundImage": "portfolio.png"
+  },
+  {
+    "name": "pmOne XPCT",
+    "description": "pmOne XPCT is a web app that enables customers to forecast and simulate differnt drivers on their financial state. The product was discontinued in 2018.",
+    "technologies": [
+      "Angular",
+      "Material Design ",
+      "HTML",
+      "CSS",
+      ".net Core",
+      "Microsoft Azure"
+    ],
+    "gitHub": null,
+    "url": "https://www.pmone.com/pmone-loesungen/finanzen/forecasting-und-simulation/",
     "backgroundImage": "portfolio.png"
   }
 ]
