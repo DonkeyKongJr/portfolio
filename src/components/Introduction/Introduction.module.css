@@ -1,6 +1,7 @@
 .Introduction {
   padding: 0 100px;
   margin-bottom: 200px;
+  animation: slide-in 0.6s ease;
 }
 
 .Heading {
@@ -19,5 +20,16 @@
   .Introduction {
     margin-bottom: 200px;
     padding: 0 50px;
+  }
+}
+
+@keyframes slide-in {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
   }
 }

@@ -2,6 +2,7 @@
   padding: 150px 0 0 100px;
   color: rgb(204, 214, 246);
   margin-bottom: 200px;
+  animation: slide-in 0.6s ease;
 }
 
 .Heading {
@@ -18,5 +19,16 @@
 @media (max-width: 702px) {
   .Experience {
     padding: 0 50px;
+  }
+}
+
+@keyframes slide-in {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
   }
 }

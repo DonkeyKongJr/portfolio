@@ -6,6 +6,7 @@
   color: #7fffd4;
   padding: 15px 20px 0 20px;
   opacity: 0.8;
+  animation: slide-in 0.6s ease;
 }
 
 .SocialLinks > ul > li {
@@ -54,5 +55,18 @@
   }
   .SocialLinks ul::after {
     display: none;
+  }
+}
+
+@media (min-width: 703px) {
+  @keyframes slide-in {
+    0% {
+      opacity: 0;
+      transform: translateX(-120px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 }
