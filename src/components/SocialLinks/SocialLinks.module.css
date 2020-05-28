@@ -29,7 +29,7 @@
   margin: 0px auto;
 }
 
-@media (max-width: 702px) {
+@media screen and (max-width: 702px), screen and (max-height: 500px) {
   .SocialLinks {
     position: relative;
     bottom: initial;
