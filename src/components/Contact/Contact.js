@@ -12,7 +12,7 @@ class Contact extends React.Component {
   }
 
   mailtoHandler = () => {
-    const email = 'patrick.schadler@gmail.com';
+    const email = 'patr@hey.com';
     const subject = 'subject=Hi Patrick';
     const body = 'body=Hi Patrick, I just saw your portfolio and ....';
 

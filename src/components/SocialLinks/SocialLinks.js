@@ -7,56 +7,56 @@ const socialLinks = () => {
       <ul>
         <li>
           <a
-            href='mailto:patrick.schadler@gmail.com'
-            rel='noopener noreferrer'
-            target='_blank'
+            href="mailto:patr@hey.com"
+            rel="noopener noreferrer"
+            target="_blank"
           >
-            <em className='fas fa-paper-plane'></em>
+            <em className="fas fa-paper-plane"></em>
           </a>
         </li>
         <li>
           <a
-            href='https://github.com/DonkeyKongJr'
-            rel='noopener noreferrer'
-            target='_blank'
+            href="https://github.com/DonkeyKongJr"
+            rel="noopener noreferrer"
+            target="_blank"
           >
-            <em className='fab fa-github'></em>
+            <em className="fab fa-github"></em>
           </a>
         </li>
         <li>
           <a
-            href='https://www.linkedin.com/in/patrick-schadler-19104750/'
-            rel='noopener noreferrer'
-            target='_blank'
+            href="https://www.linkedin.com/in/patrick-schadler-19104750/"
+            rel="noopener noreferrer"
+            target="_blank"
           >
-            <em className='fab fa-linkedin'></em>
+            <em className="fab fa-linkedin"></em>
           </a>
         </li>
         <li>
           <a
-            href='https://www.xing.com/profile/Patrick_Schadler2/cv'
-            rel='noopener noreferrer'
-            target='_blank'
+            href="https://www.xing.com/profile/Patrick_Schadler2/cv"
+            rel="noopener noreferrer"
+            target="_blank"
           >
-            <em className='fab fa-xing-square'></em>
+            <em className="fab fa-xing-square"></em>
           </a>
         </li>
         <li>
           <a
-            href='https://patrickschadler.com'
-            rel='noopener noreferrer'
-            target='_blank'
+            href="https://patrickschadler.com"
+            rel="noopener noreferrer"
+            target="_blank"
           >
-            <em className='fab fa-wordpress'></em>
+            <em className="fab fa-wordpress"></em>
           </a>
         </li>
         <li>
           <a
-            href='https://www.instagram.com/patrick_visuals/'
-            rel='noopener noreferrer'
-            target='_blank'
+            href="https://www.instagram.com/patrick_visuals/"
+            rel="noopener noreferrer"
+            target="_blank"
           >
-            <em className='fab fa-instagram'></em>
+            <em className="fab fa-instagram"></em>
           </a>
         </li>
       </ul>
