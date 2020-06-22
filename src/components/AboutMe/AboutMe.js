@@ -42,7 +42,9 @@ class AboutMe extends React.Component {
     ];
 
     const technologiesList = technologies.map((el) => (
-      <li className={classes.GridListItem}>{el}</li>
+      <li key={el} className={classes.GridListItem}>
+        {el}
+      </li>
     ));
 
     return (

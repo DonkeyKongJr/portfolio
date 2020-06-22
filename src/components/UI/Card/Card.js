@@ -2,7 +2,9 @@ import React from 'react';
 import classes from './Card.module.css';
 
 const card = (props) => {
-  const technologies = props.project.technologies.map((el) => <li>{el}</li>);
+  const technologies = props.project.technologies.map((el) => (
+    <li key={el}>{el}</li>
+  ));
 
   const github = props.project.gitHub ? (
     <a
