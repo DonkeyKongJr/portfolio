@@ -1,5 +1,6 @@
 import React from 'react';
 import classes from './AboutMe.module.css';
+import { EmailAddress } from '../../environment';
 
 class AboutMe extends React.Component {
   aboutMeRef = null;
@@ -10,7 +11,7 @@ class AboutMe extends React.Component {
   }
 
   mailtoHandler = () => {
-    const email = 'psch@hey.com';
+    const email = EmailAddress;
     const subject = 'subject=Hi Patrick';
     const body = 'body=Hi Patrick, I just saw your portfolio and ....';
 

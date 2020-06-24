@@ -2,10 +2,11 @@ import React from 'react';
 import classes from './Introduction.module.css';
 import BigText from '../UI/BigText/BigText';
 import Button from '../UI/Button/Button';
+import { EmailAddress } from '../../environment';
 
 class Introduction extends React.Component {
   mailtoHandler = () => {
-    const email = 'psch@hey.com';
+    const email = EmailAddress;
     const subject = 'subject=Hi Patrick';
     const body = 'body=Hi Patrick, I just saw your portfolio and ....';
 
