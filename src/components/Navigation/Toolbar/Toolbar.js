@@ -8,7 +8,7 @@ import DrawerToggle from '../SideDrawer/DrawerToggle/DrawerToggle';
 const toolbar = (props) => {
   const resumeHandler = () => {
     window.open(
-      'https://firebasestorage.googleapis.com/v0/b/portfolio-bb87c.appspot.com/o/Resume%2FPatrick%20Schadler%20Resume.pdf?alt=media&token=3ad1868e-77b5-45f3-987c-cfb4bf3fd2eb',
+      'https://firebasestorage.googleapis.com/v0/b/portfolio-bb87c.appspot.com/o/Resume%2FPatrick%20Schadler%20Resume.pdf?alt=media&token=ccf1956d-034e-451b-ab80-0e4cef52120d',
       '_blank'
     );
   };
