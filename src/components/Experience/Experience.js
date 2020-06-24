@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './Experience.module.css';
-import Aux from '../../hoc/Aux';
+import Aux from '../../hoc/Auxiliary';
 import MasterDetail from '../UI/MasterDetail/MasterDetail';
 
 class Experience extends React.Component {

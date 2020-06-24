@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './Layout.module.css';
-import Aux from '../../hoc/Aux';
+import Aux from '../../hoc/Auxiliary';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import Introduction from '../../components/Introduction/Introduction';
 import AboutMe from '../../components/AboutMe/AboutMe';
