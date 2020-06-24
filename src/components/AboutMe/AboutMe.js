@@ -1,6 +1,5 @@
 import React from 'react';
 import classes from './AboutMe.module.css';
-import { EmailAddress } from '../../environment';
 
 class AboutMe extends React.Component {
   aboutMeRef = null;
@@ -9,16 +8,6 @@ class AboutMe extends React.Component {
     super(props);
     this.aboutMeRef = React.createRef();
   }
-
-  mailtoHandler = () => {
-    const email = EmailAddress;
-    const subject = 'subject=Hi Patrick';
-    const body = 'body=Hi Patrick, I just saw your portfolio and ....';
-
-    const mailToText = [subject, body].join('&');
-
-    window.location = `mailto:${email}?${mailToText}`;
-  };
 
   scrollToMyRef = () => {
     window.scroll({
