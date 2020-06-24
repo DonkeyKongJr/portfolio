@@ -1,0 +1,39 @@
+.NavigationItem {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  padding: 4px;
+  cursor: pointer;
+  transition: 0.5s ease-out;
+}
+
+.NavigationItem::before {
+  counter-increment: nav-item-counter;
+  content: '0' counter(nav-item-counter) '.';
+  color: #7fffd4;
+  margin-top: 2px;
+}
+
+.NavigationItem a {
+  color: #c8cfd0;
+  text-decoration: none;
+  width: 100%;
+  box-sizing: border-box;
+  display: block;
+}
+
+@media (min-width: 200px) {
+  .NavigationItem {
+    margin: 0;
+    display: flex;
+    height: 100%;
+    width: auto;
+    align-items: center;
+  }
+
+  .NavigationItem a {
+    color: white;
+    height: 100%;
+    padding: 28px 4px;
+  }
+}

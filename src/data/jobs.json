@@ -1,0 +1,47 @@
+[
+  {
+    "id": 0,
+    "jobTitle": "Senior Software Developer",
+    "company": "pmOne GmbH",
+    "link": "https://www.pmone.com",
+    "from": "2017",
+    "till": "present",
+    "description": "Built Frontend Web Applications with Aurelia, Angular 5+ and NodeJS.<br /><br />Built RESTful Services with .NET Classic, .NET Core and Entity Framework (Core).<br /><br />Heavy use of Microsoft Azure Architecture and Products.<br /><br />Introduced Unit Tests in all new projects with a minimum Code Coverage of 90%.<br /><br />Introduced S.O.L.I.D., clean code principles, continuous integration & delivery, static code analysis, automatic code formatting and mentoring of junior colleagues."
+  },
+  {
+    "id": 1,
+    "jobTitle": "Head of Software Development",
+    "company": "Provaria GmbH",
+    "link": "https://www.provaria.com",
+    "from": "2016",
+    "till": "2017",
+    "description": "Built Custom Microsoft CRM solutions for major German carmakers, production companies and local companies in Austria as well as for government agencies.<br /><br />Built ASP.NET websites and services to provide administration panels for customers.<br /><br />Provided consulting to customers for Microsoft CRM amendments and possibilities."
+  },
+  {
+    "id": 2,
+    "jobTitle": "Software Engineer",
+    "company": "Provaria GmbH",
+    "link": "https://www.provaria.com",
+    "from": "2012",
+    "till": "2016",
+    "description": "Built Custom Microsoft CRM solutions for major German carmakers, production companies and local companies in Austria as well as for government agencies.<br /><br />Built ASP.NET websites and services to provide administration panels for customers.<br /><br />Provided consulting to customers for Microsoft CRM amendments and possibilities."
+  },
+  {
+    "id": 3,
+    "jobTitle": "Software Engineer",
+    "company": "Lenze AG",
+    "link": "https://www.lenze.com",
+    "from": "2011",
+    "till": "2012",
+    "description": "Built, test and deliver test benches for automotive transmissions systems.<br /><br />Worked intensively with customers and partner companies.<br /><br />Successfully mentored a new employee to take over the development for some customers."
+  },
+  {
+    "id": 4,
+    "jobTitle": "Software Engineer",
+    "company": "Autotronic GmbH",
+    "link": null,
+    "from": "2009",
+    "till": "2011",
+    "description": "Built custom automation lines for major carmakers and suppliers in Austria and Germany.<br /><br />Worked for many customers in-house to minimize the feedback circle time.<br /><br />Planned most of the trips alone including travel and hotel for my colleagues and myself.<br /><br />The company went out of business a couple of years after I left."
+  }
+]

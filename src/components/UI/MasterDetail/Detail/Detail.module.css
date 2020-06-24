@@ -1,0 +1,30 @@
+.Detail {
+  display: inline-block;
+  padding-left: 20px;
+}
+
+.Heading {
+  color: #fff;
+  font-size: 1.2rem;
+}
+
+.CompanyName {
+  color: #7fffd4;
+}
+
+.Time {
+  margin-top: 10px;
+  font-size: 0.8rem;
+  letter-spacing: 0.1rem;
+}
+
+.Description {
+  margin-top: 20px;
+  max-width: 440px;
+}
+
+@media (max-width: 1168px) {
+  .Detail {
+    padding-left: 0;
+  }
+}

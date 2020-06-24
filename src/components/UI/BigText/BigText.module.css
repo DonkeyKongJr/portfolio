@@ -1,0 +1,15 @@
+.BigText {
+  font-size: 2rem;
+  font-weight: bold;
+  color: rgb(204, 214, 246);
+}
+
+.Dark {
+  color: rgb(136, 146, 176);
+}
+
+@media (min-width: 702px) {
+  .BigText {
+    font-size: 4.5rem;
+  }
+}
