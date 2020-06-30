@@ -10,6 +10,10 @@
   display: inline-flex;
 }
 
+.TextColor {
+  color: #c8cfd0 !important;
+}
+
 @media (max-width: 702px) {
   .NavigationItems {
     flex-flow: column;
