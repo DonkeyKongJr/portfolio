@@ -2,18 +2,9 @@ import React from 'react';
 import classes from './Introduction.module.css';
 import BigText from '../UI/BigText/BigText';
 import Button from '../UI/Button/Button';
+import mailtoHandler from '../../services/mailToHandler';
 
 class Introduction extends React.Component {
-  mailtoHandler = () => {
-    const email = 'patr@hey.com';
-    const subject = 'subject=Hi Patrick';
-    const body = 'body=Hi Patrick, I just saw your portfolio and ....';
-
-    const mailToText = [subject, body].join('&');
-
-    window.location = `mailto:${email}?${mailToText}`;
-  };
-
   render() {
     return (
       <div className={classes.Introduction}>
@@ -25,7 +16,7 @@ class Introduction extends React.Component {
           in building exceptional software products, applications, services and
           everything in between.
         </div>
-        <Button clicked={() => this.mailtoHandler()} size={1.2}>
+        <Button clicked={() => mailtoHandler()} size={1.2}>
           Get In Touch
         </Button>
       </div>

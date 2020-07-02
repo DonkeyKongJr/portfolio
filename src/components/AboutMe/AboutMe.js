@@ -9,16 +9,6 @@ class AboutMe extends React.Component {
     this.aboutMeRef = React.createRef();
   }
 
-  mailtoHandler = () => {
-    const email = 'patr@hey.com';
-    const subject = 'subject=Hi Patrick';
-    const body = 'body=Hi Patrick, I just saw your portfolio and ....';
-
-    const mailToText = [subject, body].join('&');
-
-    window.location = `mailto:${email}?${mailToText}`;
-  };
-
   scrollToMyRef = () => {
     window.scroll({
       top: this.aboutMeRef.current.offsetTop,
@@ -42,7 +32,9 @@ class AboutMe extends React.Component {
     ];
 
     const technologiesList = technologies.map((el) => (
-      <li className={classes.GridListItem}>{el}</li>
+      <li key={el} className={classes.GridListItem}>
+        {el}
+      </li>
     ));
 
     return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './Layout.module.css';
-import Aux from '../../hoc/Aux';
+import Aux from '../../hoc/Auxiliary';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import Introduction from '../../components/Introduction/Introduction';
 import AboutMe from '../../components/AboutMe/AboutMe';
@@ -49,6 +49,9 @@ class Layout extends React.Component {
         return;
       case 3:
         this.contactChild.current.scrollToMyRef();
+        return;
+      case 4:
+        window.open('https://patrickschadler.com/blog', '_blank');
         return;
       default:
         return;

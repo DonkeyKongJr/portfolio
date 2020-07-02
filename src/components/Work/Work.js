@@ -28,7 +28,7 @@ class Work extends React.Component {
   };
 
   render() {
-    let cards = projects.map((p) => <Card project={p} />);
+    let cards = projects.map((p) => <Card key={p.name} project={p} />);
 
     if (!this.state.showMore) {
       cards = cards.slice(0, 3);

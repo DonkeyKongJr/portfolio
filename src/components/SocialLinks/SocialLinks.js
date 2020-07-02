@@ -1,16 +1,14 @@
 import React from 'react';
 import classes from './SocialLinks.module.css';
+import { EmailAddress } from '../../environment';
 
 const socialLinks = () => {
+  const emailMailTo = `mailto:${EmailAddress}`;
   return (
     <div className={classes.SocialLinks}>
       <ul>
         <li>
-          <a
-            href="mailto:patr@hey.com"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
+          <a href={emailMailTo} rel="noopener noreferrer" target="_blank">
             <em className="fas fa-paper-plane"></em>
           </a>
         </li>

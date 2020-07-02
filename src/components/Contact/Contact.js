@@ -2,6 +2,7 @@ import React from 'react';
 import classes from './Contact.module.css';
 import BigText from '../UI/BigText/BigText';
 import Button from './../UI/Button/Button';
+import mailtoHandler from '../../services/mailToHandler';
 
 class Contact extends React.Component {
   contactRef = null;
@@ -10,16 +11,6 @@ class Contact extends React.Component {
     super(props);
     this.contactRef = React.createRef();
   }
-
-  mailtoHandler = () => {
-    const email = 'patr@hey.com';
-    const subject = 'subject=Hi Patrick';
-    const body = 'body=Hi Patrick, I just saw your portfolio and ....';
-
-    const mailToText = [subject, body].join('&');
-
-    window.location = `mailto:${email}?${mailToText}`;
-  };
 
   scrollToMyRef = () => {
     window.scroll({
@@ -39,7 +30,7 @@ class Contact extends React.Component {
           improve and for any new opportunities.
         </p>
         <p className={classes.Description}>Drop me a message or just say hi.</p>
-        <Button clicked={() => this.mailtoHandler()} size={1.2}>
+        <Button clicked={() => mailtoHandler()} size={1.2}>
           Get In Touch
         </Button>
       </div>
