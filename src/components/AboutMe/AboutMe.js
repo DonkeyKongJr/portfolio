@@ -19,7 +19,7 @@ class AboutMe extends React.Component {
 
   render() {
     const technologies = [
-      'JavaScript',
+      'JavaScript & TypeScript',
       'Angular & React',
       'Microsoft Azure',
       'C# & .NET (Core)',

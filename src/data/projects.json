@@ -1,5 +1,14 @@
 [
   {
+    "name": "QR-Maker",
+    "type": "SaaS Product",
+    "description": "A Software as a Service (SaaS) product where anyone can create a personal site (like a restaurant menu), generate QR-Codes, print them and access the created site as a read-only version for customers.",
+    "technologies": ["Angular", "Firebase", "Stripe", "HTML", "SCSS", "GitHub Actions"],
+    "gitHub": "",
+    "url": "https://qrmaker.eu/",
+    "backgroundImage": "portfolio.png"
+  },
+  {
     "name": "Portfolio",
     "type": "Personal Project",
     "description": "A react project to present my experience and work as a portfolio in a clear and nice presentation. All designs and styles are custom-made without any library, but highly inspired by Brittany Chang.",
@@ -70,9 +79,9 @@
   {
     "name": "Personal Blog",
     "type": "Personal Project",
-    "description": "My personal blog runs on Wordpress. The most articles are heavily tech related and generates a couple of thousands visits per month.",
+    "description": "My personal blog runs on Ghost CMS. The most articles are heavily tech related and generates a couple of thousands visits per month.",
     "technologies": [
-      "Wordpress",
+      "Ghost CMS",
       "HTML",
       "CSS",
       "Google Analytics",
