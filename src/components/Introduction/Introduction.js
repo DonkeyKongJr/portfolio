@@ -12,7 +12,7 @@ class Introduction extends React.Component {
         <BigText>Patrick Schadler</BigText>
         <BigText color="Dark">and this is my story.</BigText>
         <div className={classes.Description}>
-          I am a senior software engineer based in Leibnitz, Austria specialized
+          I am a head of software development and a senior software engineer based in Leibnitz, Austria specialized
           in building exceptional software products, applications, services and
           everything in between.
         </div>

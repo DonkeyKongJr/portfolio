@@ -41,7 +41,7 @@ class AboutMe extends React.Component {
       <div className={classes.AboutMe} ref={this.aboutMeRef}>
         <h2 className={classes.Heading}>About Me</h2>
         <p className={classes.Description}>
-          Hello, I am Patrick. A senior software engineer from Austria.
+          Hello, I am Patrick. A head of software development and software engineer from Austria.
         </p>
         <p className={classes.Description}>
           As a highly-motivated and results-oriented software engineer I have a
