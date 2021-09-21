@@ -51,7 +51,7 @@ class Layout extends React.Component {
         this.contactChild.current.scrollToMyRef();
         return;
       case 4:
-        window.open('https://patrickschadler.com/blog', '_blank');
+        window.open('https://patrickschadler.com', '_blank');
         return;
       default:
         return;
