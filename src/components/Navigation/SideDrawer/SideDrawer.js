@@ -8,7 +8,7 @@ import BackDrop from '../../UI/BackDrop/BackDrop';
 const sideDrawer = (props) => {
   const resumeHandler = () => {
     window.open(
-      'https://firebasestorage.googleapis.com/v0/b/portfolio-bb87c.appspot.com/o/Resume%2FPatrick%20Schadler%20Resume.pdf?alt=media&token=931e47d4-f95c-4d7a-b61c-90fdab17365a',
+      'https://firebasestorage.googleapis.com/v0/b/portfolio-bb87c.appspot.com/o/Resume%2FPatrick%20Schadler%20Resume.pdf?alt=media&token=7add65a9-1a35-4fb8-9527-0d152d6cc221',
       '_blank'
     );
   };
@@ -29,7 +29,7 @@ const sideDrawer = (props) => {
         </nav>
       </div>
     </Aux>
-  );
+  );,
 };
 
 export default sideDrawer;
