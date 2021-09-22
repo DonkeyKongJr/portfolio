@@ -8,7 +8,7 @@ import BackDrop from '../../UI/BackDrop/BackDrop';
 const sideDrawer = (props) => {
   const resumeHandler = () => {
     window.open(
-      'https://firebasestorage.googleapis.com/v0/b/portfolio-bb87c.appspot.com/o/Resume%2FPatrick%20Schadler%20Resume.pdf?alt=media&token=7add65a9-1a35-4fb8-9527-0d152d6cc221',
+      'https://firebasestorage.googleapis.com/v0/b/portfolio-bb87c.appspot.com/o/Resume%2FPatrick%20Schadler%20Resume.pdf?alt=media&token=321ad7dd-1c41-4690-ac60-04d7169ed416',
       '_blank'
     );
   };
@@ -21,7 +21,7 @@ const sideDrawer = (props) => {
 
   return (
     <Aux>
-      <BackDrop show={props.open} clicked={props.closed} />
+      <BackDrop show={props.open} clicked={props.closed} /> 
       <div className={attachedClasses.join(' ')}>
         <nav>
           <NavigationItems clicked={props.scrolledTo} />
@@ -29,7 +29,7 @@ const sideDrawer = (props) => {
         </nav>
       </div>
     </Aux>
-  );,
+  );
 };
 
 export default sideDrawer;
