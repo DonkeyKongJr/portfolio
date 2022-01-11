@@ -23,7 +23,7 @@ const socialLinks = () => {
         </li>
         <li>
           <a
-            href="https://www.linkedin.com/in/%F0%9F%91%A8%F0%9F%8F%BC%E2%80%8D%F0%9F%92%BB-patrick-schadler-19104750/"
+            href="https://www.linkedin.com/in/patrick-schadler-19104750/"
             rel="noopener noreferrer"
             target="_blank"
           >
