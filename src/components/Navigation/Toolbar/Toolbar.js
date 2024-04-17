@@ -1,15 +1,15 @@
-import React from 'react';
-import classes from './Toolbar.module.css';
-import NavigationItems from '../NavigationItems/NavigationItems';
-import Logo from '../../Logo/Logo';
-import Button from '../../UI/Button/Button';
-import DrawerToggle from '../SideDrawer/DrawerToggle/DrawerToggle';
+import React from "react";
+import classes from "./Toolbar.module.css";
+import NavigationItems from "../NavigationItems/NavigationItems";
+import Logo from "../../Logo/Logo";
+import Button from "../../UI/Button/Button";
+import DrawerToggle from "../SideDrawer/DrawerToggle/DrawerToggle";
 
 const toolbar = (props) => {
   const resumeHandler = () => {
     window.open(
-      'https://firebasestorage.googleapis.com/v0/b/portfolio-bb87c.appspot.com/o/Resume%2FPatrick%20Schadler%20Resume.pdf?alt=media&token=1f91b124-32c2-4ebd-8ae6-d0cde218331f',
-      '_blank'
+      "https://firebasestorage.googleapis.com/v0/b/portfolio-bb87c.appspot.com/o/Resume%2FPatrick%20Schadler%20Resume.pdf?alt=media&token=916c64b3-ddd9-4180-b373-24f5cf416284",
+      "_blank"
     );
   };
 
@@ -24,7 +24,7 @@ const toolbar = (props) => {
   }
 
   return (
-    <header className={cssClasses.join(' ')}>
+    <header className={cssClasses.join(" ")}>
       <div className={classes.Logo}>
         <Logo />
       </div>
