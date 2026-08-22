@@ -1,0 +1,20 @@
+.section {
+  padding-block: var(--space-section);
+  position: relative;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 56px;
+}
+
+.title {
+  font-size: var(--text-4xl);
+  font-weight: 500;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tighter);
+  color: var(--ink-12);
+  max-width: var(--measure-lg);
+}

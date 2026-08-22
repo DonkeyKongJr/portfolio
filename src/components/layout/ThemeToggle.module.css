@@ -1,0 +1,75 @@
+.toggle {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9999px;
+  border: 1px solid var(--ink-4);
+  background: transparent;
+  color: var(--ink-10);
+  cursor: pointer;
+  transition:
+    color var(--duration-base) var(--ease-in-out),
+    border-color var(--duration-base) var(--ease-in-out);
+}
+
+.toggle:hover {
+  color: var(--ink-12);
+  border-color: var(--ink-7);
+}
+
+/*
+ * Beide Symbole liegen uebereinander; getauscht wird per Rotation und
+ * Deckkraft. Ein Austausch im DOM wuerde beim Umschalten kurz flackern.
+ */
+.icons {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+}
+
+.icon {
+  grid-area: 1 / 1;
+  transition:
+    opacity var(--duration-medium) var(--ease-out-expo),
+    transform var(--duration-medium) var(--ease-out-expo);
+}
+
+.sun {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.6);
+}
+
+.moon {
+  opacity: 1;
+  transform: none;
+}
+
+/*
+ * Gesteuert vom <html>-Attribut, nicht vom React-State: das Boot-Skript setzt
+ * es vor dem ersten Paint, waehrend React erst nach der Hydration Bescheid
+ * weiss. Sonst zeigte der Knopf im hellen Theme kurz das falsche Symbol.
+ */
+:global(html[data-theme='light']) .sun {
+  opacity: 1;
+  transform: none;
+}
+
+:global(html[data-theme='light']) .moon {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.6);
+}
+
+@media (max-width: 860px) {
+  .toggle {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .icon {
+    transition: none;
+  }
+}

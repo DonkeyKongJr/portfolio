@@ -1,0 +1,85 @@
+.bar {
+  overflow: hidden;
+  padding: 28px 0;
+  border-top: 1px solid var(--ink-3);
+  border-bottom: 1px solid var(--ink-3);
+  /* Kanten ausfransen lassen, damit der Loop nicht hart abreisst. */
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0 100px,
+    #000 200px calc(100% - 200px),
+    transparent calc(100% - 100px) 100%
+  );
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  animation: ticker 55s linear infinite;
+}
+
+.group {
+  display: flex;
+  align-items: center;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding-right: 32px;
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wide);
+  color: var(--ink-10);
+  white-space: nowrap;
+}
+
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--ink-6);
+  flex: none;
+}
+
+@keyframes ticker {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Auf Mobile keine Endlosschleife - dort wird daraus eine ruhige Liste. */
+@media (max-width: 768px) {
+  .bar {
+    mask-image: none;
+    padding: 20px 0;
+  }
+
+  .track {
+    animation: none;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+  }
+
+  .group:nth-child(n + 2) {
+    display: none;
+  }
+
+  .group {
+    flex-wrap: wrap;
+    gap: 12px 20px;
+  }
+
+  .item {
+    padding-right: 0;
+    gap: 20px;
+    white-space: normal;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+  }
+}

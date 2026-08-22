@@ -1,14 +1,125 @@
-<h1 align="center">
-  schadler.dev v1
-</h1>
+# schadler.dev
 
-<p align="center">
-  The first iteration of <a href="https://schadler.dev" target="_blank">schadler.dev</a> built with <a href="https://www.reactjs.org/" target="_blank">ReactJS</a> and hosted with <a href="https://firebase.google.com/" target="_blank">Firebase</a>
-</p>
+Portfolio und Werdegang von Patrick Schadler — Software Engineer und Gründer der
+mrsd Solutions GmbH in Leibnitz, Österreich.
 
-Google PageSpeed Result:
-![image](https://github.com/DonkeyKongJr/portfolio/blob/master/readme-content/pagespeed.png)
+Zweite Generation der Seite. Die erste Fassung war eine Create-React-App ohne
+Prerendering, bei der Suchmaschinen ein leeres `<div id="root">` sahen. Diese
+Fassung ist ein **statischer Next.js-Export**: jede Route liegt als fertiges
+HTML vor, die Animationen legen sich nur darüber.
 
-<p>This Portfolio is inspired by <a href="https://brittanychiang.com/" target="_blank">https://brittanychiang.com/</a></p>
+## Stack
 
-![image](https://github.com/DonkeyKongJr/portfolio/blob/master/readme-content/frontpage.png)
+| | |
+|---|---|
+| Framework | Next.js 16 (App Router), React 19, TypeScript |
+| Ausgabe | `output: 'export'` — reines HTML, kein Node-Server |
+| Styling | CSS Modules + Custom-Property-Tokens (`src/styles/tokens.css`) |
+| Animation | CSS-Transitions, IntersectionObserver, Web Animations API, Lenis für Smooth Scroll |
+| Inhalte | Getypter Content-Layer in `src/content/`, per Zod zur Build-Zeit validiert |
+| Blog | MDX, Syntax-Highlighting mit Shiki zur Build-Zeit |
+| Sprachen | Deutsch und Englisch unter `/de/` und `/en/` |
+| Hosting | Firebase Hosting, Auto-Deploy über GitHub Actions |
+
+Es ist **keine Animationsbibliothek** im Bundle. Preloader, Reveals, Marquee und
+Vorhang laufen über CSS und eingebaute Browser-APIs — das spart rund 42 KB gzip
+gegenüber einer Motion-basierten Umsetzung.
+
+## Entwicklung
+
+```bash
+npm install
+npm run dev          # http://localhost:3000
+```
+
+```bash
+npm run build        # statischer Export nach out/
+npm run serve:out    # den Export lokal ausliefern
+npm run lint
+npm run typecheck
+npm test
+```
+
+`npm run build` erzeugt über den `prebuild`-Hook zuerst die Social-Vorschaubilder
+nach `public/og/` (`scripts/generate-og.mjs`).
+
+## Aufbau
+
+```
+src/
+  app/[locale]/        Routen: /, /work, /work/[slug], /about, /blog,
+                       /blog/[slug], /contact, /imprint, /privacy
+  app/page.tsx         Sprachweiche unter /
+  components/
+    layout/            Nav, Footer, Analytics, JSON-LD
+    motion/            Preloader, ScrollReveal, WordReveal, Curtain,
+                       GrainCanvas, WorkCursor, Lenis-Provider
+    sections/          Hero, SelectedWork, Principles, Services, Timeline, …
+    ui/                Container, Section, Button
+  content/             Jobs, Projekte, Skills, Prinzipien, Blog (MDX)
+  i18n/                Wörterbücher DE/EN, typgesichert
+  lib/                 Metadata, JSON-LD, Pfade, Blog-Reader
+```
+
+## Inhalte pflegen
+
+Alle Texte liegen zweisprachig im Repo, es gibt kein CMS.
+
+- **Werdegang** → `src/content/jobs.ts`
+- **Projekte** → `src/content/projects.ts`
+- **Skills, Ausbildung, Prinzipien, Leistungen** → `src/content/about.ts`
+- **Open Source** → `src/content/oss.ts`
+- **Oberflächentexte** → `src/i18n/de.ts` und `src/i18n/en.ts`
+- **Firmen- und Kontaktdaten** → `src/config/site.ts`
+
+Ein Tippfehler bricht den Build, nicht die ausgelieferte Seite: die
+Zod-Schemata in `src/content/schema.ts` laufen beim Import, also während
+`next build`. Fehlt ein Schlüssel in einer Sprache, meldet es TypeScript.
+
+### Neuen Blogartikel anlegen
+
+Eine `.mdx`-Datei in `src/content/blog/de/` oder `src/content/blog/en/` mit
+Frontmatter:
+
+```yaml
+---
+title: 'Titel'
+description: 'Ein Satz für Suchergebnis und Vorschau.'
+date: '2026-03-01'
+tags: ['C#', '.NET']
+draft: false
+---
+```
+
+`draft: true` erscheint nur im Dev-Server. Artikel, die es nur in einer Sprache
+gibt, werden in der anderen Übersicht markiert verlinkt statt verschwiegen.
+
+## Deployment
+
+Push auf `master` → GitHub Actions baut und deployt auf Firebase Hosting.
+Pull Requests bekommen einen Preview-Channel mit sieben Tagen Laufzeit.
+
+Voraussetzung ist das Repository-Secret `FIREBASE_SERVICE_ACCOUNT`, erzeugt mit:
+
+```bash
+npx --package=firebase-tools firebase init hosting:github
+```
+
+Das Paket heisst `firebase-tools`, die ausfuehrbare Datei `firebase` — `npx firebase`
+allein sucht das gleichnamige Client-SDK und findet dort nichts Ausfuehrbares.
+
+Manuell geht es weiterhin über `npm run deploy`.
+
+## Barrierefreiheit und Performance
+
+- Der vollständige Inhalt steht im statischen HTML. Ohne JavaScript bleibt die
+  Seite vollständig lesbar — alle versteckten Ausgangszustände hängen an
+  `html[data-js]`, das erst ein Inline-Skript setzt.
+- `prefers-reduced-motion` schaltet Preloader, Filmkorn, Smooth Scroll,
+  Sticky-Stack und sämtliche Reveals ab.
+- Google Analytics lädt erst nach ausdrücklicher Einwilligung. Ohne Zustimmung
+  geht keine einzige Anfrage an Google.
+
+## Lizenz
+
+MIT — siehe [LICENSE](./LICENSE). Inhalte, Texte und Bilder ausgenommen.

@@ -1,0 +1,81 @@
+/*
+ * ScrollReveal - das Arbeitspferd der Seite.
+ *
+ * Bewusst reines CSS + IntersectionObserver statt Motion: die Referenz macht
+ * es genauso, und es ist der Grund, warum die Seite trotz vieler Effekte
+ * leicht bleibt. Motion kostet hier nichts an Qualitaet, aber viel an Bundle.
+ *
+ * Alles haengt an html[data-js]. Ohne JavaScript wird die Klasse nie gesetzt,
+ * der versteckte Ausgangszustand greift gar nicht erst und der Inhalt steht
+ * schlicht da - statt unsichtbar auf ein is-visible zu warten, das nie kommt.
+ */
+
+html[data-js] .reveal {
+  opacity: 0;
+  transform: translateY(56px);
+  transition:
+    opacity 0.9s var(--ease-out-expo),
+    transform 0.9s var(--ease-out-expo);
+  will-change: opacity, transform;
+}
+
+html[data-js] .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Nach dem Reveal will-change wieder abraeumen (per JS gesetzt). */
+html[data-js] .reveal.is-settled {
+  will-change: auto;
+}
+
+html[data-js] .reveal--slow {
+  transition-duration: 1.2s;
+}
+
+html[data-js] .reveal--from-left {
+  transform: translateX(-40px);
+}
+
+html[data-js] .reveal--from-right {
+  transform: translateX(40px);
+}
+
+html[data-js] .reveal--d1 {
+  transition-delay: 0.15s;
+}
+html[data-js] .reveal--d2 {
+  transition-delay: 0.2s;
+}
+html[data-js] .reveal--d3 {
+  transition-delay: 0.3s;
+}
+html[data-js] .reveal--d4 {
+  transition-delay: 0.5s;
+}
+
+/* Auf Mobile dezenter - grosse Spruenge wirken auf kleinen Screens hektisch. */
+@media (max-width: 768px) {
+  html[data-js] .reveal {
+    transform: translateY(24px);
+  }
+}
+
+/*
+ * Wiederkehrender Besuch: der Preloader wurde uebersprungen, also duerfen die
+ * Reveals nicht mehr traege sein. Wird fuer 50ms von der Intro gesetzt.
+ */
+body[data-fast-entry] .reveal {
+  transition-duration: 0.2s;
+  transition-delay: 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-js] .reveal,
+  html[data-js] .reveal--from-left,
+  html[data-js] .reveal--from-right {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

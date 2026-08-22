@@ -1,0 +1,200 @@
+/*
+ * Design-Tokens fuer schadler.dev
+ *
+ * Farbwerte und Skalen sind aus der Referenz mariajoaoabrantes.work uebernommen.
+ * Dort heisst die Graurampe "wine", ist aber neutral - hier ehrlich "ink" benannt.
+ *
+ * Zwei Themes, drei Zustaende:
+ *   :root                         dunkel - der Standard, auch ohne JavaScript
+ *   :root[data-theme='light']     hell, nur nach ausdruecklicher Wahl
+ *
+ * prefers-color-scheme geht bewusst nicht ein: die Seite ist dunkel entworfen,
+ * hell ist ein Angebot, keine Voreinstellung.
+ *
+ * Die helle Rampe ist keine Invertierung, sondern eine eigene Reihe mit
+ * denselben Rollen. Alle Textstufen sind auf Kontrast geprueft; ink-8 ist in
+ * beiden Themes zu schwach fuer Text und ausschliesslich fuer Linien gedacht.
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* --- Graurampe --------------------------------------------------------- */
+  --ink-1: #141414; /* Seitenhintergrund */
+  --ink-2: #1c1c1c; /* Loading-Overlay, Nav-Basis, Bild-Placeholder */
+  --ink-3: #242424; /* Footer-Watermark, Nav-Border */
+  --ink-4: #2d2d2d;
+  --ink-5: #393939;
+  --ink-6: #484848;
+  --ink-7: #5a5a5a;
+  --ink-8: #707070; /* Kontrast zu ink-1 nur ~4.0:1 - NIE fuer Text verwenden */
+  --ink-9: #8a8a8a; /* Eyebrows, gedaempfter Fliesstext (~5.9:1) */
+  --ink-10: #a6a6a6; /* Loading-Name, sekundaere Nav */
+  --ink-11: #c2c2c2;
+  --ink-12: #dedede; /* Ueberschriften, Vordergrund - bewusst kein reines Weiss */
+
+  --background: var(--ink-1);
+  --foreground: var(--ink-12);
+
+  /* --- Akzentrampen (sparsam: Service-Karten, Cursor, Schrittzahlen) ------ */
+  --yellow-1: #181501;
+  --yellow-4: #7a6800;
+  --yellow-7: #ffdd1a;
+  --yellow-9: #ffef93;
+  --yellow-12: #fefae1;
+
+  --blue-1: #00101a;
+  --blue-4: #004b7a;
+  --blue-7: #1aa7ff;
+  --blue-9: #aee0ff;
+  --blue-12: #ebf7ff;
+
+  --green-1: #05100a;
+  --green-4: #105125;
+  --green-7: #16ca52;
+  --green-9: #9bfcb7;
+  --green-12: #effbf3;
+
+  --violet-1: #0b0812;
+  --violet-4: #221443;
+  --violet-7: #4710c6;
+  --violet-9: #c2a8ff;
+  --violet-12: #f1ebff;
+
+  /* --- Abgeleitet -------------------------------------------------------- */
+  --nav-scrolled-bg: color-mix(in srgb, var(--ink-2) 70%, transparent);
+  --grain-rgb: 150, 125, 105; /* warmes Sepia, nicht neutral */
+  --shadow-card: 1px 5px 40px 0 #0000002e;
+
+  /* Akzent als Textfarbe - im dunklen Theme die hellen Stufen. */
+  --accent-ink-yellow: var(--yellow-9);
+  --accent-ink-blue: var(--blue-9);
+  --accent-ink-green: var(--green-9);
+  --accent-ink-violet: var(--violet-9);
+
+  /*
+   * Text auf den Pastellkarten. Bleibt in beiden Themes dunkel, denn die
+   * Kartenflaeche selbst wechselt nicht mit - wuerde hier --ink-12 stehen,
+   * waere die Schrift im hellen Theme nahezu unsichtbar.
+   */
+  --on-accent: #1a1815;
+
+  /*
+   * Flaeche der Projektvisuals. Bewusst in beiden Themes dunkel: sie steht
+   * stellvertretend fuer einen Screenshot, und Bildinhalt invertiert nicht,
+   * nur weil die Seite hell wird.
+   */
+  --media-surface: #1c1c1c;
+
+  /* Dezente Aufhellung bei Hover, in beiden Themes passend. */
+  --hover-tint: #ffffff12;
+  --nav-shadow: 0 2px 16px #00000008;
+
+  /* --- Typografie -------------------------------------------------------- */
+  /*
+   * Apple-Schriftbild: auf Apple-Geraeten rendert echtes SF Pro ohne einen
+   * einzigen Byte Download. Alle anderen Plattformen bekommen das
+   * selbst gehostete Inter Variable (siehe src/app/fonts.ts).
+   */
+  --font-display:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Display', var(--font-inter), 'Segoe UI', system-ui,
+    sans-serif;
+  --font-body: var(--font-display);
+
+  --text-2xs: 12px;
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 18px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
+  --text-3xl: clamp(28px, 1.326vw + 23.03px, 40px);
+  --text-4xl: clamp(40px, 2.21vw + 31.71px, 60px);
+  --text-5xl: clamp(56px, 3.536vw + 42.74px, 88px);
+
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.03em;
+  --tracking-snug: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.01em;
+  --tracking-wider: 0.06em;
+  --tracking-widest: 0.14em;
+
+  --leading-display: 0.9;
+  --leading-none: 1;
+  --leading-tight: 1.1;
+  --leading-snug: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+  --leading-loose: 1.78;
+
+  --measure-xs: 20ch;
+  --measure-sm: 34ch;
+  --measure-body: 44ch;
+  --measure-lg: 52ch;
+  --measure-xl: 64ch;
+
+  /* --- Layout ------------------------------------------------------------ */
+  --container: 1280px;
+  --container-pad: 52px;
+  --space-section: 105px;
+  --nav-w: 880px;
+
+  /* --- Easings (exakt die der Referenz) ---------------------------------- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1); /* Default fuer alles */
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in-out-strong: cubic-bezier(0.76, 0, 0.24, 1); /* Curtain + Loading-Exit */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --duration-fast: 0.15s;
+  --duration-base: 0.2s;
+  --duration-medium: 0.3s;
+  --duration-slow: 0.5s;
+  --duration-slower: 0.7s;
+
+  /* --- Z-Layer ----------------------------------------------------------- */
+  --z-sticky: 10;
+  --z-overlay: 1000;
+  --z-cursor: 9000;
+  --z-modal: 10000;
+  --z-nav: 10050;
+  --z-curtain: 10060;
+  --z-max: 99999;
+  --z-loading: 100000;
+}
+
+/* --- Helles Theme ------------------------------------------------------- */
+
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --ink-1: #fbfaf8; /* Seitenhintergrund, warmes Off-White */
+  --ink-2: #f3f1ed;
+  --ink-3: #e7e3dd;
+  --ink-4: #dbd6ce;
+  --ink-5: #c7c1b7;
+  --ink-6: #aca69b;
+  --ink-7: #8f887d;
+  --ink-8: #767065; /* nur Linien - fuer Text zu schwach */
+  --ink-9: #5c564d; /* gedaempfter Fliesstext (6.96:1) */
+  --ink-10: #453f38;
+  --ink-11: #2e2a25;
+  --ink-12: #1a1815; /* Ueberschriften (16.98:1) */
+
+  /* Akzent als Textfarbe braucht hier die dunklen Stufen. */
+  --accent-ink-yellow: var(--yellow-4);
+  --accent-ink-blue: var(--blue-4);
+  --accent-ink-green: var(--green-4);
+  --accent-ink-violet: var(--violet-4);
+
+  --hover-tint: #00000010;
+  --nav-shadow: 0 2px 16px #0000000f;
+  --grain-rgb: 120, 100, 80;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --container-pad: 20px;
+    --space-section: 72px;
+  }
+}

@@ -1,0 +1,26 @@
+.cta {
+  padding-block: calc(var(--space-section) * 1.2);
+  text-align: center;
+}
+
+.title {
+  font-size: var(--text-5xl);
+  font-weight: 500;
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-tighter);
+  color: var(--ink-12);
+}
+
+.subtitle {
+  font-size: var(--text-5xl);
+  font-weight: 500;
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-tighter);
+  color: var(--ink-6);
+  margin-bottom: 36px;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+}

@@ -1,0 +1,83 @@
+.list {
+  padding-bottom: var(--space-section);
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  gap: 40px;
+  padding-block: 32px;
+  border-top: 1px solid var(--ink-3);
+  transition: border-color var(--duration-base) var(--ease-in-out);
+}
+
+.item:hover {
+  border-top-color: var(--ink-6);
+}
+
+.date {
+  font-size: var(--text-sm);
+  color: var(--ink-9);
+  padding-top: 6px;
+}
+
+.title {
+  font-size: var(--text-2xl);
+  font-weight: 500;
+  letter-spacing: var(--tracking-snug);
+  color: var(--ink-12);
+}
+
+.description {
+  margin-top: 8px;
+  color: var(--ink-9);
+  line-height: var(--leading-snug);
+  max-width: var(--measure-lg);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.tag {
+  padding: 5px 11px;
+  border-radius: 9999px;
+  border: 1px solid var(--ink-4);
+  font-size: var(--text-2xs);
+  color: var(--ink-9);
+}
+
+.empty {
+  padding-block: 48px;
+  color: var(--ink-9);
+  font-size: var(--text-lg);
+}
+
+@media (max-width: 768px) {
+  .item {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .date {
+    padding-top: 0;
+  }
+
+  .title {
+    font-size: var(--text-xl);
+  }
+}
+
+/* Markierung fuer Artikel, die nur in der anderen Sprache vorliegen. */
+.foreign {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 5px 11px;
+  border-radius: 9999px;
+  border: 1px dashed var(--ink-5);
+  font-size: var(--text-2xs);
+  color: var(--ink-9);
+}

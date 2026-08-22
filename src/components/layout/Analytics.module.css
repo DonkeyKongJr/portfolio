@@ -1,0 +1,69 @@
+.banner {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: var(--z-modal);
+  width: min(420px, calc(100% - 40px));
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid var(--ink-4);
+  background: color-mix(in srgb, var(--ink-2) 92%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: var(--shadow-card);
+}
+
+.message {
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+  color: var(--ink-10);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.button {
+  padding: 9px 16px;
+  border-radius: 9999px;
+  border: 1px solid var(--ink-5);
+  background: transparent;
+  color: var(--ink-11);
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+  cursor: pointer;
+  transition:
+    color var(--duration-base) var(--ease-in-out),
+    border-color var(--duration-base) var(--ease-in-out);
+}
+
+.button:hover {
+  color: var(--ink-12);
+  border-color: var(--ink-8);
+}
+
+.accept {
+  background: var(--ink-12);
+  border-color: var(--ink-12);
+  color: var(--ink-1);
+}
+
+.more {
+  margin-left: auto;
+  align-self: center;
+  font-size: var(--text-2xs);
+  color: var(--ink-9);
+  border-bottom: 1px solid var(--ink-5);
+}
+
+/* Auf Mobile sitzt unten die Navigationsleiste. */
+@media (max-width: 860px) {
+  .banner {
+    bottom: calc(96px + env(safe-area-inset-bottom));
+    left: 20px;
+  }
+}

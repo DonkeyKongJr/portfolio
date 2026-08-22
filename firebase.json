@@ -1,38 +1,59 @@
 {
   "hosting": {
-    "public": "build",
+    "public": "out",
+    "cleanUrls": true,
+    "trailingSlash": true,
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
+    "redirects": [
+      { "source": "/work", "destination": "/en/work/", "type": 301 },
+      { "source": "/about", "destination": "/en/about/", "type": 301 },
+      { "source": "/blog", "destination": "/en/blog/", "type": 301 },
+      { "source": "/contact", "destination": "/en/contact/", "type": 301 },
+      { "source": "/imprint", "destination": "/en/imprint/", "type": 301 },
+      { "source": "/privacy", "destination": "/en/privacy/", "type": 301 },
+      { "source": "/rss", "destination": "/feed.xml", "type": 301 },
+      { "source": "/feed", "destination": "/feed.xml", "type": 301 }
     ],
     "headers": [
       {
-        "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css)",
+        "source": "/_next/static/**",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      },
+      {
+        "source": "**/*.@(woff|woff2|otf|ttf)",
         "headers": [
-          {
-            "key": "Access-Control-Allow-Origin",
-            "value": "*"
-          }
+          { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" },
+          { "key": "Access-Control-Allow-Origin", "value": "*" }
         ]
       },
       {
-        "source": "**/*.@(js|css)",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "max-age=604800"
-          }
-        ]
+        "source": "**/*.@(jpg|jpeg|gif|png|webp|avif|svg|ico)",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=2592000" }]
       },
       {
-        "source": "**/*.@(jpg|jpeg|gif|png)",
+        "source": "**/*.html",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+      },
+      {
+        "source": "/@(sitemap.xml|robots.txt|feed.xml)",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }]
+      },
+      {
+        "source": "**",
         "headers": [
+          { "key": "X-Content-Type-Options", "value": "nosniff" },
+          { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
           {
-            "key": "Cache-Control",
-            "value": "max-age=604800"
+            "key": "Strict-Transport-Security",
+            "value": "max-age=63072000; includeSubDomains; preload"
+          },
+          {
+            "key": "Permissions-Policy",
+            "value": "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+          },
+          {
+            "key": "Content-Security-Policy",
+            "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com; font-src 'self' data:; connect-src 'self' https://www.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
           }
         ]
       }

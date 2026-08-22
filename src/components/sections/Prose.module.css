@@ -1,0 +1,115 @@
+.prose {
+  max-width: var(--measure-xl);
+  color: var(--ink-11);
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+}
+
+.prose h2 {
+  font-size: var(--text-3xl);
+  font-weight: 500;
+  letter-spacing: var(--tracking-tighter);
+  color: var(--ink-12);
+  margin-top: 56px;
+  margin-bottom: 16px;
+}
+
+.prose h3 {
+  font-size: var(--text-2xl);
+  font-weight: 500;
+  color: var(--ink-12);
+  margin-top: 40px;
+  margin-bottom: 12px;
+}
+
+.prose p + p,
+.prose ul + p,
+.prose p + ul {
+  margin-top: 20px;
+}
+
+.prose ul,
+.prose ol {
+  margin-top: 20px;
+  padding-left: 22px;
+  list-style: disc;
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose li + li {
+  margin-top: 8px;
+}
+
+.prose a {
+  color: var(--ink-12);
+  border-bottom: 1px solid var(--ink-5);
+  transition: border-color var(--duration-base) var(--ease-in-out);
+}
+
+.prose a:hover {
+  border-bottom-color: var(--ink-11);
+}
+
+.prose strong {
+  color: var(--ink-12);
+  font-weight: 600;
+}
+
+/* Inline-Code */
+.prose :not(pre) > code {
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: var(--ink-3);
+  font-size: 0.88em;
+  color: var(--ink-12);
+}
+
+/*
+ * Codebloecke scrollen in ihrem eigenen Container - der Seitenkoerper darf
+ * niemals horizontal scrollen.
+ */
+.prose pre {
+  margin-top: 24px;
+  margin-bottom: 24px;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid var(--ink-3);
+  background: var(--ink-2) !important;
+  overflow-x: auto;
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+}
+
+.prose pre code {
+  display: grid;
+  background: transparent;
+  padding: 0;
+}
+
+.prose blockquote {
+  margin-top: 24px;
+  padding-left: 20px;
+  border-left: 2px solid var(--ink-5);
+  color: var(--ink-9);
+}
+
+.prose :global(.anchor) {
+  border: 0;
+  opacity: 0;
+  margin-left: 8px;
+  transition: opacity var(--duration-base) var(--ease-in-out);
+}
+
+.prose h2:hover :global(.anchor),
+.prose h3:hover :global(.anchor) {
+  opacity: 0.5;
+}
+
+@media (max-width: 768px) {
+  .prose {
+    font-size: var(--text-base);
+  }
+}

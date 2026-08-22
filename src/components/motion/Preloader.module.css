@@ -1,0 +1,91 @@
+/*
+ * Startanimation ohne Animationsbibliothek.
+ *
+ * Die Zeichen-Staffelung ist eine animation-delay-Kette, das Wegfahren des
+ * Panels eine Transition. Das spart die gesamte Motion-Laufzeit im Bundle -
+ * fuer eine Animation, die genau einmal pro Sitzung laeuft, waeren 42 KB
+ * gzip ein schlechter Tausch.
+ *
+ * Sichtbarkeit steuert allein CSS, nicht React:
+ *  - ohne data-js (kein JavaScript) bleibt das Overlay aus, sonst saehe man
+ *    einen Vorhang, den niemand mehr wegzieht;
+ *  - mit data-intro="skip" ebenfalls, damit es beim zweiten Besuch nicht
+ *    kurz aufblitzt, bevor React es entfernt.
+ *
+ * Dadurch kann das Markup im statischen HTML stehen und deckt die Seite ab
+ * dem ersten Paint ab - vorher sah man erst den Inhalt und dann den Vorhang.
+ */
+
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-loading);
+  align-items: center;
+  justify-content: center;
+  background: var(--ink-2);
+  transform: translateY(0);
+}
+
+/* Zeichen raus, dann das Panel - daher die 0.75s Verzoegerung. */
+.overlay[data-state='leaving'] {
+  transform: translateY(-100%);
+  transition: transform 1s var(--ease-in-out-strong) 0.75s;
+}
+
+.name {
+  display: flex;
+  font-size: var(--text-xl);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wider);
+  color: var(--ink-10);
+  white-space: nowrap;
+}
+
+.char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+  /* easeOutQuad, 25ms Versatz je Zeichen. */
+  animation: charIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation-delay: calc(var(--char-index) * 25ms);
+  will-change: transform, opacity;
+}
+
+.overlay[data-state='leaving'] .char {
+  /* easeInQuad zurueck, 20ms Versatz. */
+  animation: charOut 0.15s cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
+  animation-delay: calc(var(--char-index) * 20ms);
+}
+
+.space {
+  white-space: pre;
+}
+
+@keyframes charIn {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes charOut {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+@media (max-width: 768px) {
+  .name {
+    font-size: var(--text-base);
+  }
+}
+
+:global(html[data-js]:not([data-intro='skip'])) .overlay {
+  display: flex;
+}
