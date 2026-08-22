@@ -192,6 +192,19 @@
   --grain-rgb: 120, 100, 80;
 }
 
+/*
+ * Auf sehr breiten Schirmen bleiben bei 1280px links und rechts je ueber
+ * 600px leer, und der linksbuendige Satz verschiebt das optische Gewicht
+ * zusaetzlich. Der Block darf dort etwas mitwachsen - aber begrenzt, sonst
+ * werden die Zeilen zu lang zum Lesen.
+ */
+@media (min-width: 1800px) {
+  :root {
+    --container: 1440px;
+    --container-pad: 64px;
+  }
+}
+
 @media (max-width: 768px) {
   :root {
     --container-pad: 20px;

@@ -25,7 +25,8 @@
   line-height: var(--leading-display);
   letter-spacing: var(--tracking-tighter);
   color: var(--ink-12);
-  max-width: 16ch;
+  /* 20ch statt 16: fuellt den Block besser, ohne den Umbruch zu verlieren. */
+  max-width: 20ch;
 }
 
 .subline {
