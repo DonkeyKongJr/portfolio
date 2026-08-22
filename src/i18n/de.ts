@@ -94,6 +94,10 @@ export const de = {
     next: 'Nächster Artikel',
     empty: 'Hier entsteht gerade etwas. Schau bald wieder vorbei.',
     otherLanguage: 'Nur auf Englisch verfügbar',
+    machineTranslated: 'Maschinell übersetzt',
+    machineTranslatedHint:
+      'Dieser Artikel wurde automatisch aus dem Englischen übersetzt. Das Original ist die maßgebliche Fassung.',
+    readOriginal: 'Original lesen',
   },
   contact: {
     title: 'Kontakt',

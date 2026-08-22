@@ -96,6 +96,10 @@ export const en: Dictionary = {
     next: 'Next article',
     empty: 'Something is being written here. Check back soon.',
     otherLanguage: 'Only available in German',
+    machineTranslated: 'Machine translated',
+    machineTranslatedHint:
+      'This article was translated automatically. The original is the authoritative version.',
+    readOriginal: 'Read the original',
   },
   contact: {
     title: 'Contact',

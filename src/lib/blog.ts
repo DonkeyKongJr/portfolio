@@ -14,6 +14,12 @@ const frontmatterSchema = z.object({
   tags: z.array(z.string()).default([]),
   draft: z.boolean().default(false),
   canonical: z.string().url().optional(),
+  /**
+   * Maschinell uebersetzte Fassung. Pro Artikel gesetzt, nicht pro Sprache:
+   * eine spaeter von Hand geschriebene Uebersetzung soll den Hinweis nicht
+   * faelschlich tragen.
+   */
+  machineTranslated: z.boolean().default(false),
 });
 
 export interface Post {

@@ -84,6 +84,18 @@ export function MoonIcon(props: IconProps) {
   );
 }
 
+export function TranslateIcon(props: IconProps) {
+  return (
+    <svg {...base} fill="none" stroke="currentColor" strokeWidth={1.75} {...props}>
+      <path
+        d="M4 5h10M9 3v2m0 0c0 4.5-2.2 8-5 9m2-5c0 2.6 2.8 4.7 6 5M13 20l4-9 4 9m-6.6-2.2h5.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export const socialIcons = {
   github: GitHubIcon,
   linkedin: LinkedInIcon,

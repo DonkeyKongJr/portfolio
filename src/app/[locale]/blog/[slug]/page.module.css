@@ -81,3 +81,58 @@
     padding-top: 96px;
   }
 }
+
+/*
+ * Hinweis auf eine maschinelle Uebersetzung. Steht bewusst vor dem Text und
+ * nicht am Ende: wer die Einordnung erst nach dem Lesen bekommt, hat sie zu
+ * spaet.
+ */
+.translationNote {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin-top: 24px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--ink-4);
+  background: var(--ink-2);
+  max-width: var(--measure-lg);
+}
+
+.translationChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px;
+  border-radius: 9999px;
+  background: var(--ink-3);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--accent-ink-blue);
+  flex: none;
+}
+
+.translationText {
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+  color: var(--ink-9);
+  flex: 1 1 240px;
+}
+
+.translationLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-sm);
+  color: var(--ink-12);
+  border-bottom: 1px solid var(--ink-5);
+  transition: border-color var(--duration-base) var(--ease-in-out);
+  flex: none;
+}
+
+.translationLink:hover {
+  border-bottom-color: var(--ink-11);
+}

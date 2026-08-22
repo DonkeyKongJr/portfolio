@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { locales } from '@/config/site';
-import { allPostParams, availableLocales, getNeighbours, getPosts } from '@/lib/blog';
+import { allPostParams, availableLocales, getNeighbours, getPost, getPosts } from '@/lib/blog';
 
 describe('Blog', () => {
   it('liest Artikel mit gueltigem Frontmatter', () => {
@@ -27,6 +27,21 @@ describe('Blog', () => {
     const params = allPostParams();
     const keys = params.map((p) => `${p.locale}/${p.slug}`);
     expect(new Set(keys).size).toBe(keys.length);
+  });
+
+  it('markiert maschinell uebersetzte Fassungen', () => {
+    // Pro Artikel gesetzt, nicht pro Sprache - eine spaeter von Hand
+    // geschriebene Uebersetzung soll den Hinweis nicht faelschlich tragen.
+    expect(getPost('de', 'factory-method-design-pattern')?.frontmatter.machineTranslated).toBe(true);
+    expect(getPost('en', 'factory-method-design-pattern')?.frontmatter.machineTranslated).toBe(
+      false,
+    );
+  });
+
+  it('setzt das Kennzeichen standardmaessig auf false', () => {
+    for (const post of getPosts('en')) {
+      expect(typeof post.frontmatter.machineTranslated).toBe('boolean');
+    }
   });
 
   it('verkettet Artikel in chronologischer Richtung', () => {

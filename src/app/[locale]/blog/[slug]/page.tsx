@@ -1,13 +1,14 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowLeftIcon } from '@/components/icons';
+import { ArrowLeftIcon, ArrowUpRightIcon, TranslateIcon } from '@/components/icons';
 import { JsonLd } from '@/components/layout/JsonLd';
 import { PostBody } from '@/components/sections/PostBody';
 import { Container } from '@/components/ui/Container';
 import { siteConfig } from '@/config/site';
 import { getDictionary, isLocale } from '@/i18n';
 import { allPostParams, availableLocales, getNeighbours, getPost } from '@/lib/blog';
+import { locales, type Locale } from '@/config/site';
 import { formatDate } from '@/lib/date';
 import { breadcrumbJsonLd, jsonLdGraph } from '@/lib/jsonLd';
 import { buildMetadata } from '@/lib/metadata';
@@ -52,6 +53,10 @@ export default async function PostPage({
 
   const t = getDictionary(locale);
   const { previous, next } = getNeighbours(locale, slug);
+  // Auf das Original verweisen, falls es die andere Sprachfassung gibt.
+  const original = locales.find(
+    (other): other is Locale => other !== locale && availableLocales(slug).includes(other),
+  );
 
   return (
     <>
@@ -70,6 +75,29 @@ export default async function PostPage({
               {post.readingMinutes} {t.blog.readingTime}
             </span>
           </div>
+
+          {post.frontmatter.machineTranslated ? (
+            <aside className={styles.translationNote}>
+              <span className={styles.translationChip}>
+                <TranslateIcon width={13} height={13} />
+                {t.blog.machineTranslated}
+              </span>
+              <span className={styles.translationText}>{t.blog.machineTranslatedHint}</span>
+              {original ? (
+                /* Sprachwechsel als vollstaendige Navigation, siehe Nav.tsx. */
+                <a
+                  className={styles.translationLink}
+                  href={localePath(original, 'blog', slug)}
+                  hrefLang={original}
+                  lang={original}
+                  data-native-nav
+                >
+                  {t.blog.readOriginal}
+                  <ArrowUpRightIcon width={14} height={14} />
+                </a>
+              ) : null}
+            </aside>
+          ) : null}
         </Container>
       </div>
 
