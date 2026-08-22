@@ -47,8 +47,20 @@ npm run build        # statischer Export nach out/
 npm run serve:out    # den Export lokal ausliefern
 npm run lint
 npm run typecheck
-npm test
+npm test             # Vitest: Inhalte, i18n, Pfade, Theme, Kontraste
+npm run build        # muss vor dem Rauchtest laufen - er prueft out/
+npm run test:e2e     # Playwright: Desktop und Mobil gegen den Export
 ```
+
+Der Rauchtest laeuft gegen den **statischen Export**, nicht gegen den
+Dev-Server: nur dort steht genau das HTML, das Firebase ausliefert. Er deckt
+ab, was sich ausserhalb eines Browsers nicht pruefen laesst — Startanimation
+und ihr Ueberspringen beim zweiten Besuch, Sprachwechsel samt Ausweichen auf
+die Uebersicht, Theme-Wahl ueber einen Reload hinweg, Lesbarkeit mit
+abgeschaltetem JavaScript, echte 404 und Konsolenfreiheit auf elf Seiten.
+
+Beide Workflows fuehren ihn vor dem Deploy aus; bei einem Fehlschlag haengt
+der Playwright-Bericht sieben Tage als Artefakt am Lauf.
 
 `npm run build` erzeugt über den `prebuild`-Hook zuerst die Social-Vorschaubilder
 nach `public/og/` (`scripts/generate-og.mjs`).

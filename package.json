@@ -16,7 +16,8 @@
     "serve:out": "npx serve out",
     "deploy": "npm run build && npx --package=firebase-tools firebase deploy --only hosting",
     "prebuild": "node scripts/generate-og.mjs",
-    "check:console": "node scripts/console-check.mjs"
+    "check:console": "node scripts/console-check.mjs",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
@@ -33,6 +34,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "@testing-library/react": "^16.3.2",
     "@types/node": "^26.2.0",
     "@types/react": "^19.2.18",

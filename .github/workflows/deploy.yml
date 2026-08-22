@@ -36,6 +36,22 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Browser fuer den Rauchtest
+        run: npx playwright install --with-deps chromium
+
+      - name: Rauchtest
+        run: npm run test:e2e
+
+      - name: Testbericht bei Fehlschlag sichern
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ github.job }}
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}

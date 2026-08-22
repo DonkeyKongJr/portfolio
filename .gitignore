@@ -125,3 +125,9 @@ next-env.d.ts
 # iCloud legt bei Sync-Konflikten Kopien wie "layout 2.tsx" an.
 # Dreissig davon waren bereits committet - sie brechen den Typecheck.
 * 2.*
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
