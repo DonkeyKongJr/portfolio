@@ -102,8 +102,11 @@ Pull Requests bekommen einen Preview-Channel mit sieben Tagen Laufzeit.
 Voraussetzung ist das Repository-Secret `FIREBASE_SERVICE_ACCOUNT`, erzeugt mit:
 
 ```bash
-npx firebase init hosting:github
+npx --package=firebase-tools firebase init hosting:github
 ```
+
+Das Paket heisst `firebase-tools`, die ausfuehrbare Datei `firebase` — `npx firebase`
+allein sucht das gleichnamige Client-SDK und findet dort nichts Ausfuehrbares.
 
 Manuell geht es weiterhin über `npm run deploy`.
 

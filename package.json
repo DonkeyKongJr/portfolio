@@ -14,7 +14,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "serve:out": "npx serve out",
-    "deploy": "npm run build && npx firebase deploy --only hosting",
+    "deploy": "npm run build && npx --package=firebase-tools firebase deploy --only hosting",
     "prebuild": "node scripts/generate-og.mjs"
   },
   "dependencies": {
