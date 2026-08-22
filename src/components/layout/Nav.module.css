@@ -211,4 +211,21 @@
     order: -1;
     min-width: 0;
   }
+
+  /*
+   * Auf dieselbe Hoehe wie Mond und Sprachkuerzel bringen (30px). Der
+   * Standardknopf ist hier deutlich hoeher und liess die Zeile unruhig
+   * wirken. Greift auf das Kindelement, weil Button seine eigenen Klassen
+   * mitbringt.
+   */
+  .navCta > * {
+    padding: 6px 14px;
+    font-size: var(--text-2xs);
+    line-height: 1.5;
+  }
+
+  /* Auf sehr schmalen Geraeten den Sprachumschalter ebenfalls straffen. */
+  .localeSwitch {
+    padding: 6px 10px;
+  }
 }
