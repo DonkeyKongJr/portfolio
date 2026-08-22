@@ -1,0 +1,38 @@
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-cursor);
+  padding: 10px 18px;
+  border-radius: 9999px;
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(-100px, -100px, 0) scale(0.8);
+  transition:
+    opacity var(--duration-base) var(--ease-in-out),
+    scale var(--duration-base) var(--ease-out-expo);
+  background: var(--cursor-bg, var(--yellow-9));
+  color: var(--cursor-fg, var(--yellow-4));
+}
+
+.cursor[data-visible='true'] {
+  opacity: 1;
+}
+
+/* Ohne Hover-faehigen Zeiger ergibt die Pille keinen Sinn. */
+@media (hover: none), (pointer: coarse) {
+  .cursor {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor {
+    display: none;
+  }
+}

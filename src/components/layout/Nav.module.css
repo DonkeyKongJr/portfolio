@@ -147,16 +147,26 @@
 /* --- Mobile: Leiste wandert nach unten ----------------------------------- */
 
 @media (max-width: 860px) {
+  /*
+   * Unten am Bildschirmrand, bewusst zweizeilig:
+   *   Zeile 1  die fuenf Navigationspunkte
+   *   Zeile 2  Handlungsaufforderung links, Theme und Sprache rechts
+   *
+   * Der Namenszug entfaellt hier. Er stand vorher allein in der zweiten
+   * Zeile und liess den Umbruch wie ein Versehen aussehen - auf einer
+   * Leiste am unteren Rand traegt er ohnehin nichts bei.
+   */
   .nav {
     top: auto;
     bottom: calc(20px + env(safe-area-inset-bottom));
-    width: min(400px, 100% - 40px);
+    width: min(400px, 100% - 32px);
     min-width: 0;
     height: auto;
-    padding: 10px 14px;
-    border-radius: 28px;
-    flex-direction: column-reverse;
-    gap: 8px;
+    padding: 8px 12px 10px;
+    border-radius: 26px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
     background: var(--nav-scrolled-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -168,17 +178,7 @@
   }
 
   .logo {
-    font-size: var(--text-2xs);
-    color: var(--ink-9);
-  }
-
-  /* Auf Mobile ist kein Platz fuer den Kollaps - der Name bleibt kurz. */
-  .drop {
     display: none;
-  }
-
-  .pageLabel {
-    max-width: 160px;
   }
 
   .links {
@@ -188,32 +188,27 @@
   }
 
   .link {
-    padding: 8px 6px;
+    padding: 8px 4px;
     font-size: var(--text-2xs);
   }
 
-  /*
-   * Auf Mobile liegt die Leiste unten und ist zweizeilig: oben die Links,
-   * unten Logo und Bedienelemente nebeneinander. Die Aktionen liegen
-   * absolut, weil Logo und Links Geschwister im selben Flexcontainer sind -
-   * ohne zusaetzlichen Wrapper waeren sie sonst nicht auf eine Zeile zu
-   * bekommen.
-   */
+  /* Zweite Zeile: in Fluss statt absolut positioniert. */
   .actions {
-    position: absolute;
-    bottom: 8px;
-    right: 12px;
-    gap: 6px;
-  }
-
-  /* Platz freihalten, damit der Name nicht unter die Knoepfe laeuft. */
-  .logo {
-    padding-right: 96px;
-    min-height: 32px;
+    position: static;
+    width: 100%;
+    justify-content: space-between;
     align-items: center;
+    gap: 8px;
   }
 
+  /*
+   * Die Handlungsaufforderung war auf Mobile ganz ausgeblendet - jetzt
+   * fuellt sie die zweite Zeile und ist wieder erreichbar. Im Quelltext
+   * steht sie hinter den Bedienelementen, deshalb hier nach vorn geholt.
+   */
   .navCta {
-    display: none;
+    display: inline-flex;
+    order: -1;
+    min-width: 0;
   }
 }

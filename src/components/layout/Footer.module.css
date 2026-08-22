@@ -101,7 +101,7 @@
   }
 
   .footer {
-    /* Platz fuer die untenliegende mobile Navigationsleiste. */
-    padding-bottom: calc(110px + env(safe-area-inset-bottom));
+    /* Platz fuer die zweizeilige Navigationsleiste am unteren Rand. */
+    padding-bottom: calc(132px + env(safe-area-inset-bottom));
   }
 }
