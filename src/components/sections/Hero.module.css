@@ -1,0 +1,60 @@
+.hero {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  padding-top: 120px;
+  padding-bottom: 80px;
+  /* Ueber dem Grain-Canvas, der auf z-index 0 liegt. */
+  z-index: 1;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.eyebrow {
+  color: var(--ink-9);
+}
+
+.title {
+  font-size: clamp(52px, 6.8vw, 88px);
+  font-weight: 500;
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-tighter);
+  color: var(--ink-12);
+  max-width: 16ch;
+}
+
+.subline {
+  font-size: var(--text-2xl);
+  line-height: var(--leading-relaxed);
+  color: var(--ink-9);
+  max-width: var(--measure-lg);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 13vw;
+    line-height: var(--leading-none);
+    max-width: none;
+  }
+
+  .subline {
+    font-size: var(--text-lg);
+  }
+
+  .hero {
+    padding-top: 80px;
+    min-height: 92dvh;
+  }
+}

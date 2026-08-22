@@ -1,0 +1,97 @@
+.card {
+  display: block;
+  position: relative;
+}
+
+.frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--media-surface);
+  box-shadow: var(--shadow-card);
+}
+
+/*
+ * Platzhaltervisual, solange keine echten Screenshots vorliegen:
+ * grosser Projektname in der Akzentfarbe des Projekts.
+ */
+.visual {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 8%;
+  background: linear-gradient(135deg, var(--accent-dark) 0%, var(--media-surface) 70%);
+  transform: scale(1.08);
+  transition: transform var(--duration-slow) var(--ease-out-expo);
+  will-change: transform;
+}
+
+.card:hover .visual {
+  transform: scale(1);
+}
+
+.visualText {
+  font-size: clamp(28px, 5vw, 64px);
+  font-weight: 500;
+  letter-spacing: var(--tracking-tighter);
+  line-height: var(--leading-none);
+  color: var(--accent-light);
+  text-align: center;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.name {
+  font-size: var(--text-2xl);
+  font-weight: 500;
+  letter-spacing: var(--tracking-snug);
+  color: var(--ink-12);
+}
+
+.year {
+  font-size: var(--text-sm);
+  color: var(--ink-9);
+}
+
+.outcome {
+  margin-top: 8px;
+  font-size: var(--text-lg);
+  line-height: var(--leading-snug);
+  color: var(--ink-10);
+  max-width: var(--measure-lg);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.tag {
+  padding: 6px 12px;
+  border-radius: 9999px;
+  border: 1px solid var(--ink-4);
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-wide);
+  color: var(--ink-9);
+}
+
+@media (max-width: 768px) {
+  .frame {
+    aspect-ratio: 372 / 360;
+  }
+
+  .outcome {
+    font-size: var(--text-base);
+  }
+}

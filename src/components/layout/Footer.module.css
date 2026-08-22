@@ -1,0 +1,107 @@
+.footer {
+  position: relative;
+  padding-top: 80px;
+  padding-bottom: 40px;
+  overflow: hidden;
+}
+
+/*
+ * Riesiger Wasserzeichen-Name: dunkel auf dunkel, gerade noch erkennbar.
+ * aria-hidden, weil er rein dekorativ ist - der Name steht ohnehin im Text.
+ */
+.watermark {
+  font-size: 10.2vw;
+  font-weight: 700;
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-tighter);
+  color: var(--ink-3);
+  white-space: nowrap;
+  user-select: none;
+  margin-bottom: 48px;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 32px;
+  padding-bottom: 40px;
+}
+
+.tagline {
+  font-size: var(--text-lg);
+  color: var(--ink-10);
+  max-width: var(--measure-sm);
+}
+
+.email {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: var(--text-lg);
+  color: var(--ink-12);
+  border-bottom: 1px solid var(--ink-5);
+  padding-bottom: 2px;
+  transition: border-color var(--duration-base) var(--ease-in-out);
+}
+
+.email:hover {
+  border-color: var(--ink-11);
+}
+
+.social {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.socialLink {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--ink-4);
+  color: var(--ink-10);
+  transition:
+    color var(--duration-base) var(--ease-in-out),
+    border-color var(--duration-base) var(--ease-in-out),
+    transform var(--duration-base) var(--ease-out-expo);
+}
+
+.socialLink:hover {
+  color: var(--ink-12);
+  border-color: var(--ink-7);
+  transform: translateY(-2px);
+}
+
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 28px;
+  border-top: 1px solid var(--ink-3);
+  font-size: var(--text-2xs);
+  color: var(--ink-9);
+}
+
+.legal {
+  display: flex;
+  gap: 20px;
+}
+
+.legal a:hover {
+  color: var(--ink-12);
+}
+
+@media (max-width: 768px) {
+  .watermark {
+    font-size: 19.3vw;
+    white-space: normal;
+  }
+
+  .footer {
+    /* Platz fuer die untenliegende mobile Navigationsleiste. */
+    padding-bottom: calc(110px + env(safe-area-inset-bottom));
+  }
+}

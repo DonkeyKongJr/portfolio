@@ -1,0 +1,8 @@
+.canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  /* Nicht am Compositing teilnehmen lassen, was nicht muss. */
+  contain: strict;
+}

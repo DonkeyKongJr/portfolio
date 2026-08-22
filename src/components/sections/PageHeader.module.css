@@ -1,0 +1,28 @@
+.header {
+  padding-top: 160px;
+  padding-bottom: 48px;
+}
+
+.title {
+  font-size: var(--text-5xl);
+  font-weight: 500;
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-tighter);
+  color: var(--ink-12);
+  max-width: 18ch;
+  margin-top: 16px;
+}
+
+.lead {
+  margin-top: 24px;
+  font-size: var(--text-xl);
+  line-height: var(--leading-relaxed);
+  color: var(--ink-9);
+  max-width: var(--measure-lg);
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding-top: 96px;
+  }
+}

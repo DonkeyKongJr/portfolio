@@ -1,0 +1,10 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.footer {
+  margin-top: 48px;
+  display: flex;
+}

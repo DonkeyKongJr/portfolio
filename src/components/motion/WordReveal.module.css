@@ -1,0 +1,54 @@
+/*
+ * Wortweiser Masken-Reveal.
+ *
+ * Bewusst CSS statt Motion: Motion wuerde den versteckten Zustand als inline
+ * transform bereits ins statische HTML schreiben. Ohne JavaScript waere die
+ * Ueberschrift dann unsichtbar - genau das, was wir vermeiden wollen.
+ * Ohne das html[data-js] steht der Text schlicht da, wo er hingehoert.
+ */
+
+.clip {
+  display: inline-block;
+  overflow: hidden;
+  /* Standard-Trick gegen abgeschnittene Unterlaengen bei g, p, y. */
+  margin-bottom: -0.14em;
+  padding-bottom: 0.14em;
+}
+
+/* Nach dem Reveal wieder freigeben, sonst schneidet der Clip spaeter Hover ab. */
+.clip[data-settled='true'] {
+  overflow: visible;
+}
+
+.inner {
+  display: inline-block;
+  will-change: transform;
+}
+
+.space {
+  display: inline-block;
+  white-space: pre;
+}
+
+:global(html[data-js]) .root[data-state='hidden'] .inner {
+  transform: translateY(115%);
+}
+
+:global(html[data-js]) .root[data-state='visible'] .inner {
+  transform: none;
+  transition: transform 0.75s var(--ease-out-expo);
+  transition-delay: calc(var(--delay-base) + var(--index) * var(--stagger));
+}
+
+:global(html[data-js]) .root[data-state='exit'] .inner {
+  transform: translateY(-145%);
+  transition: transform 0.5s cubic-bezier(0.55, 0, 1, 0.45);
+  transition-delay: calc(var(--index) * 0.02s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(html[data-js]) .root .inner {
+    transform: none !important;
+    transition: none !important;
+  }
+}

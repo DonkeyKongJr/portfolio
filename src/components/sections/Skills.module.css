@@ -1,0 +1,139 @@
+.groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  gap: 40px;
+}
+
+.groupTitle {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--ink-8);
+  margin-bottom: 18px;
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill {
+  padding: 8px 14px;
+  border-radius: 9999px;
+  border: 1px solid var(--ink-4);
+  font-size: var(--text-sm);
+  color: var(--ink-11);
+  /* Gestaffelte Einblendung; Index kommt als Custom Property. */
+  opacity: 0;
+  animation: pillIn 280ms var(--ease-out-expo) forwards;
+  animation-delay: calc(var(--pill-index) * 40ms);
+}
+
+@keyframes pillIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (min-width: 769px) {
+  .pill {
+    animation-delay: calc(var(--pill-index) * 70ms);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pill {
+    opacity: 1;
+    animation: none;
+  }
+}
+
+.oss {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: 16px;
+}
+
+.repo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 24px;
+  border-radius: 14px;
+  border: 1px solid var(--ink-3);
+  background: var(--ink-2);
+  transition:
+    border-color var(--duration-base) var(--ease-in-out),
+    transform var(--duration-base) var(--ease-out-expo);
+}
+
+.repo:hover {
+  border-color: var(--ink-6);
+  transform: translateY(-2px);
+}
+
+.repoName {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: var(--ink-12);
+  word-break: break-word;
+}
+
+.repoDescription {
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+  color: var(--ink-9);
+}
+
+.repoLanguage {
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--ink-8);
+}
+
+.education {
+  display: flex;
+  flex-direction: column;
+}
+
+.eduItem {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  gap: 40px;
+  padding-block: 24px;
+  border-top: 1px solid var(--ink-3);
+}
+
+.eduPeriod {
+  font-size: var(--text-sm);
+  color: var(--ink-9);
+}
+
+.eduQualification {
+  font-size: var(--text-lg);
+  color: var(--ink-12);
+}
+
+.eduInstitution {
+  font-size: var(--text-sm);
+  color: var(--ink-9);
+  margin-top: 4px;
+}
+
+@media (max-width: 768px) {
+  .eduItem {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}

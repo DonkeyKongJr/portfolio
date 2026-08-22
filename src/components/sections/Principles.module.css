@@ -1,0 +1,177 @@
+.stack {
+  position: relative;
+  padding-top: var(--space-section);
+}
+
+.header {
+  position: sticky;
+  top: calc(32vh - 170px);
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 24px;
+  pointer-events: none;
+}
+
+.headerTitle {
+  font-size: var(--text-4xl);
+  font-weight: 500;
+  letter-spacing: var(--tracking-tighter);
+  color: var(--ink-12);
+}
+
+/* Zaehler: statische Null plus eine wechselnde Ziffer. */
+.counter {
+  display: flex;
+  align-items: baseline;
+  font-size: var(--text-2xl);
+  font-weight: 500;
+  color: var(--ink-9);
+}
+
+.counterDigits {
+  position: relative;
+  display: inline-flex;
+  height: 1.1em;
+  overflow: hidden;
+  align-items: center;
+}
+
+.counterTotal {
+  color: var(--ink-6);
+}
+
+.cards {
+  position: relative;
+}
+
+.card {
+  position: sticky;
+  top: calc(32vh - 25px);
+  height: 50vh;
+  transform-origin: top;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 20px;
+  padding: 36px 40px;
+  border-radius: 16px;
+  border: 1px solid var(--ink-3);
+  background: var(--ink-2);
+  box-shadow: var(--shadow-card);
+  will-change: transform, mask-image;
+}
+
+.index {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--tracking-widest);
+  color: var(--accent, var(--accent-ink-blue));
+}
+
+.title {
+  font-size: var(--text-4xl);
+  font-weight: 400;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tighter);
+  color: var(--ink-12);
+  max-width: 22ch;
+}
+
+.body {
+  font-size: var(--text-xl);
+  line-height: var(--leading-relaxed);
+  color: var(--ink-9);
+  max-width: var(--measure-lg);
+}
+
+.word {
+  display: inline-block;
+  white-space: pre;
+  will-change: transform, opacity;
+}
+
+.spacer {
+  height: 129px;
+}
+
+@media (max-width: 768px) {
+  .card {
+    height: auto;
+    min-height: 62svh;
+    padding: 24px;
+    top: 96px;
+  }
+
+  .header {
+    top: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .body {
+    font-size: var(--text-base);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    position: relative;
+    top: auto;
+    height: auto;
+    margin-bottom: 24px;
+    mask-image: none !important;
+    transform: none !important;
+  }
+
+  .word {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .header {
+    position: relative;
+    top: auto;
+  }
+}
+
+/* Odometer-Ziffer: schiebt richtungsabhaengig herein. */
+.digit {
+  display: inline-block;
+  animation: digitIn 0.15s var(--ease-out-expo) both;
+}
+
+.digit[data-direction='-1'] {
+  animation-name: digitInReverse;
+}
+
+@keyframes digitIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes digitInReverse {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .digit {
+    animation: none;
+  }
+}

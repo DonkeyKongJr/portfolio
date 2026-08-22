@@ -1,0 +1,219 @@
+.nav {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(var(--nav-w), 100% - 40px);
+  min-width: 600px;
+  height: 60px;
+  z-index: var(--z-nav);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-inline: 22px;
+  border-radius: 9999px;
+  background: transparent;
+  border: 1px solid transparent;
+  transition:
+    width var(--duration-slow) var(--ease-out-expo),
+    background var(--duration-medium) var(--ease-in-out),
+    border-color var(--duration-medium) var(--ease-in-out),
+    box-shadow var(--duration-medium) var(--ease-in-out);
+}
+
+.nav[data-scrolled='true'] {
+  --nav-w: 790px;
+  background: var(--nav-scrolled-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-color: var(--ink-3);
+  box-shadow: var(--nav-shadow);
+}
+
+/* --- Logo mit Buchstaben-Kollaps ---------------------------------------- */
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: var(--tracking-snug);
+  color: var(--ink-12);
+  flex: none;
+}
+
+.logoName {
+  display: flex;
+}
+
+.char {
+  display: inline-block;
+  white-space: pre;
+}
+
+/*
+ * steps(1, end) statt einer weichen Kurve: das erzeugt den typografischen
+ * Schnapp. Weich interpoliert sieht es aus, als wuerde der Name gequetscht.
+ */
+.drop {
+  max-width: 18px;
+  overflow: hidden;
+  transition:
+    max-width 60ms steps(1, end) 0.15s,
+    opacity 50ms ease 0.15s;
+}
+
+.nav[data-scrolled='true'] .drop {
+  opacity: 0;
+  max-width: 0;
+}
+
+.pageLabel {
+  display: inline-block;
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  color: var(--ink-9);
+  transition: max-width var(--duration-base) var(--ease-out-expo) 0.25s;
+}
+
+.nav[data-scrolled='true'] .pageLabel {
+  max-width: 120px;
+}
+
+.pageLabel::before {
+  content: ' / ';
+}
+
+/* --- Links --------------------------------------------------------------- */
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 0 1 auto;
+}
+
+.link {
+  padding: 8px 12px;
+  border-radius: 9999px;
+  font-size: var(--text-sm);
+  color: var(--ink-10);
+  /* Zweiwortige Eintraege wie "Über mich" duerfen nicht umbrechen. */
+  white-space: nowrap;
+  transition:
+    color var(--duration-base) var(--ease-in-out),
+    background var(--duration-base) var(--ease-in-out);
+}
+
+.link:hover {
+  color: var(--ink-12);
+  background: var(--hover-tint);
+}
+
+.link[aria-current='page'] {
+  color: var(--ink-12);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
+
+.localeSwitch {
+  padding: 8px 12px;
+  border-radius: 9999px;
+  border: 1px solid var(--ink-4);
+  background: transparent;
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--ink-10);
+  cursor: pointer;
+  transition:
+    color var(--duration-base) var(--ease-in-out),
+    border-color var(--duration-base) var(--ease-in-out);
+}
+
+.localeSwitch:hover {
+  color: var(--ink-12);
+  border-color: var(--ink-7);
+}
+
+/* --- Mobile: Leiste wandert nach unten ----------------------------------- */
+
+@media (max-width: 860px) {
+  .nav {
+    top: auto;
+    bottom: calc(20px + env(safe-area-inset-bottom));
+    width: min(400px, 100% - 40px);
+    min-width: 0;
+    height: auto;
+    padding: 10px 14px;
+    border-radius: 28px;
+    flex-direction: column-reverse;
+    gap: 8px;
+    background: var(--nav-scrolled-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-color: var(--ink-3);
+  }
+
+  .nav[data-scrolled='true'] {
+    --nav-w: auto;
+  }
+
+  .logo {
+    font-size: var(--text-2xs);
+    color: var(--ink-9);
+  }
+
+  /* Auf Mobile ist kein Platz fuer den Kollaps - der Name bleibt kurz. */
+  .drop {
+    display: none;
+  }
+
+  .pageLabel {
+    max-width: 160px;
+  }
+
+  .links {
+    width: 100%;
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  .link {
+    padding: 8px 6px;
+    font-size: var(--text-2xs);
+  }
+
+  /*
+   * Auf Mobile liegt die Leiste unten und ist zweizeilig: oben die Links,
+   * unten Logo und Bedienelemente nebeneinander. Die Aktionen liegen
+   * absolut, weil Logo und Links Geschwister im selben Flexcontainer sind -
+   * ohne zusaetzlichen Wrapper waeren sie sonst nicht auf eine Zeile zu
+   * bekommen.
+   */
+  .actions {
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    gap: 6px;
+  }
+
+  /* Platz freihalten, damit der Name nicht unter die Knoepfe laeuft. */
+  .logo {
+    padding-right: 96px;
+    min-height: 32px;
+    align-items: center;
+  }
+
+  .navCta {
+    display: none;
+  }
+}
