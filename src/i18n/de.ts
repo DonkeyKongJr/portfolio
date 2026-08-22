@@ -23,10 +23,10 @@ export const de = {
     eyebrow: 'Software Engineering · Cloud · mrsd Solutions GmbH',
     headline: 'Ich baue Software, die auch in fünf Jahren noch wartbar ist.',
     subline:
-      'Seit über 15 Jahren entwickle ich Anwendungen mit .NET und Microsoft Azure — heute mit meinem eigenen Unternehmen, der mrsd Solutions GmbH.',
+      'Seit über {years} Jahren entwickle ich Anwendungen mit .NET und Microsoft Azure — heute mit meinem eigenen Unternehmen, der mrsd Solutions GmbH.',
     scrollHint: 'Scrollen',
     proof: [
-      '15+ Jahre Software Engineering',
+      '{years}+ Jahre Software Engineering',
       'Microsoft Certified: Azure Developer Associate',
       '.NET · Azure · TypeScript',
       'Vom Automatisierungs-Steuergerät bis zur Cloud-SaaS',

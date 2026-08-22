@@ -54,6 +54,20 @@ export const company = {
   website: 'https://www.mrsd.at',
 } as const;
 
+/** Erste Anstellung als Software Engineer (Autotronic GmbH). */
+export const CAREER_START_YEAR = 2009;
+
+/**
+ * Berufsjahre, gerechnet aus dem Startjahr.
+ *
+ * Wird beim Build ausgewertet, nicht im Browser: ein Wert, der sich zwischen
+ * Server- und Client-Rendering unterscheidet, wuerde die Hydration brechen.
+ * Praktisch heisst das, die Zahl springt beim ersten Deploy im neuen Jahr um.
+ */
+export function yearsOfExperience(now: Date = new Date()): number {
+  return now.getFullYear() - CAREER_START_YEAR;
+}
+
 export const locales = ['de', 'en'] as const;
 export type Locale = (typeof locales)[number];
 export const defaultLocale: Locale = 'en';
