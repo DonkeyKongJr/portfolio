@@ -25,10 +25,10 @@ export const en: Dictionary = {
     eyebrow: 'Software Engineering · Cloud · mrsd Solutions GmbH',
     headline: 'I build software that is still maintainable in five years.',
     subline:
-      'For over 15 years I have been building applications with .NET and Microsoft Azure — today through my own company, mrsd Solutions GmbH.',
+      'For over {years} years I have been building applications with .NET and Microsoft Azure — today through my own company, mrsd Solutions GmbH.',
     scrollHint: 'Scroll',
     proof: [
-      '15+ years of software engineering',
+      '{years}+ years of software engineering',
       'Microsoft Certified: Azure Developer Associate',
       '.NET · Azure · TypeScript',
       'From factory-floor controllers to cloud SaaS',
