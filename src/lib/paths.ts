@@ -23,3 +23,28 @@ export function swapLocale(pathname: string, target: Locale): string {
 
   return `/${segments.join('/')}/`;
 }
+
+/**
+ * Zieladresse des Sprachumschalters.
+ *
+ * Nicht jede Seite gibt es in beiden Sprachen: Blogartikel koennen nur in
+ * einer vorliegen. Ein blosses Austauschen des Sprachsegments fuehrt dann auf
+ * eine 404 - der Umschalter waere auf genau den Seiten eine Sackgasse, auf
+ * denen man ihn am ehesten braucht. Fehlt die Uebersetzung, landet man
+ * stattdessen auf der Artikeluebersicht der Zielsprache.
+ */
+export function alternatePath(
+  pathname: string,
+  target: Locale,
+  blogSlugs: Record<Locale, readonly string[]>,
+): string {
+  const swapped = swapLocale(pathname, target);
+  const segments = swapped.split('/').filter(Boolean);
+
+  const isBlogPost = segments[1] === 'blog' && segments.length >= 3;
+  if (isBlogPost && !blogSlugs[target].includes(segments[2]!)) {
+    return localePath(target, 'blog');
+  }
+
+  return swapped;
+}

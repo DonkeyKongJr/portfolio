@@ -12,6 +12,7 @@ import { SmoothScrollProvider } from '@/components/motion/SmoothScrollProvider';
 import { siteConfig } from '@/config/site';
 import { getDictionary, isLocale, localeParams } from '@/i18n';
 import { THEME_KEY } from '@/lib/theme';
+import { getPosts } from '@/lib/blog';
 import { jsonLdGraph, organizationJsonLd, personJsonLd } from '@/lib/jsonLd';
 import { buildMetadata } from '@/lib/metadata';
 
@@ -95,6 +96,11 @@ export default async function LocaleLayout({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const t = getDictionary(locale);
+  // Der Sprachumschalter braucht die Artikelbestaende beider Sprachen.
+  const blogSlugs = {
+    de: getPosts('de').map((post) => post.slug),
+    en: getPosts('en').map((post) => post.slug),
+  };
 
   return (
     /*
@@ -135,6 +141,7 @@ export default async function LocaleLayout({
               toLight: t.meta.toLight,
               toDark: t.meta.toDark,
             }}
+            blogSlugs={blogSlugs}
           />
           <main id="main">{children}</main>
           <Footer locale={locale} t={t} />

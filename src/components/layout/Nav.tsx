@@ -6,7 +6,7 @@ import { useEffect, useState, type CSSProperties } from 'react';
 import { Button } from '@/components/ui/Button';
 import { ThemeToggle } from './ThemeToggle';
 import { siteConfig, type Locale } from '@/config/site';
-import { localePath, swapLocale } from '@/lib/paths';
+import { alternatePath, localePath } from '@/lib/paths';
 import styles from './Nav.module.css';
 
 const SCROLL_TRIGGER = 40;
@@ -26,7 +26,16 @@ export interface NavLabels {
   toDark: string;
 }
 
-export function Nav({ locale, labels }: { locale: Locale; labels: NavLabels }) {
+export function Nav({
+  locale,
+  labels,
+  blogSlugs,
+}: {
+  locale: Locale;
+  labels: NavLabels;
+  /** Welche Artikel es je Sprache gibt - siehe alternatePath(). */
+  blogSlugs: Record<Locale, string[]>;
+}) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
 
@@ -112,7 +121,7 @@ export function Nav({ locale, labels }: { locale: Locale; labels: NavLabels }) {
           anlegen, und <html lang> muesste nachtraeglich gepatcht werden.
         */}
         <a
-          href={swapLocale(pathname, other)}
+          href={alternatePath(pathname, other, blogSlugs)}
           className={styles.localeSwitch}
           hrefLang={other}
           lang={other}

@@ -121,3 +121,7 @@ next-env.d.ts
 /public/og/
 /public/apple-touch-icon.png
 /public/apple-touch-icon-precomposed.png
+
+# iCloud legt bei Sync-Konflikten Kopien wie "layout 2.tsx" an.
+# Dreissig davon waren bereits committet - sie brechen den Typecheck.
+* 2.*
