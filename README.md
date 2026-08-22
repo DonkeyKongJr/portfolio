@@ -33,6 +33,16 @@ npm run dev          # http://localhost:3000
 ```
 
 ```bash
+npm run check:console  # jede Seite in einem Browser OHNE Erweiterungen laden
+                       # und Konsolenfehler melden
+```
+
+Letzteres klaert die haeufigste Verwechslung: React DevTools und andere
+Erweiterungen schreiben ihre eigenen Fehler in dieselbe Konsole, und das
+Next-Overlay zeigt sie an, als kaemen sie aus der Anwendung. Das Skript
+startet ein nacktes Chromium - was dort auftaucht, gehoert wirklich uns.
+
+```bash
 npm run build        # statischer Export nach out/
 npm run serve:out    # den Export lokal ausliefern
 npm run lint

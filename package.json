@@ -15,7 +15,8 @@
     "test:watch": "vitest",
     "serve:out": "npx serve out",
     "deploy": "npm run build && npx --package=firebase-tools firebase deploy --only hosting",
-    "prebuild": "node scripts/generate-og.mjs"
+    "prebuild": "node scripts/generate-og.mjs",
+    "check:console": "node scripts/console-check.mjs"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
@@ -39,6 +40,7 @@
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.3.2",
     "jsdom": "^29.1.1",
+    "playwright": "^1.62.1",
     "prettier": "^3.9.6",
     "typescript": "^5.9.3",
     "vitest": "^4.1.11"
