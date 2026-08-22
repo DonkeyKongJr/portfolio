@@ -94,6 +94,25 @@ draft: false
 `draft: true` erscheint nur im Dev-Server. Artikel, die es nur in einer Sprache
 gibt, werden in der anderen Übersicht markiert verlinkt statt verschwiegen.
 
+## Cache-Header
+
+Die Regel fuer Seiten lautet `**/`, nicht `**/*.html`. Firebase gleicht das
+Muster gegen den **angefragten** Pfad ab, und der endet wegen `trailingSlash`
+auf `/` statt auf `.html` — `**/*.html` trifft damit keine einzige Seite.
+
+Auf einem Vorschau-Kanal nachgemessen:
+
+| Muster | `/` | `/de/` | `/de/work/qr-maker/` | `.js` | `.xml` |
+|---|---|---|---|---|---|
+| `**` | tr | tr | tr | tr | tr |
+| `**/` | tr | tr | tr | – | – |
+| `**/*.html` | – | – | – | – | – |
+
+Ausserdem gilt: **spaetere Regeln ueberschreiben fruehere** fuer denselben
+Header-Schluessel. Die `**`-Regel am Ende setzt deshalb nur Security-Header
+und bewusst kein `Cache-Control`, sonst wuerde sie das `immutable` der
+Assets aushebeln.
+
 ## Deployment
 
 Push auf `master` → GitHub Actions baut und deployt auf Firebase Hosting.
