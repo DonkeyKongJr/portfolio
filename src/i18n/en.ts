@@ -138,6 +138,14 @@ export const en: Dictionary = {
     description: 'Privacy policy for schadler.dev.',
     eyebrow: 'Legal',
     headline: 'Privacy policy',
+    settingsTitle: 'Your choice',
+    statusGranted: 'Analytics is currently allowed.',
+    statusDenied: 'Analytics is currently declined.',
+    statusUnknown: 'You have not decided yet.',
+    allow: 'Allow',
+    deny: 'Decline',
+    settingsNote:
+      'The choice is stored locally in your browser and applies to this device only. When you withdraw it, the page reloads so the already-loaded script is actually gone.',
   },
   footer: {
     tagline: 'Software engineer based in Leibnitz, Austria.',
@@ -145,6 +153,7 @@ export const en: Dictionary = {
     rights: 'All rights reserved.',
     imprint: 'Imprint',
     privacy: 'Privacy',
+    consentSettings: 'Analytics settings',
   },
   notFound: {
     title: 'Page not found',

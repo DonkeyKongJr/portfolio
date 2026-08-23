@@ -144,3 +144,50 @@ test.describe('Navigation', () => {
     expect(response?.status()).toBe(404);
   });
 });
+
+test.describe('Einwilligung', () => {
+  test('laesst sich erteilen und spaeter widerrufen', async ({ page }) => {
+    await page.goto('/de/');
+
+    // Zu Beginn ist nichts entschieden, also fragt das Banner.
+    const banner = page.getByRole('dialog');
+    await expect(banner).toBeVisible();
+    await banner.getByRole('button', { name: 'Einverstanden' }).click();
+    await expect(banner).toBeHidden();
+
+    // Widerruf ueber die Datenschutzseite - ohne diesen Weg waere die
+    // Zustimmung nur ueber das Loeschen der Website-Daten zu aendern.
+    await page.goto('/de/privacy/');
+    const allow = page.getByRole('button', { name: 'Erlauben' });
+    await expect(allow).toHaveAttribute('aria-pressed', 'true');
+
+    await page.getByRole('button', { name: 'Ablehnen' }).click();
+    // Beim Widerruf laedt die Seite neu, damit gtag.js wirklich verschwindet.
+    await expect(page.getByRole('button', { name: 'Ablehnen' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+      { timeout: 10000 },
+    );
+
+    // Die Entscheidung ueberlebt einen Seitenwechsel und das Banner bleibt weg.
+    await page.goto('/de/');
+    await expect(page.getByRole('dialog')).toBeHidden();
+  });
+
+  test('laedt ohne Zustimmung kein Google-Skript', async ({ page }) => {
+    const google: string[] = [];
+    page.on('request', (r) => {
+      if (/googletagmanager|google-analytics/.test(r.url())) google.push(r.url());
+    });
+    await page.goto('/de/');
+    await page.waitForTimeout(2500);
+    expect(google).toEqual([]);
+  });
+
+  test('ist der Widerruf aus dem Seitenfuss erreichbar', async ({ page }) => {
+    await page.goto('/de/');
+    await page.getByRole('link', { name: 'Analytics-Einstellungen' }).click();
+    await expect(page).toHaveURL(/\/de\/privacy\/#consent$/);
+    await expect(page.getByRole('button', { name: 'Erlauben' })).toBeVisible();
+  });
+});

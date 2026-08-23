@@ -1,0 +1,69 @@
+.panel {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 14px;
+  border: 1px solid var(--ink-4);
+  background: var(--ink-2);
+  max-width: var(--measure-lg);
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--text-sm);
+  color: var(--ink-10);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ink-6);
+  flex: none;
+}
+
+.dot[data-state='granted'] {
+  background: var(--accent-ink-green);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.button {
+  padding: 9px 16px;
+  border-radius: 9999px;
+  border: 1px solid var(--ink-5);
+  background: transparent;
+  color: var(--ink-11);
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+  cursor: pointer;
+  transition:
+    color var(--duration-base) var(--ease-in-out),
+    border-color var(--duration-base) var(--ease-in-out);
+}
+
+.button:hover {
+  color: var(--ink-12);
+  border-color: var(--ink-8);
+}
+
+/* Die geltende Wahl ist ausgefuellt, nicht nur umrandet. */
+.button[aria-pressed='true'] {
+  background: var(--ink-12);
+  border-color: var(--ink-12);
+  color: var(--ink-1);
+  cursor: default;
+}
+
+.note {
+  margin-top: 14px;
+  font-size: var(--text-2xs);
+  color: var(--ink-9);
+}

@@ -52,6 +52,10 @@ export function Footer({ locale, t }: { locale: Locale; t: Dictionary }) {
           <nav className={styles.legal} aria-label={t.footer.imprint}>
             <Link href={localePath(locale, 'imprint')}>{t.footer.imprint}</Link>
             <Link href={localePath(locale, 'privacy')}>{t.footer.privacy}</Link>
+            {/* Direkt zur Schaltstelle - ein Widerruf soll nicht gesucht werden muessen. */}
+            <Link href={`${localePath(locale, 'privacy')}#consent`}>
+              {t.footer.consentSettings}
+            </Link>
           </nav>
         </div>
       </Container>

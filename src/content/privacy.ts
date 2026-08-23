@@ -46,12 +46,12 @@ export const privacySections: LegalSection[] = [
     paragraphs: {
       de: [
         'Wir verwenden Google Analytics 4, um zu verstehen, welche Inhalte gelesen werden. Das Skript wird erst geladen, nachdem du im Hinweisbanner ausdrücklich zugestimmt hast. Ohne Zustimmung wird kein Analyse-Skript geladen und es werden keine Cookies zu diesem Zweck gesetzt.',
-        'Rechtsgrundlage ist deine Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO. Du kannst sie jederzeit widerrufen, indem du die Website-Daten in deinem Browser löschst; danach erscheint das Banner erneut.',
+        'Rechtsgrundlage ist deine Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO. Du kannst sie jederzeit und mit einem Klick widerrufen — unter „Deine Entscheidung“ weiter unten auf dieser Seite, erreichbar auch über „Analytics-Einstellungen“ im Seitenfuß.',
         'Anbieter ist Google Ireland Limited. Eine Übermittlung in die USA kann nicht ausgeschlossen werden; Google stützt sich dafür auf das EU-US Data Privacy Framework.',
       ],
       en: [
         'We use Google Analytics 4 to understand which content gets read. The script is only loaded after you have explicitly consented in the notice banner. Without consent, no analytics script is loaded and no cookies are set for this purpose.',
-        'The legal basis is your consent under Art. 6(1)(a) GDPR. You can withdraw it at any time by clearing this site’s data in your browser; the banner will then appear again.',
+        'The legal basis is your consent under Art. 6(1)(a) GDPR. You can withdraw it at any time with a single click — under “Your choice” further down this page, also reachable via “Analytics settings” in the footer.',
         'The provider is Google Ireland Limited. Transfer to the USA cannot be ruled out; Google relies on the EU-US Data Privacy Framework for this.',
       ],
     },

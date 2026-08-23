@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { ConsentSettings } from '@/components/layout/ConsentSettings';
 import { PageHeader } from '@/components/sections/PageHeader';
 import { Container } from '@/components/ui/Container';
 import { privacySections } from '@/content/privacy';
@@ -31,11 +32,27 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
       <Container>
         <div className={styles.prose}>
           {privacySections.map((section) => (
-            <section key={section.id}>
+            <section key={section.id} id={section.id}>
               <h2>{section.heading[locale]}</h2>
               {section.paragraphs[locale].map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
+              {/* Die Schaltstelle gehoert direkt an den Analytics-Abschnitt. */}
+              {section.id === 'analytics' ? (
+                <>
+                  <h2 id="consent">{t.privacy.settingsTitle}</h2>
+                  <ConsentSettings
+                    labels={{
+                      statusGranted: t.privacy.statusGranted,
+                      statusDenied: t.privacy.statusDenied,
+                      statusUnknown: t.privacy.statusUnknown,
+                      allow: t.privacy.allow,
+                      deny: t.privacy.deny,
+                      note: t.privacy.settingsNote,
+                    }}
+                  />
+                </>
+              ) : null}
             </section>
           ))}
         </div>

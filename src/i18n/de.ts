@@ -137,6 +137,14 @@ export const de = {
     description: 'Datenschutzerklärung für schadler.dev.',
     eyebrow: 'Rechtliches',
     headline: 'Datenschutzerklärung',
+    settingsTitle: 'Deine Entscheidung',
+    statusGranted: 'Analytics ist derzeit erlaubt.',
+    statusDenied: 'Analytics ist derzeit abgelehnt.',
+    statusUnknown: 'Du hast noch nicht entschieden.',
+    allow: 'Erlauben',
+    deny: 'Ablehnen',
+    settingsNote:
+      'Die Entscheidung wird nur lokal in deinem Browser gespeichert und gilt für dieses Gerät. Beim Widerruf lädt die Seite neu, damit das bereits geladene Skript wirklich verschwindet.',
   },
   footer: {
     tagline: 'Software Engineer aus Leibnitz, Österreich.',
@@ -144,6 +152,7 @@ export const de = {
     rights: 'Alle Rechte vorbehalten.',
     imprint: 'Impressum',
     privacy: 'Datenschutz',
+    consentSettings: 'Analytics-Einstellungen',
   },
   notFound: {
     title: 'Seite nicht gefunden',

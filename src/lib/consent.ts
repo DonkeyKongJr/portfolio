@@ -46,6 +46,21 @@ export function getServerConsent(): Consent {
   return 'ssr';
 }
 
+/**
+ * Nimmt die Entscheidung zurueck. Danach erscheint das Banner wieder.
+ * Ohne diesen Weg waere die Einwilligung praktisch unwiderruflich - der
+ * Widerruf muss aber so einfach sein wie die Zustimmung (Art. 7 Abs. 3 DSGVO).
+ */
+export function resetConsent() {
+  try {
+    localStorage.removeItem(KEY);
+  } catch {
+    // Ohne Storage gilt der Widerruf nur fuer diesen Seitenaufruf.
+  }
+  snapshot = 'unknown';
+  for (const listener of listeners) listener();
+}
+
 export function setConsent(value: 'granted' | 'denied') {
   try {
     localStorage.setItem(KEY, value);
