@@ -135,6 +135,18 @@ Header-Schluessel. Die `**`-Regel am Ende setzt deshalb nur Security-Header
 und bewusst kein `Cache-Control`, sonst wuerde sie das `immutable` der
 Assets aushebeln.
 
+### Analytics unter der CSP
+
+`npm run check:csp -- <url>` laedt die Seite, erteilt die Einwilligung und
+prueft, ob Analytics tatsaechlich eine 2xx-Antwort bekommt. Muss gegen eine
+echte Firebase-Auslieferung laufen — ein lokaler Export traegt die Header nicht.
+
+Der Anlass: ein zu enger `connect-src` macht nichts kaputt, was man sieht. Die
+Seite laeuft weiter, es wird nur still nichts gemessen. Genau das war der Fall,
+weil `https://www.google-analytics.com` die regionalen Endpunkte
+(`region1.google-analytics.com` und Geschwister) nicht abdeckt. Daher stehen
+dort jetzt Wildcards ueber die Subdomains.
+
 ## Deployment
 
 Push auf `master` → GitHub Actions baut und deployt auf Firebase Hosting.
