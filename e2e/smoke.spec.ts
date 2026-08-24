@@ -191,3 +191,46 @@ test.describe('Einwilligung', () => {
     await expect(page.getByRole('button', { name: 'Erlauben' })).toBeVisible();
   });
 });
+
+test.describe('Layout-Stabilitaet', () => {
+  test('die Ueberschrift aendert ihre Hoehe nach dem Laden nicht mehr', async ({ page }) => {
+    /*
+     * Fuer einen Layout-Sprung braucht es keinen Schriftwechsel: ein Clip,
+     * der spaet von overflow:hidden auf visible schaltet, verschiebt die
+     * Grundlinie des Inline-Blocks. Die Zeilenbox wird niedriger, alles
+     * darunter rutscht hoch - hier waren es 15px, Sekunden nach dem Laden.
+     */
+    await page.goto('/de/');
+    const h1 = page.locator('h1');
+    await expect(h1).toBeVisible();
+
+    const heights: number[] = [];
+    for (let i = 0; i < 12; i += 1) {
+      heights.push(Math.round((await h1.boundingBox())!.height));
+      await page.waitForTimeout(600);
+    }
+
+    expect(new Set(heights).size, `Hoehen im Verlauf: ${heights.join(', ')}`).toBe(1);
+  });
+
+  test('erzeugt keinen nennenswerten kumulativen Layout-Sprung', async ({ page }) => {
+    await page.goto('/de/');
+    const cls = await page.evaluate(
+      () =>
+        new Promise<number>((resolve) => {
+          let sum = 0;
+          new PerformanceObserver((list) => {
+            for (const entry of list.getEntries() as unknown as {
+              value: number;
+              hadRecentInput: boolean;
+            }[]) {
+              if (!entry.hadRecentInput) sum += entry.value;
+            }
+          }).observe({ type: 'layout-shift', buffered: true });
+          setTimeout(() => resolve(sum), 7000);
+        }),
+    );
+    // Googles Schwelle fuer "gut" liegt bei 0.1.
+    expect(cls).toBeLessThan(0.1);
+  });
+});

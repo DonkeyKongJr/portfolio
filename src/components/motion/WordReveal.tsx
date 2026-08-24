@@ -32,7 +32,6 @@ export function WordReveal({
   className,
 }: WordRevealProps) {
   const [scrolledPast, setScrolledPast] = useState(false);
-  const [settled, setSettled] = useState(false);
 
   useEffect(() => {
     if (!exitOnScroll) return;
@@ -45,15 +44,6 @@ export function WordReveal({
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, [exitOnScroll]);
-
-  // Erst nach Abschluss der Einblendung den Clip freigeben.
-  useEffect(() => {
-    if (!active) return;
-    const words = text.trim().split(/\s+/).length;
-    const total = (delay + words * stagger + 0.75) * 1000;
-    const timer = window.setTimeout(() => setSettled(true), total);
-    return () => window.clearTimeout(timer);
-  }, [active, text, delay, stagger]);
 
   const state: RevealState = !active ? 'hidden' : scrolledPast ? 'exit' : 'visible';
   const words = text.split(' ');
@@ -71,7 +61,7 @@ export function WordReveal({
     >
       {words.map((word, index) => (
         <span key={`${word}-${index}`}>
-          <span className={styles.clip} data-settled={settled && state === 'visible'}>
+          <span className={styles.clip}>
             <span className={styles.inner} style={{ '--index': index } as CSSProperties}>
               {word}
             </span>

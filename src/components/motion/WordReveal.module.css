@@ -9,15 +9,19 @@
 
 .clip {
   display: inline-block;
+  /*
+   * Bleibt dauerhaft hidden. Ein spaeteres Umschalten auf visible verschiebt
+   * die Grundlinie des Inline-Blocks - die Zeilenbox wird dadurch niedriger
+   * und alles darunter rutscht hoch. Das sah aus wie ein Schriftwechsel,
+   * war aber ein Layout-Sprung von 15px, Sekunden nach dem Laden.
+   *
+   * Noetig ist der Clip ohnehin: der Scroll-Austritt faehrt die Woerter
+   * wieder in die Maske zurueck.
+   */
   overflow: hidden;
   /* Standard-Trick gegen abgeschnittene Unterlaengen bei g, p, y. */
   margin-bottom: -0.14em;
   padding-bottom: 0.14em;
-}
-
-/* Nach dem Reveal wieder freigeben, sonst schneidet der Clip spaeter Hover ab. */
-.clip[data-settled='true'] {
-  overflow: visible;
 }
 
 .inner {
