@@ -17,6 +17,7 @@
     "deploy": "npm run build && npx --package=firebase-tools firebase deploy --only hosting",
     "prebuild": "node scripts/generate-og.mjs",
     "check:console": "node scripts/console-check.mjs",
+    "diagrams": "node scripts/export-diagrams.mjs",
     "test:e2e": "playwright test",
     "check:csp": "node scripts/csp-check.mjs"
   },

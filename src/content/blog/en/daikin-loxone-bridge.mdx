@@ -1,0 +1,418 @@
+---
+title: 'Integrating Daikin air conditioners into Loxone without touching the hardware'
+description: 'Bringing four split units into home automation without opening them and without losing the app or the remote. Why a limit of 200 cloud calls per day ended up dictating the entire architecture.'
+date: '2026-08-25'
+tags: ['Loxone', 'Daikin', 'Node.js', 'Home Automation', 'API Design']
+draft: false
+machineTranslated: true
+---
+
+Four Daikin indoor units hang on my walls: one FTXA35C2V1BB from the Stylish range and
+three FTXM20A5V1B Perfera. All four have Wi-Fi from the factory. And as far as home
+automation was concerned, all four were an island, operable only through the Onecta app or
+the IR remote.
+
+The Loxone installation next to them controls lighting, heating and shading. It knew
+nothing about the air conditioners. That meant none of the things you actually build such a
+system for: stop cooling when a window is open. Pre-cool before someone gets home. Set back
+while nobody is there. Run the AC together with the shading instead of against it.
+
+What came out of it is a small bridge that has been running for five days now. The
+interesting part is not the code, but a single number that dictated every design decision.
+
+## Why is local control off the table?
+
+Before I wrote a line, three constraints were fixed:
+
+- The indoor units do **not get opened**. Warranty.
+- The **IR remotes stay usable**. Not everyone in the house operates the AC through a UI.
+- The **Onecta app stays usable**. Same argument.
+
+That sounds harmless. It rules out nearly every established solution, one after another.
+
+The reason lies in the device itself. The Wi-Fi module sits internally on the **S21 port**
+of the control board. For this generation, Daikin removed the formerly open local HTTP API,
+so there is no `/aircon/get_control_info` on port 80 any more. Anyone who wants local
+control has to attach hardware to the S21, and that port is already taken.
+
+I evaluated four options:
+
+| Option | Why not |
+|---|---|
+| **Loxone AC Control** (part 100556) | Technically the cleanest integration: native block, no cloud, no latency. On Stylish and Perfera it additionally needs the EKRS21 adapter and should be fitted by a qualified electrician. The Loxone documentation is unambiguous that the original remotes, IR included, can no longer be used afterwards. It also displaces the Wi-Fi module, so the app is gone. Fails all three constraints at once. |
+| **ESP32 Faikin** on the S21 | Open-source replacement for the Wi-Fi module, speaks S21 directly, local, low latency, no limit, roughly €40 per unit. The IR remote even stays usable. But it replaces the Wi-Fi module, so the app is gone, and it requires opening the unit as well. For my exact Stylish model there is also an unresolved issue on record: the module gets no supply voltage from the S21, while it runs fine on external power. Cause unknown. |
+| **IR blaster** | No intervention, cheap, quick to set up. But **no state feedback**: the controller never knows what the unit is actually doing, and every use of the remote desynchronises the assumption. Useless as the basis for control. |
+| **Onecta Cloud API** with a bridge of my own | Official API through the Daikin Developer Portal, OAuth2, the same devices the app sees. No intervention, IR and app both fully preserved. Hardware cost zero, because the NAS runs anyway. |
+
+I chose the fourth option, not because it is the technically best one, but because it is the
+only one that satisfies all three constraints. It is also the only reversible one: undoing
+it is a `docker stop`.
+
+The price is in the next section.
+
+## What does a limit of 200 calls per day mean?
+
+The private developer tier of the Onecta API allows **200 calls per day and account**, as a
+sliding window, plus 20 per minute. That is not a guideline but a hard limit on everything
+together: reads and writes, all four devices, every automation.
+
+For comparison: a naive poll every 30 seconds would come to 11,520 calls a day for four
+devices. The budget is short by a factor of 57.
+
+What makes the arithmetic work at all is a detail of the API: a single
+`GET /v1/gateway-devices` returns **all four devices at once**. One poll costs one call,
+not four.
+
+<Diagram
+  name="quota-budget"
+  caption="The daily budget the way I divided it up. The reserve is not a cautious buffer, it is the reason switching still works once the read quota is exhausted."
+/>
+
+The whole design follows from this, and follows necessarily:
+
+1. **The Miniserver does not poll the bridge.** Every request would otherwise trigger a
+   cloud call. Instead, the bridge keeps state of its own.
+2. **For Loxone, the cache is the single source of truth.** A Loxone command never triggers
+   a read call to the cloud.
+3. **Writes take precedence over reads.** A stale reading is annoying, a dropped switching
+   command is a bug.
+
+## How is the bridge built?
+
+<Diagram
+  name="architektur"
+  caption="The bridge translates in both directions and in doing so fully decouples the Loxone interval from the cloud interval."
+/>
+
+The bridge is a Node service in a Docker container on the Synology NAS. Outward it speaks
+OAuth2 to the Onecta cloud, inward it offers a trivial HTTP interface the Miniserver can
+drive with built-in means: virtual outputs in, HTTP push into virtual inputs out.
+
+The configuration is deliberately small. Every value in it is an adjustment screw on the
+budget:
+
+```yaml
+polling:
+  day_interval_minutes: 15    # every 15 minutes during the day
+  night_interval_minutes: 60  # more frugal at night
+  day_start: '06:00'
+  night_start: '23:00'
+
+control:
+  debounce_seconds: 3         # bundles slider movement into a single call
+  switch_debounce_seconds: 0.4
+
+quota:
+  daily_limit: 200            # hard limit of the Onecta API
+  write_reserve: 30           # stays reserved for write commands
+```
+
+## How does the quota manager divide the budget?
+
+The quota manager tracks both windows, day and minute, and is the only place where a call
+is decided on. The trick is in the asymmetry between reading and writing:
+
+```js
+// Reads must not eat into the write reserve.
+canRead() {
+  return remainingDay() > writeReserve && usedMinute() < minuteLimit - 2;
+},
+
+canWrite() {
+  return remainingDay() > 0 && usedMinute() < minuteLimit;
+},
+```
+
+Once fewer than 30 calls remain, the bridge stops polling. Switching still works. The state
+then ages, and the bridge says so: every room carries a `stale` flag as soon as the last
+poll is older than two intervals.
+
+Its own counting can drift, for instance when a call is lost in transit. So the server has
+the final say:
+
+```js
+applyHeaders(headers) {
+  const day = Number(headers.get('x-ratelimit-remaining-day'));
+  if (Number.isFinite(day)) serverRemainingDay = day;
+  const minute = Number(headers.get('x-ratelimit-limit-minute'));
+  if (Number.isFinite(minute) && minute > 0) minuteLimit = minute;
+},
+```
+
+There is no way around the quota manager: the gate sits in the one function every call has
+to pass through.
+
+```js
+async function request(path, options = {}, kind = 'read') {
+  if (kind === 'read' && !quota.canRead()) {
+    throw new QuotaGuardError('Read quota exhausted, write reserve stays protected');
+  }
+  if (kind === 'write' && !quota.canWrite()) {
+    // If only the minute window is full, wait instead of dropping. A lost
+    // switching command would be worse than one executed late.
+    if (quota.snapshot().day_remaining > 0) {
+      const wait = Math.min(quota.msUntilFreeSlot(), 65_000);
+      logger.warn('Minute limit reached, write command is waiting', { wait_ms: wait });
+      await new Promise((resolve) => setTimeout(resolve, wait));
+    } else {
+      throw new QuotaGuardError('Daily quota fully exhausted');
+    }
+  }
+  // ...
+}
+```
+
+The distinction matters: on the daily budget the call is rejected, on the minute window it
+waits. A minute limit resolves itself within 60 seconds at the latest, a daily limit does
+not.
+
+## Why does the bridge poll more slowly at night?
+
+Day and night intervals draw on the same budget, so the time of day decides:
+
+```js
+function isDaytime(now = new Date()) {
+  const minutes = now.getHours() * 60 + now.getMinutes();
+  return dayStart <= nightStart
+    ? minutes >= dayStart && minutes < nightStart
+    : minutes >= dayStart || minutes < nightStart;
+}
+```
+
+The second branch looks redundant but is not: it covers the case where someone puts the day
+phase across midnight.
+
+Then there is a detail that saved noticeable quota during development. The state survives a
+restart:
+
+```js
+// If the restored state is younger than one interval, waiting for the next
+// regular poll is enough. That makes restarts free.
+const age = state.lastPoll ? Date.now() - new Date(state.lastPoll).getTime() : Infinity;
+if (age < intervalMs()) {
+  schedule(intervalMs() - age);
+  return;
+}
+void poll('start');
+```
+
+Without it, every container restart costs a call. Twenty restarts on a development
+afternoon burn a tenth of the daily budget before anything works.
+
+## Why does the UI still react instantly?
+
+A cloud call takes seconds. A slider in the UI must not take seconds. The resolution is an
+optimistic cache update: the state is overwritten immediately, the cloud catches up.
+
+<Diagram
+  name="schreibpfad"
+  caption="A setpoint dragged from 18 to 24: twelve HTTP requests out of Loxone, a single PATCH into the cloud."
+/>
+
+The bundling is done by a debounce per attribute. And this is where I made a mistake at
+first: a single delay for everything.
+
+```js
+const sliderMs = (config.control?.debounce_seconds ?? 3) * 1000;
+const switchMs = (config.control?.switch_debounce_seconds ?? 0.4) * 1000;
+const SWITCHES = new Set(['power', 'mode', 'swing_vertical', 'swing_horizontal']);
+const debounceFor = (attribute) => (SWITCHES.has(attribute) ? switchMs : sliderMs);
+```
+
+For a slider, three seconds are right: drag, release, one call goes out. For a switch, those
+same three seconds are harmful. Every further press discards the previous command and
+restarts the delay. Frantic toggling therefore postpones execution instead of forcing it. It
+feels broken in the UI even though the code is "correct".
+
+The rest is unspectacular, and that is exactly how it should be:
+
+```js
+function enqueue(alias, attribute, patch, optimistic) {
+  cache.apply(alias, optimistic);
+
+  const key = `${alias}:${attribute}`;
+  const existing = pending.get(key);
+  if (existing) clearTimeout(existing.timer);
+
+  const timer = setTimeout(async () => {
+    pending.delete(key);
+    try {
+      await api.patch(patch);
+      poller.refreshSoon();
+    } catch (error) {
+      // Roll back the optimistic assumption: the next poll delivers the truth.
+      void poller.poll('correction after failure');
+    }
+  }, debounceFor(attribute));
+  timer.unref?.();
+
+  pending.set(key, { timer, patch });
+  return { accepted: true, attribute, value: patch.value };
+}
+```
+
+The `catch` branch is the price of the optimistic update: if you immediately pretend it
+worked, you have to be able to correct yourself when it did not.
+
+A second problem only surfaced with the Loxone AC block. On every switching action it sends
+**all** attributes at once: mode, fan, direction, setpoint, on/off. Five parallel PATCHes
+reliably provoke a rate limit. So writes run one after another:
+
+```js
+const WRITE_SPACING_MS = 250;
+let writeChain = Promise.resolve();
+
+function sequentially(task) {
+  const result = writeChain.then(task, task);
+  writeChain = result.then(
+    () => new Promise((r) => setTimeout(r, WRITE_SPACING_MS)),
+    () => new Promise((r) => setTimeout(r, WRITE_SPACING_MS)),
+  );
+  return result;
+}
+```
+
+The duplicated `task` in `then(task, task)` is deliberate: the chain must not break
+when one command fails. The next one should still get its turn.
+
+## How do the values reach Loxone?
+
+The Miniserver reads a single endpoint, `/api/loxone`. It deliberately returns no JSON, but
+flat lines:
+
+```
+wohnzimmer_power=0
+wohnzimmer_mode=2
+wohnzimmer_setpoint=21
+wohnzimmer_temp_in=26
+wohnzimmer_temp_out=19.5
+wohnzimmer_humidity=55
+wohnzimmer_acmode=3
+wohnzimmer_error=0
+wohnzimmer_online=1
+wohnzimmer_stale=0
+bridge_online=1
+bridge_quota=117
+bridge_reauth=0
+bridge_error=0
+```
+
+(The room names are free-form aliases from the config. I kept the German ones.)
+
+The reason for the format is the command recognition of the virtual HTTP input: with the
+pattern `wohnzimmer_setpoint=\v`, Loxone cuts the value out unambiguously. With nested JSON
+that would be error-prone.
+
+Four status values concern the bridge itself. The most important is `bridge_reauth`. It
+fires when the refresh token has expired and a human has to renew the authorisation.
+Without such a signal, the control would eventually go silent without anyone knowing why.
+
+The export is generated from the cache, with `-999` standing in for "no value":
+
+```js
+export function flatten(rooms, health) {
+  const lines = [];
+  for (const [alias, room] of Object.entries(rooms)) {
+    lines.push(
+      `${alias}_power=${room.power === 'on' ? 1 : 0}`,
+      `${alias}_mode=${MODE_BY_NAME[room.mode] ?? -1}`,
+      `${alias}_setpoint=${num(room.setpoint)}`,
+      `${alias}_temp_in=${num(room.room_temperature)}`,
+      // ...
+      `${alias}_stale=${room.stale ? 1 : 0}`,
+    );
+  }
+  lines.push(`bridge_online=1`, `bridge_quota=${health.quota?.day_remaining ?? -1}`);
+  return lines.join('\n') + '\n';
+}
+```
+
+**This request costs no Onecta quota.** It reads the cache on the local network. The
+Miniserver may therefore do it every ten seconds while the bridge follows its own, far
+slower schedule in the background. That decoupling is the whole trick.
+
+## The pitfall: two encodings for the same thing
+
+Loxone would rather work with numbers than text, so the bridge encodes everything
+numerically. Except: the Loxone *Air Conditioning Control* block brings its **own** encoding,
+and it is off by one.
+
+<Diagram
+  name="kodierung"
+  caption="Two command sets, two encodings. The bridge understands both so that nothing has to be converted inside Loxone. That is exactly what makes mixing them so easy."
+/>
+
+```js
+export const MODE_CODES = { 0: 'auto', 1: 'heating', 2: 'cooling', 3: 'dry', 4: 'fanOnly' };
+
+// Encoding of the Loxone "Air Conditioning Control" block. It differs from ours,
+// so the bridge understands both. That way nothing needs converting inside Loxone.
+export const AC_MODE_CODES = { 1: 'auto', 2: 'heating', 3: 'cooling', 4: 'dry', 5: 'fanOnly' };
+```
+
+A `2` sent to `/mode/` means cooling. The same `2` sent to `/acmode/` means heating. In the
+middle of summer I successfully switched on the heating and took a while to work out why.
+
+The lesson was less "pay more attention" than **make it verifiable**. Since then the bridge
+logs every command with the value sent and the actual result:
+
+```json
+[
+  { "ts": "2026-08-25T14:13:52.797Z", "room": "buero", "command": "power",
+    "value": "off", "result": "executed" },
+  { "ts": "2026-08-25T14:13:51.900Z", "room": "buero", "command": "power",
+    "sent": "0", "from": "172.24.0.1", "result": "off" }
+]
+```
+
+Two entries per command, on purpose: the lower one records what Loxone sent and how the
+bridge *understood* it, the upper one what the cloud made of it. That makes it immediately
+distinguishable whether Loxone sent the wrong thing or the bridge implemented it wrongly.
+That distinction is exactly what I was missing back then.
+
+The rule in the repository is now simply: whoever uses the block takes only the `ac`
+commands and the `_ac*` status values. Whoever builds without the block takes only the
+others. Never mix them.
+
+## What does five days of operation show?
+
+```json
+{
+  "status": "ok",
+  "version": "0.5.0",
+  "uptime_seconds": 450441,
+  "token": "valid",
+  "devices": 4,
+  "quota": { "day_limit": 200, "day_used": 83, "day_remaining": 117, "write_reserve": 30 },
+  "cloud_error": null,
+  "loxone": { "reads": 44937 }
+}
+```
+
+The two numbers that matter sit side by side: **44,937 requests from Loxone** against **83
+cloud calls** on that day. A ratio of roughly 540 to 1. The cache is the difference between
+"impossible" and "runs quietly in the background".
+
+No cloud error in five days, no manual intervention, the token refresh unremarkable in the
+background. The 117 remaining calls are plenty of headroom.
+
+## Conclusion
+
+The solution satisfies all three constraints, costs no hardware and can be undone in an
+afternoon. Three drawbacks are worth knowing about:
+
+- **Without internet, it stops.** If the connection drops, the bridge reports
+  `bridge_online=0`, and the Loxone logic has to cope with that instead of blocking. The
+  units remain operable by remote, but nothing is automated any more.
+- **External changes arrive late.** Use the IR remote and Loxone will only see it at the
+  next poll, so up to 15 minutes later during the day. That is the direct price of the
+  budget, and it cannot be programmed away, only moved around.
+- **The dependency remains.** Daikin can change the API, the limits and the terms
+  unilaterally. That is why the bridge encapsulates the cloud in a layer of its own: a later
+  switch to a local source should not drag the entire Loxone integration down with it.
+
+If you are building something like this yourself, here is the advice I wish I had had: stop
+estimating the budget early on, and start counting it straight away. The quota bookkeeping
+began as a side concern for me and turned out to be the core of the whole thing. Every other
+component, whether cache, debounce, night interval or write chain, exists only because that
+one number is 200 and not 20,000.

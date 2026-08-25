@@ -1,0 +1,49 @@
+/*
+ * Diagramme in Artikeln.
+ *
+ * Die SVG tragen weder width noch height, nur eine viewBox - die Breite kommt
+ * von hier, die Hoehe folgt dem Seitenverhaeltnis.
+ */
+
+.figure {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+/*
+ * color setzt die Grundfarbe, der die Linien und Beschriftungen der Diagramme
+ * ueber currentColor folgen. ink-9 statt ink-11: eine Zeichnung darf leiser
+ * sein als der Fliesstext, sonst draengt sie sich vor.
+ */
+.canvas {
+  color: var(--ink-9);
+}
+
+.canvas svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.caption {
+  margin-top: 12px;
+  color: var(--ink-9);
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+}
+
+/*
+ * Auf schmalen Schirmen wird die Schrift in den breiten Diagrammen sonst zu
+ * klein. Das Bild darf dort ueber die Textspalte hinauswachsen und seitlich
+ * gescrollt werden, statt unlesbar zu schrumpfen.
+ */
+@media (max-width: 640px) {
+  .canvas {
+    overflow-x: auto;
+  }
+
+  .canvas svg {
+    width: 620px;
+    max-width: none;
+  }
+}

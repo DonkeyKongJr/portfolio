@@ -1,0 +1,78 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Schreibpfad" id="schreibpfad">
+    <mxGraphModel dx="1200" dy="900" grid="0" page="0" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="s1" value="Loxone: Sollwert von 18 auf 24 gezogen" style="rounded=1;arcSize=10;html=0;fillColor=none;strokeColor=#1aa7ff;fontColor=#1aa7ff;fontSize=12;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="120" y="0" width="300" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" value="12 einzelne HTTP-Aufrufe" style="text;html=0;align=left;fontSize=10;fontFamily=Helvetica;fontColor=#1aa7ff;" vertex="1" parent="1">
+          <mxGeometry x="440" y="10" width="220" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" style="html=0;endArrow=block;endFill=1;strokeColor=#707070;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="270" y="40" as="sourcePoint" />
+            <mxPoint x="270" y="78" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="s2" value="cache.apply() - Zustand sofort überschrieben" style="rounded=1;arcSize=10;html=0;fillColor=none;strokeColor=#16ca52;fontColor=#16ca52;fontSize=12;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="120" y="78" width="300" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" value="Die Visu zeigt 24 - ohne Cloud, ohne Wartezeit" style="text;html=0;align=left;fontSize=10;fontFamily=Helvetica;fontColor=#16ca52;" vertex="1" parent="1">
+          <mxGeometry x="440" y="88" width="260" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e2" style="html=0;endArrow=block;endFill=1;strokeColor=#707070;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="270" y="118" as="sourcePoint" />
+            <mxPoint x="270" y="156" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="s3" value="Entprellung, 3 Sekunden" style="rounded=1;arcSize=10;html=0;dashed=1;dashPattern=6 4;fillColor=none;strokeColor=#707070;fontColor=#707070;fontSize=12;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="120" y="156" width="300" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a3" value="Jeder neue Wert verwirft den vorherigen Timer" style="text;html=0;align=left;fontSize=10;fontFamily=Helvetica;fontColor=#707070;" vertex="1" parent="1">
+          <mxGeometry x="440" y="166" width="260" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e3" style="html=0;endArrow=block;endFill=1;strokeColor=#707070;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="270" y="196" as="sourcePoint" />
+            <mxPoint x="270" y="234" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="s4" value="api.patch() - genau ein PATCH" style="rounded=1;arcSize=10;html=0;fillColor=none;strokeColor=#ffdd1a;fontColor=#ffdd1a;fontSize=12;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="120" y="234" width="300" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a4" value="1 Call statt 12" style="text;html=0;align=left;fontSize=10;fontFamily=Helvetica;fontColor=#ffdd1a;" vertex="1" parent="1">
+          <mxGeometry x="440" y="244" width="220" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e4" style="html=0;endArrow=block;endFill=1;strokeColor=#707070;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="270" y="274" as="sourcePoint" />
+            <mxPoint x="270" y="312" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="s5" value="poller.refreshSoon() nach 90 Sekunden" style="rounded=1;arcSize=10;html=0;fillColor=none;strokeColor=#ffdd1a;fontColor=#ffdd1a;fontSize=12;fontFamily=Helvetica;" vertex="1" parent="1">
+          <mxGeometry x="120" y="312" width="300" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a5" value="Die Cloud bestätigt, der Cache wird korrigiert" style="text;html=0;align=left;fontSize=10;fontFamily=Helvetica;fontColor=#ffdd1a;" vertex="1" parent="1">
+          <mxGeometry x="440" y="322" width="260" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fehler" value="Schlägt der PATCH fehl, holt ein sofortiger Poll die Wahrheit zurück." style="text;html=0;align=center;fontSize=10;fontFamily=Helvetica;fontColor=#707070;" vertex="1" parent="1">
+          <mxGeometry x="60" y="366" width="420" height="20" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

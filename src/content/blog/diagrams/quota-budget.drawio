@@ -1,0 +1,79 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Quota-Budget" id="quota">
+    <mxGraphModel dx="1200" dy="700" grid="0" page="0" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="titel" value="200 Calls pro Tag und Account" style="text;html=0;align=left;fontSize=13;fontFamily=Helvetica;fontColor=#707070;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="300" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="l1" value="Polling tagsüber, alle 15 min" style="text;html=0;align=right;fontSize=11;fontFamily=Helvetica;fontColor=#707070;" vertex="1" parent="1">
+          <mxGeometry x="0" y="44" width="250" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="b1" value="" style="rounded=0;html=0;fillColor=#ffdd1a;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="266" y="44" width="136" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="v1" value="68" style="text;html=0;align=left;fontSize=11;fontFamily=Helvetica;fontColor=#707070;" vertex="1" parent="1">
+          <mxGeometry x="412" y="44" width="40" height="18" as="geometry" />
+        </mxCell>
+
+        <mxCell id="l2" value="Polling nachts, alle 60 min" style="text;html=0;align=right;fontSize=11;fontFamily=Helvetica;fontColor=#707070;" vertex="1" parent="1">
+          <mxGeometry x="0" y="72" width="250" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="b2" value="" style="rounded=0;html=0;fillColor=#ffdd1a;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="266" y="72" width="14" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="v2" value="7" style="text;html=0;align=left;fontSize=11;fontFamily=Helvetica;fontColor=#707070;" vertex="1" parent="1">
+          <mxGeometry x="290" y="72" width="40" height="18" as="geometry" />
+        </mxCell>
+
+        <mxCell id="l3" value="Nachlesen nach Schreibbefehlen" style="text;html=0;align=right;fontSize=11;fontFamily=Helvetica;fontColor=#707070;" vertex="1" parent="1">
+          <mxGeometry x="0" y="100" width="250" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="b3" value="" style="rounded=0;html=0;fillColor=#ffdd1a;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="266" y="100" width="20" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="v3" value="10" style="text;html=0;align=left;fontSize=11;fontFamily=Helvetica;fontColor=#707070;" vertex="1" parent="1">
+          <mxGeometry x="296" y="100" width="40" height="18" as="geometry" />
+        </mxCell>
+
+        <mxCell id="l4" value="Schreibbefehle aus Loxone" style="text;html=0;align=right;fontSize=11;fontFamily=Helvetica;fontColor=#1aa7ff;" vertex="1" parent="1">
+          <mxGeometry x="0" y="128" width="250" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="b4" value="" style="rounded=0;html=0;fillColor=#1aa7ff;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="266" y="128" width="170" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="v4" value="85" style="text;html=0;align=left;fontSize=11;fontFamily=Helvetica;fontColor=#707070;" vertex="1" parent="1">
+          <mxGeometry x="446" y="128" width="40" height="18" as="geometry" />
+        </mxCell>
+
+        <mxCell id="l5" value="Reserve für Bedienspitzen" style="text;html=0;align=right;fontSize=11;fontFamily=Helvetica;fontColor=#16ca52;" vertex="1" parent="1">
+          <mxGeometry x="0" y="156" width="250" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="b5" value="" style="rounded=0;html=0;fillColor=#16ca52;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="266" y="156" width="60" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="v5" value="30" style="text;html=0;align=left;fontSize=11;fontFamily=Helvetica;fontColor=#707070;" vertex="1" parent="1">
+          <mxGeometry x="336" y="156" width="40" height="18" as="geometry" />
+        </mxCell>
+
+        <mxCell id="trenner" style="html=0;endArrow=none;strokeColor=#707070;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="266" y="186" as="sourcePoint" />
+            <mxPoint x="536" y="186" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="hinweis" value="Ein Abruf liefert alle vier Geräte auf einmal.&#10;Ohne das ginge die Rechnung nicht auf." style="text;html=0;align=right;fontSize=10;fontFamily=Helvetica;fontColor=#16ca52;" vertex="1" parent="1">
+          <mxGeometry x="0" y="196" width="250" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="summe" value="200" style="text;html=0;align=left;fontSize=12;fontFamily=Helvetica;fontColor=#707070;" vertex="1" parent="1">
+          <mxGeometry x="266" y="196" width="120" height="18" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

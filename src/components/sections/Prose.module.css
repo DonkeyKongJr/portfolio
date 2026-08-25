@@ -89,11 +89,103 @@
   padding: 0;
 }
 
+/*
+ * Shiki liefert je Token beide Themefarben als Variablen. Dunkel ist die
+ * Vorgabe der Seite, hell greift nur nach ausdruecklicher Wahl - dieselbe
+ * Logik wie bei den Farbtokens, deshalb hier kein prefers-color-scheme.
+ */
+.prose pre code span {
+  color: var(--shiki-dark);
+}
+
+:global(:root[data-theme='light']) .prose pre code span {
+  color: var(--shiki-light);
+}
+
 .prose blockquote {
   margin-top: 24px;
   padding-left: 20px;
   border-left: 2px solid var(--ink-5);
   color: var(--ink-9);
+}
+
+/*
+ * Tabellen. remark-gfm erzeugt sie, gestylt waren sie bisher nicht - der
+ * Browser verteilt die Spalten dann nach Textmenge, und eine Stichwortspalte
+ * neben langem Fliesstext schrumpft zu einer Kolonne aus Einzelwoertern.
+ */
+.prose table {
+  width: 100%;
+  margin-top: 28px;
+  margin-bottom: 28px;
+  border-collapse: collapse;
+  font-size: var(--text-base);
+  line-height: var(--leading-snug);
+  text-align: left;
+}
+
+.prose th,
+.prose td {
+  padding: 12px 20px 12px 0;
+  vertical-align: top;
+  border-bottom: 1px solid var(--ink-4);
+}
+
+.prose th {
+  color: var(--ink-12);
+  font-weight: 500;
+}
+
+.prose tr:last-child td {
+  border-bottom: 0;
+}
+
+/* Die erste Spalte traegt das Stichwort und braucht eine eigene Breite. */
+.prose th:first-child,
+.prose td:first-child {
+  width: 26%;
+  min-width: 8rem;
+}
+
+/*
+ * Auf schmalen Schirmen bleibt fuer die zweite Spalte sonst nichts uebrig.
+ * Dort werden aus den Zeilen Bloecke: Stichwort oben, Text darunter.
+ */
+@media (max-width: 640px) {
+  .prose table,
+  .prose tbody,
+  .prose tr,
+  .prose td {
+    display: block;
+    width: auto;
+  }
+
+  .prose thead {
+    display: none;
+  }
+
+  .prose tr {
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--ink-4);
+  }
+
+  .prose tr:last-child {
+    margin-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .prose td {
+    padding: 0;
+    border-bottom: 0;
+  }
+
+  .prose td:first-child {
+    width: auto;
+    margin-bottom: 6px;
+    color: var(--ink-12);
+    font-weight: 600;
+  }
 }
 
 .prose :global(.anchor) {

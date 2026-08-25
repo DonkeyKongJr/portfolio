@@ -103,7 +103,7 @@ export default async function PostPage({
 
       <Container>
         <div className={styles.body}>
-          <PostBody source={post.content} />
+          <PostBody source={post.content} locale={locale} />
         </div>
 
         <nav className={styles.neighbours} aria-label={t.blog.title}>
