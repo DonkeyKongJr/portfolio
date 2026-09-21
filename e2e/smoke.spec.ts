@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Locator, type Page } from '@playwright/test';
 
 /**
  * Rauchtest gegen den statischen Export.
@@ -232,5 +232,122 @@ test.describe('Layout-Stabilitaet', () => {
     );
     // Googles Schwelle fuer "gut" liegt bei 0.1.
     expect(cls).toBeLessThan(0.1);
+  });
+});
+
+test.describe('Liquid Glass', () => {
+  /*
+   * SmoothScrollProvider.tsx laesst bei reduzierter Bewegung natives Scrollen
+   * aktiv (useReducedMotion() -> Lenis startet gar nicht erst). Ohne diese
+   * Einstellung kaempft Lenis' eigene Zielposition gegen ein programmatisches
+   * window.scrollTo() im Test und data-scrolled kippt mitten im Test wieder
+   * um - hier interessiert nur der reine data-scrolled/backdrop-filter-Effekt,
+   * keine Bewegung.
+   */
+  test.use({ reducedMotion: 'reduce' });
+
+  /*
+   * Die eigentliche Nav (data-scrolled, siehe Nav.tsx) von der schlichten
+   * Fussleisten-Navigation (Footer.tsx) unterscheiden - beide sind <nav>.
+   */
+  const navSelector = 'nav[data-scrolled]';
+
+  /** Alpha-Kanal aus einem computed rgb()/rgba()-String. */
+  function alphaOf(color: string): number {
+    const parts =
+      color
+        .match(/rgba?\(([^)]+)\)/)?.[1]
+        ?.split(',')
+        .map(Number) ?? [];
+    return parts.length === 4 ? parts[3]! : 1;
+  }
+
+  /*
+   * .nav transitioniert background/backdrop-filter ueber --duration-medium
+   * (Nav.module.css). window.scrollTo() im Test loest sofort den Zustand aus,
+   * aber getComputedStyle direkt danach faengt sonst einen Zwischenwert der
+   * laufenden Animation - deshalb erst auf transitionend warten (mit
+   * Fallback, falls aus irgendeinem Grund keins feuert).
+   */
+  async function waitForNavTransition(nav: Locator): Promise<void> {
+    await nav.evaluate(
+      (el) =>
+        new Promise<void>((resolve) => {
+          let done = false;
+          const finish = () => {
+            if (done) return;
+            done = true;
+            resolve();
+          };
+          el.addEventListener('transitionend', finish, { once: true });
+          setTimeout(finish, 500);
+        }),
+    );
+  }
+
+  test('setzt data-glass auf liquid in Chromium', async ({ page }) => {
+    await page.goto('/de/');
+    await expect(page.locator('html')).toHaveAttribute('data-glass', 'liquid');
+  });
+
+  test('bindet den Brechungsfilter lg-refract genau einmal ein', async ({ page }) => {
+    await page.goto('/de/');
+    await expect(page.locator('#lg-refract')).toHaveCount(1);
+  });
+
+  test('bekommt nach dem Scrollen Blur- und Brechungsfilter, Blur vor url()', async ({ page }) => {
+    await page.goto('/de/');
+    const nav = page.locator(navSelector);
+
+    await page.evaluate(() => window.scrollTo(0, 900));
+    await expect(nav).toHaveAttribute('data-scrolled', 'true');
+    await waitForNavTransition(nav);
+
+    const backdropFilter = await nav.evaluate((el) => getComputedStyle(el).backdropFilter);
+    expect(backdropFilter).toContain('blur(');
+    expect(backdropFilter).toContain('url(');
+    /*
+     * Reihenfolge ist entscheidend (glass.module.css-Kommentar): url() vor
+     * blur() laesst Chromium den Blur verwerfen. Deshalb reicht es nicht,
+     * beide Teilstrings zu finden - der computed String muss mit blur(
+     * beginnen.
+     */
+    expect(backdropFilter.startsWith('blur(')).toBe(true);
+  });
+
+  test('ist ungescrollt auf dem Desktop farblich transparent', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop', 'Mobile Nav ist immer im Glaszustand.');
+
+    await page.goto('/de/');
+    const nav = page.locator(navSelector);
+    await expect(nav).toHaveAttribute('data-scrolled', 'false');
+
+    const backgroundColor = await nav.evaluate((el) => getComputedStyle(el).backgroundColor);
+    expect(alphaOf(backgroundColor)).toBe(0);
+  });
+
+  test('faellt bei reduzierter Transparenz auf eine undurchsichtige Flaeche zurueck', async ({
+    page,
+    context,
+  }) => {
+    // Muss vor page.goto gesetzt werden, damit das Boot-Skript data-glass korrekt liest.
+    const client = await context.newCDPSession(page);
+    await client.send('Emulation.setEmulatedMedia', {
+      features: [{ name: 'prefers-reduced-transparency', value: 'reduce' }],
+    });
+
+    await page.goto('/de/');
+    await expect(page.locator('html')).toHaveAttribute('data-glass', 'glass');
+
+    const nav = page.locator(navSelector);
+    await page.evaluate(() => window.scrollTo(0, 900));
+    await expect(nav).toHaveAttribute('data-scrolled', 'true');
+    await waitForNavTransition(nav);
+
+    const backdropFilter = await nav.evaluate((el) => getComputedStyle(el).backdropFilter);
+    expect(backdropFilter).toBe('none');
+
+    const backgroundColor = await nav.evaluate((el) => getComputedStyle(el).backgroundColor);
+    expect(alphaOf(backgroundColor)).toBe(1);
   });
 });
