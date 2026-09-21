@@ -79,6 +79,19 @@
  * 6.52:1, ink-10 liegt entsprechend hoeher - derselbe Farbtoken funktioniert
  * also in beiden Themes ohne Sonderfall.
  */
+/*
+ * Glas nur in Chromium. Principles.tsx setzt beim Scrollen in jedem Frame
+ * mask-image und transform auf die Karten; mit backdrop-filter baut Safari
+ * die gefilterte Rueckseite dadurch pro Frame neu auf - das Scrollen wurde
+ * dort spuerbar ruckelig. Chromium mit GPU bleibt unter 19 ms/Frame (p95),
+ * alle anderen bekommen die feste Flaeche mit Lichtkante.
+ */
+:global(html:not([data-glass='liquid'])) .card {
+  --glass-tint: var(--glass-fallback);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
 .card {
   composes: content from '@/styles/glass.module.css';
   position: sticky;
