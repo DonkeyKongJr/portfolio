@@ -1,10 +1,20 @@
+/*
+ * Inhaltsflaeche (composes: content, kein Refraction-Filter, nicht Teil des
+ * Liquid-Budgets) - dieselbe starke Toenung wie das Consent-Banner
+ * (Analytics.module.css), aus demselben Grund: Standardtoenung reicht fuer
+ * verlaessliche 4.5:1 nicht, siehe Rechnung dort. .status und .note wechseln
+ * deshalb ebenfalls von ink-10/ink-9 auf ink-11 (ink-10 haelt auf der
+ * starken Toenung nur 4.43:1, ink-9 nur 3.12:1, dunkles Theme, Worst Case
+ * ueber #ffef93).
+ */
 .panel {
+  composes: content from '@/styles/glass.module.css';
   margin-top: 20px;
   padding: 20px;
   border-radius: 14px;
   border: 1px solid var(--ink-4);
-  background: var(--ink-2);
   max-width: var(--measure-lg);
+  --glass-tint: var(--glass-tint-strong);
 }
 
 .status {
@@ -12,7 +22,7 @@
   align-items: center;
   gap: 10px;
   font-size: var(--text-sm);
-  color: var(--ink-10);
+  color: var(--ink-11);
 }
 
 .dot {
@@ -34,11 +44,12 @@
   margin-top: 16px;
 }
 
+/* Bedienelement INNERHALB der Glasflaeche - Toenung + Kante, kein eigener Filter. */
 .button {
+  composes: inner from '@/styles/glass.module.css';
   padding: 9px 16px;
   border-radius: 9999px;
   border: 1px solid var(--ink-5);
-  background: transparent;
   color: var(--ink-11);
   font-size: var(--text-2xs);
   font-weight: 600;
@@ -54,7 +65,7 @@
   border-color: var(--ink-8);
 }
 
-/* Die geltende Wahl ist ausgefuellt, nicht nur umrandet. */
+/* Die geltende Wahl ist ausgefuellt, nicht nur umrandet - ueberschreibt die Toenung. */
 .button[aria-pressed='true'] {
   background: var(--ink-12);
   border-color: var(--ink-12);
@@ -65,5 +76,5 @@
 .note {
   margin-top: 14px;
   font-size: var(--text-2xs);
-  color: var(--ink-9);
+  color: var(--ink-11);
 }

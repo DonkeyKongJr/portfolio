@@ -1,4 +1,25 @@
+/*
+ * Eine der max. drei gleichzeitig sichtbaren Liquid-Flaechen (Budget siehe
+ * glass.module.css: Nav, Consent-Banner, Cursor-Pille).
+ *
+ * Standardtoenung (--glass-tint, 72 %/70 %) reicht hier nicht: das Banner
+ * schwebt frueh im Seitenaufbau ueber allem, auch ueber den Pastellkarten der
+ * Services-Sektion. --glass-tint-strong lokal einsetzen (Konvention aus
+ * glass.module.css: Custom Property am eigenen Element ueberschreiben).
+ *
+ * Rechnung (Methode wie tests/contrast.test.ts, color-mix in srgb = lineares
+ * Blenden im Gamma-Raum; Worst Case wie in tokens.css: Glas ueber der
+ * hellsten Pastellkarte #ffef93 im dunklen Theme, ueber --media-surface
+ * #1c1c1c im hellen):
+ *   dunkel  --glass-tint-strong (84 %) ueber #ffef93 -> Composite #403e2f
+ *           ink-12 8.01:1   ink-11 6.05:1   ink-10 4.43:1 (< 4.5, zu knapp)
+ *   hell    --glass-tint-strong (84 %) ueber #1c1c1c -> Composite #d7d6d5
+ *           ink-12 12.21:1  ink-11 9.82:1   ink-10 7.16:1
+ * ink-10 (bisheriger Wert) faellt im dunklen Theme knapp durch - .message
+ * und .more wechseln deshalb auf ink-11.
+ */
 .banner {
+  composes: liquid from '@/styles/glass.module.css';
   position: fixed;
   left: 20px;
   bottom: 20px;
@@ -7,16 +28,13 @@
   padding: 20px;
   border-radius: 16px;
   border: 1px solid var(--ink-4);
-  background: color-mix(in srgb, var(--ink-2) 92%, transparent);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: var(--shadow-card);
+  --glass-tint: var(--glass-tint-strong);
 }
 
 .message {
   font-size: var(--text-sm);
   line-height: var(--leading-snug);
-  color: var(--ink-10);
+  color: var(--ink-11);
 }
 
 .actions {
@@ -26,11 +44,12 @@
   margin-top: 16px;
 }
 
+/* Bedienelement INNERHALB der Glasflaeche - Toenung + Kante, kein eigener Filter. */
 .button {
+  composes: inner from '@/styles/glass.module.css';
   padding: 9px 16px;
   border-radius: 9999px;
   border: 1px solid var(--ink-5);
-  background: transparent;
   color: var(--ink-11);
   font-size: var(--text-2xs);
   font-weight: 600;
@@ -46,17 +65,19 @@
   border-color: var(--ink-8);
 }
 
+/* Accept bleibt die massiv gefuellte Handlung - ueberschreibt die Toenung. */
 .accept {
   background: var(--ink-12);
   border-color: var(--ink-12);
   color: var(--ink-1);
 }
 
+/* ink-9 haelt auf der starken Toenung nur 3.12:1 (dunkel) - siehe Rechnung bei .banner. */
 .more {
   margin-left: auto;
   align-self: center;
   font-size: var(--text-2xs);
-  color: var(--ink-9);
+  color: var(--ink-11);
   border-bottom: 1px solid var(--ink-5);
 }
 

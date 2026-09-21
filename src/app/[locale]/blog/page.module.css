@@ -43,9 +43,10 @@
 }
 
 .tag {
+  composes: inner from '@/styles/glass.module.css';
   padding: 5px 11px;
   border-radius: 9999px;
-  border: 1px solid var(--ink-4);
+  border: 1px solid transparent;
   font-size: var(--text-2xs);
   color: var(--ink-9);
 }
@@ -71,8 +72,14 @@
   }
 }
 
-/* Markierung fuer Artikel, die nur in der anderen Sprache vorliegen. */
+/*
+ * Markierung fuer Artikel, die nur in der anderen Sprache vorliegen.
+ * composes: inner fuer die Toenung, die gestrichelte Linie bleibt als
+ * eigene, bewusst abweichende border erhalten - sie signalisiert "anderer
+ * Zustand" und soll sich von den normalen .tag-Chips unterscheiden.
+ */
 .foreign {
+  composes: inner from '@/styles/glass.module.css';
   display: inline-block;
   margin-top: 14px;
   padding: 5px 11px;

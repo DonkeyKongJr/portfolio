@@ -39,20 +39,20 @@
 }
 
 .socialLink {
+  composes: inner from '@/styles/glass.module.css';
   display: inline-flex;
   align-items: center;
   gap: 10px;
   padding: 12px 20px;
   border-radius: 9999px;
-  border: 1px solid var(--ink-4);
+  border: 1px solid transparent;
   color: var(--ink-11);
   font-size: var(--text-sm);
   transition:
     color var(--duration-base) var(--ease-in-out),
-    border-color var(--duration-base) var(--ease-in-out);
+    background-color var(--duration-base) var(--ease-in-out);
 }
 
 .socialLink:hover {
   color: var(--ink-12);
-  border-color: var(--ink-7);
 }

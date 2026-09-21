@@ -1,0 +1,158 @@
+/*
+ * Liquid Glass - wiederverwendbare Flaechen.
+ *
+ * Einbindung ausschliesslich per composes aus einem anderen CSS Module:
+ *
+ *   .nav {
+ *     composes: liquid from '@/styles/glass.module.css';
+ *   }
+ *
+ * Der Alias @/ wird von Turbopack in composes aufgeloest (per Build geprueft).
+ * Klassen der Komponente landen im Bundle nach glass.module.css.
+ *
+ * Klassen:
+ *   .surface   Schwebende Glasflaeche: Blur + Saettigung, Toenung, Lichtkante,
+ *              Schatten. Fuer alles, was ueber dem Inhalt liegt.
+ *   .liquid    Wie .surface, in Chromium zusaetzlich echte Lichtbrechung ueber
+ *              den SVG-Filter #lg-refract (src/components/ui/GlassFilter.tsx).
+ *              Greift nur bei html[data-glass='liquid'] (Boot-Skript im Layout).
+ *   .inner     Bedienelement INNERHALB einer Glasflaeche: nur Toenung + Kante,
+ *              kein backdrop-filter.
+ *   .content   Leichtes Glas fuer Inhaltsflaechen (Karten, Codebloecke):
+ *              weniger Blur, kein Refraction-Filter.
+ *
+ * Regeln:
+ *   - Kein Glas im Glas. Was in einer .surface/.liquid/.content sitzt, bekommt
+ *     .inner - ein zweites backdrop-filter sieht nur den bereits gefilterten
+ *     Hintergrund, kostet einen weiteren Offscreen-Pass und wirkt truebe.
+ *   - Budget: hoechstens drei .liquid gleichzeitig sichtbar (Nav, Consent,
+ *     Cursor-Pille). Die Displacement-Map wird pro Frame und Flaeche neu
+ *     gerechnet; Inhaltsflaechen bekommen deshalb nur .content.
+ *   - Text auf Glas: im dunklen Theme ink-12, im hellen ink-10 aufwaerts
+ *     (Worst-Case-Rechnung in tokens.css).
+ *
+ * Anpassen statt ueberschreiben: Alle Grundregeln stehen in :where() und haben
+ * damit Spezifitaet 0 - jede Regel der Komponente gewinnt, egal in welcher
+ * Reihenfolge Turbopack die Module ins Bundle legt. Fuer Zustaende (z.B. die
+ * ungescrollte, noch transparente Nav) die Tokens am eigenen Element setzen:
+ *
+ *   .nav:not([data-scrolled='true']) {
+ *     --glass-tint: transparent;
+ *     --glass-blur: 0px;
+ *     --glass-saturate: 100%;
+ *   }
+ *
+ * backdrop-filter uebergeht dann weich, weil sich nur die Werte aendern.
+ * Die Lichtkante folgt --glass-rim-angle (registriert in tokens.css, also
+ * per transition animierbar). --glass-rim-width setzt ihre Staerke (1px).
+ *
+ * Der Host braucht einen Positionierungskontext fuer die Kante; .surface setzt
+ * position: relative, eine fixed/absolute-Regel der Komponente gewinnt.
+ * Die Kante liegt innerhalb einer vorhandenen border - wer sie allein zeigen
+ * will, setzt border-color: transparent.
+ */
+
+/* --- Stufe 2: Glas ------------------------------------------------------- */
+
+:where(.surface, .content) {
+  position: relative;
+  background: var(--glass-tint);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  box-shadow: var(--glass-highlight), var(--glass-shadow);
+}
+
+:where(.content) {
+  --glass-blur: var(--glass-blur-soft);
+  box-shadow: var(--glass-highlight), var(--shadow-card);
+}
+
+/* --- Stufe 3: Liquid (nur Chromium) ------------------------------------- */
+
+.liquid {
+  composes: surface;
+}
+
+/*
+ * url() in backdrop-filter kennen nur Chromium-Browser. @supports meldet es
+ * auch dort, wo es nicht wirkt - deshalb das Flag vom Boot-Skript.
+ * Reihenfolge: erst weichzeichnen, dann brechen. Umgekehrt (url() vorn)
+ * verwirft Chromium jedes blur() hinter der Referenz - der Hintergrund
+ * blieb unter Banner und Nav gestochen scharf, nur verschoben. Per
+ * Screenshot-Vergleich geprueft: so greifen Blur und Verschiebung beide.
+ */
+:where(:global(html[data-glass='liquid']) .liquid) {
+  backdrop-filter: blur(var(--glass-blur)) url(#lg-refract) saturate(var(--glass-saturate));
+}
+
+/* --- Bedienelemente in Glas --------------------------------------------- */
+
+:where(.inner) {
+  position: relative;
+  background: var(--glass-inner);
+  box-shadow: var(--glass-highlight);
+  transition: background-color var(--duration-medium) var(--ease-out-expo);
+}
+
+:where(.inner:hover) {
+  background: var(--glass-inner-hover);
+}
+
+/* --- Lichtkante ---------------------------------------------------------- */
+
+/*
+ * 1px-Verlaufsrand ueber den Masken-Trick: die Flaeche wird voll gefuellt und
+ * die Inhaltsbox (inset um --glass-rim-width) wieder ausgestanzt. So bleibt
+ * border der Komponente frei - deren border-color-Transitions laufen weiter.
+ */
+:where(.surface, .content, .inner)::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: var(--glass-rim-width, 1px);
+  border-radius: inherit;
+  background: linear-gradient(
+    var(--glass-rim-angle, 150deg),
+    var(--glass-rim-light),
+    transparent 42%,
+    transparent 58%,
+    var(--glass-rim-shade)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  pointer-events: none;
+}
+
+/* --- Fallback ------------------------------------------------------------ */
+
+/*
+ * Reduzierte Transparenz: keine Filter, undurchsichtige Flaeche (die Toenung
+ * tauscht tokens.css). Bewusst mit Klassen-Spezifitaet, damit es die
+ * :where()-Regeln sicher schlaegt.
+ */
+@media (prefers-reduced-transparency: reduce) {
+  .surface,
+  .content,
+  .liquid {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+/*
+ * Ohne backdrop-filter (alte Browser): Toenung wird undurchsichtig. Nur die
+ * Token werden getauscht, mit Spezifitaet 0 - eine bewusste lokale
+ * Ueberschreibung der Komponente (z.B. transparente Nav) bleibt bestehen.
+ * Denselben Tausch macht tokens.css global fuer direkte Leser von --glass-tint.
+ */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :where(.surface, .content) {
+    --glass-tint: var(--glass-fallback);
+    --glass-tint-strong: var(--glass-fallback);
+  }
+}

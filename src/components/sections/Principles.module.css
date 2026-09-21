@@ -47,7 +47,40 @@
   position: relative;
 }
 
+/*
+ * Stapelkarte: composes: content gibt Toenung (--glass-tint), Lichtkante
+ * (::before) und Schatten aus glass.module.css. position: sticky ist eine
+ * echte Deklaration dieser Klasse und gewinnt gegen das :where(.content)
+ * position: relative - notwendig, damit der Stapel-Effekt beim Scrollen
+ * funktioniert. border faellt weg, die Kante kommt jetzt von der Lichtkante;
+ * border-radius bleibt, das ::before erbt sie.
+ *
+ * backdrop-filter (12px Blur aus .content) sitzt auf demselben Element wie
+ * mask-image und transform aus Principles.tsx: die Maske schneidet auch den
+ * geblurrten Hintergrund mit weg - gewollt, die Karte soll optisch zerfallen,
+ * nicht nur ausblenden. will-change: transform, mask-image bleibt gueltig,
+ * backdrop-filter braucht dafuer keinen eigenen Eintrag.
+ *
+ * Kontrast (Fliesstext, dunkles Theme): der realistische Worst Case unter
+ * einer Stapelkarte ist NICHT die Pastellkarte aus dem tokens.css-Kommentar
+ * (die liegt in einer anderen Sektion), sondern der hellste Fleck des
+ * Ambient-Layers durch die vorherige, bereits geglaste Karte hindurch, ueber
+ * dem Seitenhintergrund. Kette: ink-1 + Ambient-Fleck (blue-4/green-4 bei
+ * 18% Layer-Deckkraft, aus Ambient.module.css) + --glass-tint (72% ink-2):
+ *
+ *   Hintergrundfarbe composite            L ~= 0.0116
+ *   ink-9  (bisher)   (0.0116+.05)/... =  4.94:1  <- zu knapp (Rundungen,
+ *                                          Blur/Saturate hier nicht erfasst)
+ *   ink-10 (gewaehlt)                  =  7.00:1  <- .body
+ *   ink-12 (Ueberschrift, unveraendert) = 12.55:1  <- .title
+ *
+ * Helles Theme (ink-1 + violet-9-Ambientfleck bei 35% + --glass-tint 70%
+ * ink-1): Hintergrund bleibt sehr hell (L ~= 0.894), ink-9 haelt dort bereits
+ * 6.52:1, ink-10 liegt entsprechend hoeher - derselbe Farbtoken funktioniert
+ * also in beiden Themes ohne Sonderfall.
+ */
 .card {
+  composes: content from '@/styles/glass.module.css';
   position: sticky;
   top: calc(32vh - 25px);
   height: 50vh;
@@ -58,9 +91,6 @@
   gap: 20px;
   padding: 36px 40px;
   border-radius: 16px;
-  border: 1px solid var(--ink-3);
-  background: var(--ink-2);
-  box-shadow: var(--shadow-card);
   will-change: transform, mask-image;
 }
 
@@ -83,7 +113,8 @@
 .body {
   font-size: var(--text-xl);
   line-height: var(--leading-relaxed);
-  color: var(--ink-9);
+  /* ink-10 statt ink-9 - Begruendung im Kommentar bei .card. */
+  color: var(--ink-10);
   max-width: var(--measure-lg);
 }
 

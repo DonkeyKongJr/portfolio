@@ -1,4 +1,18 @@
+/*
+ * Sekundaerer Button (Standardvariante, kein .primary): Glas ueber
+ * composes: content - weniger Blur als .surface/.liquid, kein
+ * Refraction-Filter (Budget bleibt Nav/Banner/Cursor vorbehalten). Die
+ * eigene background-Deklaration von frueher (transparent) faellt weg, sonst
+ * wuerde sie die Toenung aus .content ueberschreiben.
+ *
+ * Kontrast (Text ink-12, unveraendert): der Worst Case steht bereits in
+ * tokens.css - Glas (Standardtoenung 72 % dunkel / 70 % hell) ueber der
+ * hellsten Pastellkarte bzw. --media-surface haelt fuer ink-12 in beiden
+ * Themes (dunkel 5.41:1, hell 8.85:1, Methode wie tests/contrast.test.ts).
+ * ink-11 waere hier zu knapp (4.09:1 dunkel) - deshalb bleibt es bei ink-12.
+ */
 .button {
+  composes: content from '@/styles/glass.module.css';
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -7,7 +21,6 @@
   padding: 14px 26px;
   border-radius: 9999px;
   border: 1px solid var(--ink-5);
-  background: transparent;
   color: var(--ink-12);
   font-size: var(--text-sm);
   font-weight: 600;
@@ -24,10 +37,39 @@
   border-color: var(--ink-8);
 }
 
+/*
+ * Lichtkante (::before aus .content/.inner) liegt strukturell vor dem Blob
+ * im DOM (generierter Inhalt wird immer als erstes gerendert) und wuerde
+ * ohne eigenen z-index von ihm ueberdeckt, sobald der Blob aufgeht (deckt
+ * die volle Flaeche ab). Reihenfolge daher explizit erzwungen:
+ * Blob (0) < Kante (1) < Label (2).
+ */
+.button::before {
+  z-index: 1;
+}
+
+/*
+ * Primaerbutton bleibt massiv (--ink-12, Entscheidung des Nutzers) - kein
+ * eigenes backdrop-filter. Er wird u.a. als CTA in der Glas-Nav verwendet;
+ * dort waere ein zweiter Blur-Pass "Glas im Glas" (siehe glass.module.css).
+ * composes: inner liefert nur die Lichtkante (::before) und das innere
+ * Glanzlicht (--glass-highlight als box-shadow); die Toenung aus .inner
+ * (--glass-inner) wird von der eigenen background-Deklaration unten sofort
+ * ueberschrieben (hoehere Spezifitaet als das :where() in glass.module.css).
+ *
+ * ACHTUNG: das Element traegt gleichzeitig .button, also auch die
+ * composes: content von oben (samt backdrop-filter). Fuer den Primaerbutton
+ * muss das hier ausdruecklich zurueckgenommen werden, sonst bekommt er trotz
+ * "massiv" einen Blur-Pass - genau der Fall, vor dem die CTA-in-Nav-Notiz
+ * oben warnt.
+ */
 .primary {
+  composes: inner from '@/styles/glass.module.css';
   background: var(--ink-12);
   color: var(--ink-1);
   border-color: var(--ink-12);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .small {
@@ -37,7 +79,7 @@
 
 .label {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 /*

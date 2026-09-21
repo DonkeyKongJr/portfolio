@@ -10,7 +10,12 @@ const OFFSET_X = 18;
 const OFFSET_Y = 10;
 
 const paletteColors: Record<string, { bg: string; fg: string }> = {
-  yellow: { bg: 'var(--yellow-9)', fg: 'var(--yellow-4)' },
+  /*
+   * yellow-4 (#7a6800) haelt auf der 92%-Toenung der Pille (WorkCursor.module.css)
+   * nur 4.05:1 - zu knapp. #645500 ist speziell fuer diese Toenung
+   * nachgedunkelt (5.37-5.42:1, Rechnung siehe WorkCursor.module.css).
+   */
+  yellow: { bg: 'var(--yellow-9)', fg: '#645500' },
   blue: { bg: 'var(--blue-9)', fg: 'var(--blue-4)' },
   green: { bg: 'var(--green-9)', fg: 'var(--green-4)' },
   violet: { bg: 'var(--violet-9)', fg: 'var(--violet-4)' },

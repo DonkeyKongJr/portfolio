@@ -1,21 +1,29 @@
+/*
+ * Sitzt in der Glas-Nav: .inner-Stil ohne eigenes backdrop-filter. Farbe und
+ * Toenung kommen ueber die Tokens der Nav (--nav-ink, --nav-lens,
+ * --nav-hover, Kontrastrechnung in Nav.module.css); die Rueckfallwerte
+ * greifen nur, falls der Knopf je ausserhalb der Nav landet.
+ */
 .toggle {
+  composes: inner from '@/styles/glass.module.css';
   display: grid;
   place-items: center;
   width: 34px;
   height: 34px;
   border-radius: 9999px;
-  border: 1px solid var(--ink-4);
-  background: transparent;
-  color: var(--ink-10);
+  /* Bleibt fuer die Masse stehen, sichtbar ist die Lichtkante darin. */
+  border: 1px solid transparent;
+  background: var(--nav-lens, var(--glass-inner));
+  color: var(--nav-ink, var(--ink-11));
   cursor: pointer;
   transition:
     color var(--duration-base) var(--ease-in-out),
-    border-color var(--duration-base) var(--ease-in-out);
+    background var(--duration-base) var(--ease-in-out);
 }
 
 .toggle:hover {
   color: var(--ink-12);
-  border-color: var(--ink-7);
+  background: var(--nav-hover, var(--glass-inner-hover));
 }
 
 /*
