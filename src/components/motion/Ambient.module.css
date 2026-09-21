@@ -49,10 +49,15 @@
  *      img-src erlaubt data: (firebase.json), betrifft auch background-image.
  */
 
+/*
+ * Bewusst ohne Animation. Eine Drift dieses Layers aendert in jedem Frame
+ * den Hintergrund jeder Glasflaeche darueber - Safari musste dadurch alle
+ * backdrop-filter pro Frame neu rechnen, auch im Stillstand, und das
+ * Scrollen ruckelte.
+ */
 .ambient {
   position: fixed;
-  /* Ueberstand, damit die Drift nie eine Kante freilegt. */
-  inset: -15vmax;
+  inset: 0;
   z-index: -1;
   pointer-events: none;
   contain: strict;
@@ -94,27 +99,6 @@
     auto,
     auto,
     120px 120px;
-  animation: drift 90s var(--ease-in-out) infinite alternate;
-  will-change: transform;
-}
-
-@keyframes drift {
-  0% {
-    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
-  }
-  50% {
-    transform: translate3d(4vmax, -3vmax, 0) rotate(8deg) scale(1.06);
-  }
-  100% {
-    transform: translate3d(-3vmax, 4vmax, 0) rotate(-6deg) scale(1);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ambient {
-    animation: none;
-    will-change: auto;
-  }
 }
 
 @media print {
