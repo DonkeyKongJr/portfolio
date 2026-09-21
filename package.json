@@ -46,7 +46,7 @@
     "jsdom": "^29.1.1",
     "playwright": "^1.62.1",
     "prettier": "^3.9.6",
-    "typescript": "^5.9.3",
+    "typescript": "^6.0.3",
     "vitest": "^4.1.11"
   },
   "browserslist": [
