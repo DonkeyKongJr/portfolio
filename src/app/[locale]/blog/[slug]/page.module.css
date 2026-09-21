@@ -46,20 +46,29 @@
   padding-bottom: var(--space-section);
 }
 
+/*
+ * composes: content, aber ohne backdrop-filter: unter einer Nachbar-Karte
+ * liegt nur der Seitenhintergrund/Ambient-Layer, nichts, das sich sichtbar
+ * brechen liesse (Performance-Budget, Punkt 4 im Auftrag). Die Toenung
+ * ersetzt die vorherige reine border - Hover verstaerkt sie statt nur die
+ * Randfarbe zu wechseln.
+ */
 .neighbour {
+  composes: content from '@/styles/glass.module.css';
   display: flex;
   flex-direction: column;
   gap: 6px;
   padding: 24px;
   border-radius: 14px;
-  border: 1px solid var(--ink-3);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   transition:
-    border-color var(--duration-base) var(--ease-in-out),
+    background-color var(--duration-base) var(--ease-in-out),
     transform var(--duration-base) var(--ease-out-expo);
 }
 
 .neighbour:hover {
-  border-color: var(--ink-6);
+  background: var(--glass-tint-strong);
   transform: translateY(-2px);
 }
 
@@ -87,7 +96,9 @@
  * nicht am Ende: wer die Einordnung erst nach dem Lesen bekommt, hat sie zu
  * spaet.
  */
+/* Nur Seitenhintergrund dahinter - composes: content ohne backdrop-filter. */
 .translationNote {
+  composes: content from '@/styles/glass.module.css';
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -95,18 +106,19 @@
   margin-top: 24px;
   padding: 12px 16px;
   border-radius: 12px;
-  border: 1px solid var(--ink-4);
-  background: var(--ink-2);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   max-width: var(--measure-lg);
 }
 
+/* Bedienelement innerhalb der Glasflaeche .translationNote -> .inner. */
 .translationChip {
+  composes: inner from '@/styles/glass.module.css';
   display: inline-flex;
   align-items: center;
   gap: 7px;
   padding: 5px 11px;
   border-radius: 9999px;
-  background: var(--ink-3);
   font-size: var(--text-2xs);
   font-weight: 700;
   letter-spacing: var(--tracking-wider);

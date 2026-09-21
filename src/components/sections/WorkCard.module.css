@@ -3,6 +3,14 @@
   position: relative;
 }
 
+/*
+ * Bildflaeche - bleibt undurchsichtig (das Visual/Screenshot dahinter darf
+ * nicht verwaschen), bekommt nur Lichtkante + Glanz. Der Rahmen sitzt auf
+ * ::after statt ::before: .visual ist absolut positioniert (inset: 0) und
+ * wuerde ein ::before (im DOM vor .visual, aber in derselben
+ * z-index:auto-Stapelebene) beim Malen ueberdecken. ::after kommt nach
+ * .visual im Dokument und liegt damit sichtbar obenauf.
+ */
 .frame {
   position: relative;
   aspect-ratio: 16 / 9;
@@ -10,6 +18,31 @@
   overflow: hidden;
   background: var(--media-surface);
   box-shadow: var(--shadow-card);
+}
+
+.frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: var(--glass-rim-width, 1px);
+  border-radius: inherit;
+  background:
+    radial-gradient(90px 70px at 10% 8%, var(--glass-rim-light), transparent 70%),
+    linear-gradient(
+      var(--glass-rim-angle, 150deg),
+      var(--glass-rim-light),
+      transparent 42%,
+      transparent 58%,
+      var(--glass-rim-shade)
+    );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  pointer-events: none;
 }
 
 /*
@@ -77,10 +110,13 @@
   margin-top: 16px;
 }
 
+/* .inner: Toenung + Lichtkante, kein backdrop-filter - passend fuer ein Chip. */
 .tag {
+  composes: inner from '@/styles/glass.module.css';
   padding: 6px 12px;
   border-radius: 9999px;
-  border: 1px solid var(--ink-4);
+  /* Die Lichtkante (::before aus .inner) ersetzt die frueher feste Linie. */
+  border: 1px solid transparent;
   font-size: var(--text-2xs);
   letter-spacing: var(--tracking-wide);
   color: var(--ink-9);

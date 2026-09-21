@@ -1,0 +1,124 @@
+/*
+ * Ambient-Layer: fixiert hinter allem, auch hinter dem GrainCanvas (z-index 0).
+ *
+ * Farben und Deckkraft kommen aus tokens.css (--ambient-a..d,
+ * --ambient-opacity), je Theme eigene Werte. Die Flecken sind reine
+ * radial-gradients mit weichem Auslauf - ein filter: blur() ueber einen
+ * Vollbild-Layer waere pro Frame teuer und bringt hier nichts.
+ *
+ * Kontrast (ink-9 auf Seitenhintergrund, gerechnet wie tests/contrast.test.ts):
+ * Im Kern ist ein Fleck voll deckend, der Layer als Ganzes hat
+ * --ambient-opacity. Ueberlappen zwei Flecken, entsteht eine Mischung, deren
+ * Leuchtdichte nie ueber der des hellsten Einzelflecks liegt. Worst Case ist
+ * also der hellste Fleck im Kern:
+ *
+ *   dunkel (0.18 ueber #141414)   ohne Layer 5.34:1
+ *     blue-4 / green-4            4.92:1
+ *     yellow-4 (auf 70 % gedaempft, effektiv 0.126)  4.79:1   <- Worst Case
+ *     violet-7                    5.09:1
+ *     (yellow-4 ungedaempft waere 4.57:1, yellow-7 nur 3.41:1)
+ *
+ *   hell (0.35 ueber #fbfaf8)     ohne Layer 6.96:1
+ *     violet-9                    5.57:1   <- Worst Case
+ *     blue-9 6.27:1, green-9 6.51:1, yellow-9 6.66:1
+ *
+ * Wer --ambient-opacity oder die Farben anhebt, rechnet das neu. Der
+ * 0%-Stop jedes Gradienten ist weiterhin die volle, unveraenderte
+ * Tokenfarbe - die Rechnung oben bleibt exakt gueltig, auch nach den
+ * Anti-Banding-Aenderungen unten (die betreffen nur den Auslauf dazwischen).
+ *
+ * Gegen das 8-Bit-Banding der grossen Flaechen (in Chromium-Screenshots vor
+ * allem im dunklen Theme sichtbar, z.B. am gruenen Fleck unten rechts):
+ *
+ *   1. Zwischenstops per color-mix(in oklab): der Auslauf folgt einem
+ *      perzeptuell gleichmaessigen Pfad statt dem sRGB-Grauloch. Bewusst
+ *      NICHT "radial-gradient(... in oklab)" - das kennt Firefox erst ab
+ *      127, die browserslist reicht bis 113, und dort fiele die ganze
+ *      background-Deklaration und damit der Layer weg.
+ *   2. Mehr Zwischenstops (0/38/58/78 % statt nur 0/70 %): der steilste
+ *      Einzelschritt eines simplen Zwei-Stop-Verlaufs (voll deckend direkt
+ *      zu transparent) ist genau dort, wo Banding am staerksten auffaellt.
+ *      Eine sanftere, mehrstufige Kurve verteilt den Kontrastabfall.
+ *   3. Feines Dither-Rauschen (SVG feTurbulence, 120x120px, gekachelt,
+ *      Alpha ~0.16 auf reinem Weiss) als fuenfte Hintergrundebene: das ist
+ *      die eigentliche Massnahme gegen 8-Bit-Quantisierung - eine winzige
+ *      Stoerung pro Pixel macht die Rundungsstufen unsichtbar, ganz ohne
+ *      Canvas oder JavaScript. Multipliziert mit --ambient-opacity ist das
+ *      Rauschen im gerenderten Bild praktisch nicht als eigenes Muster
+ *      wahrnehmbar, nur als Kornstruktur, die die Stufen bricht. CSP:
+ *      img-src erlaubt data: (firebase.json), betrifft auch background-image.
+ */
+
+.ambient {
+  position: fixed;
+  /* Ueberstand, damit die Drift nie eine Kante freilegt. */
+  inset: -15vmax;
+  z-index: -1;
+  pointer-events: none;
+  contain: strict;
+  opacity: var(--ambient-opacity);
+  background:
+    radial-gradient(
+      38vmax 32vmax at 18% 22%,
+      var(--ambient-a) 0%,
+      color-mix(in oklab, var(--ambient-a) 55%, transparent) 38%,
+      color-mix(in oklab, var(--ambient-a) 18%, transparent) 58%,
+      transparent 78%
+    ),
+    radial-gradient(
+      34vmax 30vmax at 82% 18%,
+      var(--ambient-b) 0%,
+      color-mix(in oklab, var(--ambient-b) 55%, transparent) 38%,
+      color-mix(in oklab, var(--ambient-b) 18%, transparent) 58%,
+      transparent 78%
+    ),
+    radial-gradient(
+      40vmax 34vmax at 72% 78%,
+      var(--ambient-c) 0%,
+      color-mix(in oklab, var(--ambient-c) 55%, transparent) 38%,
+      color-mix(in oklab, var(--ambient-c) 18%, transparent) 58%,
+      transparent 78%
+    ),
+    radial-gradient(
+      30vmax 28vmax at 24% 84%,
+      var(--ambient-d) 0%,
+      color-mix(in oklab, var(--ambient-d) 55%, transparent) 38%,
+      color-mix(in oklab, var(--ambient-d) 18%, transparent) 58%,
+      transparent 78%
+    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch' result='t'/%3E%3CfeColorMatrix in='t' type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat;
+  background-size:
+    auto,
+    auto,
+    auto,
+    auto,
+    120px 120px;
+  animation: drift 90s var(--ease-in-out) infinite alternate;
+  will-change: transform;
+}
+
+@keyframes drift {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translate3d(4vmax, -3vmax, 0) rotate(8deg) scale(1.06);
+  }
+  100% {
+    transform: translate3d(-3vmax, 4vmax, 0) rotate(-6deg) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient {
+    animation: none;
+    will-change: auto;
+  }
+}
+
+@media print {
+  .ambient {
+    display: none;
+  }
+}

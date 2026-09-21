@@ -6,9 +6,11 @@ import { Analytics } from '@/components/layout/Analytics';
 import { Footer } from '@/components/layout/Footer';
 import { JsonLd } from '@/components/layout/JsonLd';
 import { Nav } from '@/components/layout/Nav';
+import { Ambient } from '@/components/motion/Ambient';
 import { Curtain } from '@/components/motion/Curtain';
 import { IntroProvider } from '@/components/motion/IntroProvider';
 import { SmoothScrollProvider } from '@/components/motion/SmoothScrollProvider';
+import { GlassFilter } from '@/components/ui/GlassFilter';
 import { siteConfig } from '@/config/site';
 import { getDictionary, isLocale, localeParams } from '@/i18n';
 import { THEME_KEY } from '@/lib/theme';
@@ -53,7 +55,7 @@ export async function generateMetadata({
 }
 
 /**
- * Laeuft vor dem ersten Paint und setzt zwei Flags am <html>:
+ * Laeuft vor dem ersten Paint und setzt diese Flags am <html>:
  *
  *  - data-js       Ohne JavaScript bleibt es aus. Alle versteckten
  *                  Ausgangszustaende der Masken-Reveals haengen daran, sonst
@@ -66,6 +68,13 @@ export async function generateMetadata({
  *                  sonst blitzt beim Laden kurz das falsche Theme auf.
  *                  Ohne gespeicherte Wahl immer dunkel - die Systemeinstellung
  *                  geht bewusst nicht ein.
+ *  - data-glass    "liquid" nur in Chromium-Browsern (userAgentData.brands
+ *                  enthaelt "Chromium") und ohne reduzierte Transparenz,
+ *                  sonst "glass". Nur Chromium kann url() in backdrop-filter,
+ *                  und @supports meldet das nicht zuverlaessig - ohne Flag
+ *                  stuende in Safari ein ungueltiger Filter und damit gar
+ *                  keiner. Ohne JavaScript fehlt das Attribut; Glas (Stufe 2)
+ *                  funktioniert trotzdem.
  */
 const BOOT_FLAGS = `
 (function () {
@@ -82,6 +91,17 @@ const BOOT_FLAGS = `
     el.setAttribute('data-theme', stored === 'light' ? 'light' : 'dark');
   } catch (e) {
     el.setAttribute('data-theme', 'dark');
+  }
+  try {
+    var brands = (navigator.userAgentData && navigator.userAgentData.brands) || [];
+    var chromium = false;
+    for (var i = 0; i < brands.length; i++) {
+      if (brands[i].brand === 'Chromium') chromium = true;
+    }
+    var clear = matchMedia('(prefers-reduced-transparency: reduce)').matches;
+    el.setAttribute('data-glass', chromium && !clear ? 'liquid' : 'glass');
+  } catch (e) {
+    el.setAttribute('data-glass', 'glass');
   }
 })();
 `;
@@ -106,8 +126,9 @@ export default async function LocaleLayout({
     /*
      * suppressHydrationWarning gilt nur fuer die Attribute des <html> selbst,
      * nicht fuer den Baum darunter. Genau hier ist es noetig: das Boot-Skript
-     * setzt data-js und data-intro vor der Hydration, und Browser-
-     * Erweiterungen haengen zusaetzliche Attribute an. Beides sind
+     * setzt data-js, data-intro, data-theme und data-glass vor der
+     * Hydration, und Browser-Erweiterungen haengen zusaetzliche Attribute
+     * an. Beides sind
      * erwartbare Abweichungen, keine Fehler.
      */
     <html lang={t.meta.htmlLang} className={inter.variable} suppressHydrationWarning>
@@ -121,6 +142,8 @@ export default async function LocaleLayout({
         <script dangerouslySetInnerHTML={{ __html: BOOT_FLAGS }} />
       </head>
       <body>
+        {/* Farbflecken hinter allem - Glas braucht etwas zum Brechen. */}
+        <Ambient />
         <a className="skip-link" href="#main">
           {t.nav.skipToContent}
         </a>
@@ -156,6 +179,8 @@ export default async function LocaleLayout({
           }}
         />
         <JsonLd data={jsonLdGraph(personJsonLd(locale), organizationJsonLd())} />
+        {/* SVG-Filter #lg-refract fuer .liquid aus glass.module.css. */}
+        <GlassFilter />
       </body>
     </html>
   );

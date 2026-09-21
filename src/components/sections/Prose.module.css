@@ -70,6 +70,13 @@
 /*
  * Codebloecke scrollen in ihrem eigenen Container - der Seitenkoerper darf
  * niemals horizontal scrollen.
+ *
+ * Glasoptik ohne glass.module.css: pre kommt aus dem MDX-Inhalt, und composes
+ * ist nur auf einfachen Klassenselektoren erlaubt. Deshalb nur Toenung und
+ * Glanz aus den Glas-Tokens, die Linie bleibt statt der Lichtkante. Kein
+ * backdrop-filter - dahinter liegt nur Seitenhintergrund. --glass-tint-strong
+ * haelt die Flaeche nah am bisherigen --ink-2, damit Shikis Tokenfarben ihren
+ * Kontrast behalten.
  */
 .prose pre {
   margin-top: 24px;
@@ -77,7 +84,8 @@
   padding: 20px;
   border-radius: 12px;
   border: 1px solid var(--ink-3);
-  background: var(--ink-2) !important;
+  background: var(--glass-tint-strong) !important;
+  box-shadow: var(--glass-highlight), var(--shadow-card);
   overflow-x: auto;
   font-size: var(--text-sm);
   line-height: var(--leading-snug);
@@ -102,11 +110,22 @@
   color: var(--shiki-light);
 }
 
+/*
+ * Callout: Toenung und Glanz wie bei pre (gleiche Begruendung, kein
+ * composes moeglich), die Akzentlinie links bleibt.
+ *
+ * Kontrast: ink-10 statt vorher ink-9 - Worst Case ist Seitenhintergrund
+ * plus hellster Ambient-Fleck durch --glass-tint, dort laege ink-9 mit
+ * ~4.94:1 zu knapp an 4.5:1, ink-10 haelt sicher (~7:1).
+ */
 .prose blockquote {
   margin-top: 24px;
-  padding-left: 20px;
+  padding: 14px 20px 14px 22px;
+  border-radius: 0 10px 10px 0;
   border-left: 2px solid var(--ink-5);
-  color: var(--ink-9);
+  background: var(--glass-tint);
+  box-shadow: var(--glass-highlight);
+  color: var(--ink-10);
 }
 
 /*

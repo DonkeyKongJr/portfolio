@@ -90,6 +90,52 @@
   --hover-tint: #ffffff12;
   --nav-shadow: 0 2px 16px #00000008;
 
+  /* --- Glas (Liquid Glass) ----------------------------------------------- */
+  /*
+   * Grundlage fuer src/styles/glass.module.css. Komponenten lesen diese Werte
+   * nur ueber die Glas-Klassen; wer eine Flaeche lokal abschwaechen will,
+   * ueberschreibt die Custom Property am eigenen Element (z.B. --glass-tint:
+   * transparent fuer die ungescrollte Nav) statt background zu setzen.
+   *
+   * Die Toenung ist bewusst kraeftig (72 % bzw. 84 % ink-2): Text auf Glas
+   * muss 4.5:1 auch dann halten, wenn darunter die hellste Flaeche der Seite
+   * durchlaeuft. Weniger Deckkraft sieht glaesener aus, ist aber nicht lesbar.
+   *
+   * Worst Case (Glas vollflaechig ueber Pastellkarte #ffef93 bzw. ink-12):
+   *   --glass-tint (72 %)         ink-12 5.4:1   ink-10 3.0:1   ink-9 2.1:1
+   *   --glass-tint-strong (84 %)  ink-12 8.0:1   ink-10 4.4:1   ink-9 3.1:1
+   * Heisst: auf Glas im dunklen Theme nur ink-12 fuer Text (ink-11: 4.1:1). Hell
+   * (70 % bzw. 84 % ink-1 ueber #1c1c1c): ink-10 5.1:1 bzw. 7.2:1, ink-9
+   * erst auf --glass-tint-strong (5.0:1).
+   */
+  --glass-tint: color-mix(in srgb, var(--ink-2) 72%, transparent);
+  --glass-tint-strong: color-mix(in srgb, var(--ink-2) 84%, transparent);
+  /* Bedienelemente IN einer Glasflaeche - nur Toenung, kein eigener Filter. */
+  --glass-inner: #ffffff0d;
+  --glass-inner-hover: #ffffff1a;
+  --glass-blur: 20px; /* schwebende Flaechen: Nav, Consent, Cursor */
+  --glass-blur-soft: 12px; /* Inhaltsflaechen: Karten, Codebloecke */
+  --glass-saturate: 170%;
+  /* Lichtkante: Verlauf von --glass-rim-light (oben links) zu -shade (unten). */
+  --glass-rim-light: #ffffff38;
+  --glass-rim-shade: #ffffff0a;
+  --glass-highlight: inset 0 1px 1px #ffffff12, inset 0 -12px 20px -14px #00000059;
+  --glass-shadow: 0 12px 32px -8px #00000073, 0 2px 6px #00000033;
+  /* Undurchsichtiger Ersatz: reduzierte Transparenz oder kein backdrop-filter. */
+  --glass-fallback: var(--ink-2);
+
+  /* --- Ambient-Layer (src/components/motion/Ambient.tsx) ------------------ */
+  /*
+   * Farbflecken hinter allem, damit Glas etwas zum Brechen hat. Gelb ist auf
+   * 70 % gedaempft, weil es sonst der hellste Fleck waere. Die Kontrastrechnung
+   * fuer ink-9 steht in Ambient.module.css.
+   */
+  --ambient-a: var(--violet-7);
+  --ambient-b: var(--blue-4);
+  --ambient-c: var(--green-4);
+  --ambient-d: color-mix(in srgb, var(--yellow-4) 70%, transparent);
+  --ambient-opacity: 0.18;
+
   /* --- Typografie -------------------------------------------------------- */
   /*
    * Apple-Schriftbild: auf Apple-Geraeten rendert echtes SF Pro ohne einen
@@ -190,6 +236,63 @@
   --hover-tint: #00000010;
   --nav-shadow: 0 2px 16px #0000000f;
   --grain-rgb: 120, 100, 80;
+
+  /*
+   * Glas im hellen Theme: Toenung aus dem Seitenhintergrund (ink-1), nicht
+   * aus ink-2 - sonst wirkt die Flaeche grau statt klar. Die Kante ist hier
+   * fast weiss, der Schatten warm statt schwarz.
+   */
+  --glass-tint: color-mix(in srgb, var(--ink-1) 70%, transparent);
+  --glass-tint-strong: color-mix(in srgb, var(--ink-1) 84%, transparent);
+  --glass-inner: #ffffff73;
+  --glass-inner-hover: #ffffffa6;
+  --glass-saturate: 180%;
+  --glass-rim-light: #ffffffd9;
+  --glass-rim-shade: #1a18151a;
+  --glass-highlight: inset 0 1px 1px #ffffffb3, inset 0 -12px 20px -14px #1a18151f;
+  --glass-shadow: 0 12px 32px -10px #1a181529, 0 2px 6px #1a181512;
+
+  /* Pastellstufen statt Stufe 4/7 - auf Off-White braucht es helle Flecken. */
+  --ambient-a: var(--violet-9);
+  --ambient-b: var(--blue-9);
+  --ambient-c: var(--green-9);
+  --ambient-d: var(--yellow-9);
+  --ambient-opacity: 0.35;
+}
+
+/*
+ * Glas-Fallback. Bei reduzierter Transparenz (Systemeinstellung) und in
+ * Browsern ohne backdrop-filter wird jede Glasflaeche undurchsichtig - das
+ * ist der Look vor Liquid Glass. Den Filter selbst nimmt glass.module.css
+ * weg; hier wird nur die Toenung getauscht, damit auch Komponenten, die
+ * --glass-tint direkt lesen, mitziehen.
+ */
+@media (prefers-reduced-transparency: reduce) {
+  :root,
+  :root[data-theme='light'] {
+    --glass-tint: var(--glass-fallback);
+    --glass-tint-strong: var(--glass-fallback);
+  }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root,
+  :root[data-theme='light'] {
+    --glass-tint: var(--glass-fallback);
+    --glass-tint-strong: var(--glass-fallback);
+  }
+}
+
+/*
+ * Winkel der Lichtkante. Registriert, damit er sich per transition bewegen
+ * laesst (Zeiger/Scroll) - unregistrierte Custom Properties springen nur.
+ * inherits: true, damit eine Komponente ihn am Host setzen kann und das
+ * ::before der Kante ihn erbt.
+ */
+@property --glass-rim-angle {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 150deg;
 }
 
 /*

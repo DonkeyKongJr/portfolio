@@ -33,7 +33,9 @@
   max-width: var(--measure-lg);
 }
 
+/* Bildflaeche wie WorkCard .frame: keine Transparenz, nur Lichtkante + Glanz. */
 .visual {
+  position: relative;
   margin-block: 56px;
   aspect-ratio: 16 / 9;
   border-radius: 16px;
@@ -42,6 +44,31 @@
   padding: 8%;
   background: linear-gradient(135deg, var(--accent-dark) 0%, var(--media-surface) 70%);
   box-shadow: var(--shadow-card);
+}
+
+.visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: var(--glass-rim-width, 1px);
+  border-radius: inherit;
+  background:
+    radial-gradient(140px 100px at 10% 8%, var(--glass-rim-light), transparent 70%),
+    linear-gradient(
+      var(--glass-rim-angle, 150deg),
+      var(--glass-rim-light),
+      transparent 42%,
+      transparent 58%,
+      var(--glass-rim-shade)
+    );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  pointer-events: none;
 }
 
 .visualText {
@@ -103,9 +130,10 @@
 }
 
 .stackItem {
+  composes: inner from '@/styles/glass.module.css';
   padding: 6px 12px;
   border-radius: 9999px;
-  border: 1px solid var(--ink-4);
+  border: 1px solid transparent;
   font-size: var(--text-2xs);
   color: var(--ink-10);
 }

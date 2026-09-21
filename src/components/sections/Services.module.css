@@ -4,19 +4,55 @@
   gap: 32px;
 }
 
-/* Grosse Pastellflaechen gegen das Beinahe-Schwarz - der Farbakzent der Seite. */
+/*
+ * Grosse Pastellflaechen gegen das Beinahe-Schwarz - der Farbakzent der
+ * Seite. Bleiben massiv (kein backdrop-filter, kein composes: inner): die
+ * Markenfarbe ist der Punkt der Karte, --glass-inner ueberlegt sie mit
+ * einer deutlichen weissen Flaeche (hell: #ffffff73/a6, ~45-65% Deckkraft)
+ * und wuerde sie sichtbar verwaschen. Stattdessen nur Lichtkante (eigenes
+ * ::before, derselbe Masken-Trick wie glass.module.css, aber mit lokalem
+ * ::before statt composes - .surface/.content/.inner belegen ::before
+ * bereits) und ein inneres Glanzlicht ueber --glass-highlight.
+ */
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 16px;
   padding: 40px;
   border-radius: 20px;
   background: var(--card-bg);
+  box-shadow: var(--glass-highlight);
   /*
    * Nicht --ink-1: die Kartenflaeche wechselt mit dem Theme nicht mit, die
    * Schrift muss also in beiden Faellen dunkel bleiben.
    */
   color: var(--on-accent);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: var(--glass-rim-width, 1px);
+  border-radius: inherit;
+  background:
+    radial-gradient(120px 90px at 14% 10%, var(--glass-rim-light), transparent 70%),
+    linear-gradient(
+      var(--glass-rim-angle, 150deg),
+      var(--glass-rim-light),
+      transparent 42%,
+      transparent 58%,
+      var(--glass-rim-shade)
+    );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  pointer-events: none;
 }
 
 .title {

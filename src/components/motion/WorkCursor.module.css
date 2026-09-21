@@ -1,4 +1,32 @@
+/*
+ * Eine der max. drei gleichzeitig sichtbaren Liquid-Flaechen (Budget siehe
+ * glass.module.css: Nav, Consent-Banner, Cursor-Pille). .liquid setzt
+ * position: relative ueber :where() (Spezifitaet 0) - die eigene
+ * position: fixed unten ist eine echte Deklaration dieser Klasse und
+ * gewinnt garantiert, unabhaengig von der Bundle-Reihenfolge.
+ *
+ * Akzent als Toenung statt Vollflaeche: color-mix() ersetzt die feste
+ * --cursor-bg-Flaeche durch 92 % Deckkraft ("hohe Deckkraft" laut Auftrag -
+ * die Pille bleibt damit erkennbar Glas, nicht nur eingefaerbt). --glass-tint
+ * aus .liquid wird bewusst NICHT verwendet: die Pille soll die Akzentfarbe
+ * zeigen, nicht das neutrale Seiten-Glas.
+ *
+ * Kontrast --cursor-fg auf der Toenung (Methode wie tests/contrast.test.ts;
+ * Worst Case: die Pille liegt ausschliesslich ueber Projektbildern, deren
+ * Platzhalter/Ton --media-surface #1c1c1c bzw. Seitenhintergrund #141414
+ * ist - unabhaengig vom Theme, siehe --media-surface-Kommentar in
+ * tokens.css):
+ *   yellow  92 % #ffef93 ueber #1c1c1c -> #edde89, alter Text #7a6800 4.05:1
+ *           (zu knapp) - WorkCursor.tsx setzt fuer yellow deshalb #645500
+ *           (5.42:1 auf #1c1c1c, 5.37:1 auf #141414)
+ *   blue    92 % #aee0ff ueber #1c1c1c -> #a2d0ed, #004b7a 5.59:1
+ *   green   92 % #9bfcb7 ueber #1c1c1c -> #91eaab, #105125 6.54:1
+ *   violet  92 % #c2a8ff ueber #1c1c1c -> #b59ded, #221443 7.21:1
+ * Blau/Gruen/Violett behalten die bisherige -4-Stufe, nur Gelb wird lokal in
+ * WorkCursor.tsx nachgedunkelt.
+ */
 .cursor {
+  composes: liquid from '@/styles/glass.module.css';
   position: fixed;
   top: 0;
   left: 0;
@@ -16,8 +44,26 @@
   transition:
     opacity var(--duration-base) var(--ease-in-out),
     scale var(--duration-base) var(--ease-out-expo);
-  background: var(--cursor-bg, var(--yellow-9));
+  background: color-mix(in srgb, var(--cursor-bg, var(--yellow-9)) 92%, transparent);
   color: var(--cursor-fg, var(--yellow-4));
+}
+
+/*
+ * Fallback greift ueber .liquid (glass.module.css schaltet backdrop-filter
+ * ab), die eigene Toenung liest --glass-tint aber gar nicht erst - deshalb
+ * hier zusaetzlich die Vollflaeche von frueher herstellen, statt auf der
+ * 92-%-Toenung sitzen zu bleiben.
+ */
+@media (prefers-reduced-transparency: reduce) {
+  .cursor {
+    background: var(--cursor-bg, var(--yellow-9));
+  }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .cursor {
+    background: var(--cursor-bg, var(--yellow-9));
+  }
 }
 
 .cursor[data-visible='true'] {
